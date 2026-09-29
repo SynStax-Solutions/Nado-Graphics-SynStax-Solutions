@@ -1,0 +1,63 @@
+.about-section {
+  padding-top: clamp(40px, 4vw, 64px);
+}
+
+/* Text on the left, turning logo on the right */
+.about-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: clamp(40px, 6vw, 120px);
+  align-items: center;
+}
+
+.about-label {
+  font-size: 17px;
+  font-weight: 500;
+  margin-bottom: clamp(20px, 2.4vw, 32px);
+}
+
+.about-title {
+  font-size: clamp(36px, 4.4vw, 76px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+
+.about-title .quiet {
+  display: block;
+  color: var(--muted);
+}
+
+.about-teaser {
+  max-width: 32em;
+  margin: clamp(24px, 3vw, 36px) 0 clamp(28px, 3vw, 40px);
+  font-size: clamp(18px, 1.4vw, 21px);
+  line-height: 1.6;
+  color: var(--text-2);
+}
+
+/* The logo */
+.about-mark {
+  display: flex;
+  justify-content: center;
+}
+
+.about-mark img {
+  /* Logo.svg is wider than the circle, so this height sets the circle size */
+  height: clamp(200px, 20vw, 340px);
+  width: auto;
+  will-change: transform;
+}
+
+@media (max-width: 860px) {
+  .about-layout {
+    grid-template-columns: 1fr;
+  }
+  .about-mark {
+    order: -1;
+    justify-content: flex-start;
+  }
+  .about-mark img {
+    height: 160px;
+  }
+}
