@@ -1,0 +1,22 @@
+.contact-section {
+  border-top: 1px solid var(--line);
+}
+
+.statement .contact-title {
+  font-size: clamp(32px, 3.6vw, 60px);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.contact-email {
+  margin-top: 32px;
+  font-size: 17px;
+  color: var(--text-2);
+}
+
+.contact-email a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--orange);
+  text-underline-offset: 4px;
+}

@@ -14,7 +14,7 @@ import ScrollToTop from './ScrollToTop'
 
 import AboutPage from './pages/AboutPage'
 import PortfolioPage from './pages/PortfolioPage'
-// import ContactPage from './pages/ContactPage'
+import ContactPage from './pages/ContactPage'
 import ServicesPage from './pages/ServicesPage'
 import ClientsPage from './pages/ClientsPage'
 
@@ -50,7 +50,7 @@ export default function App() {
             <Route path="/clients" element={<ClientsPage />} />
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/portfolio" element={<PortfolioPage />} />
-            {/* <Route path="/contact" element={<ContactPage />} /> */}
+            <Route path="/contact" element={<ContactPage />} /> 
           </Routes>
         </main>
 
