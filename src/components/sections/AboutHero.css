@@ -1,0 +1,42 @@
+.about-page .nd-about-hero {
+  padding-top: clamp(56px, 8vw, 130px);
+}
+
+/* One neat block, everything on the same left edge */
+.about-intro {
+  max-width: 52rem;
+  margin-bottom: clamp(56px, 7vw, 104px);
+}
+
+.about-intro-label {
+  font-size: 17px;
+  font-weight: 500;
+  margin-bottom: clamp(24px, 3vw, 40px);
+}
+
+.about-intro-title {
+  font-size: clamp(44px, 5.6vw, 96px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.04;
+  margin-bottom: clamp(24px, 3vw, 36px);
+}
+
+.about-intro-title .quiet {
+  display: block;
+  color: var(--muted);
+}
+
+.about-intro-lead {
+  font-size: clamp(18px, 1.4vw, 21px);
+  line-height: 1.6;
+  color: var(--text-2);
+  max-width: 34em;
+  margin-bottom: clamp(28px, 3vw, 40px);
+}
+
+.about-intro-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
