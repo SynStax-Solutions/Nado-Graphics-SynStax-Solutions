@@ -1,0 +1,4 @@
+/* Space between the services list and the contact section */
+.services-page .services-section {
+  margin-bottom: clamp(40px, 5vw, 80px);
+}
