@@ -1,0 +1,75 @@
+.photo-strip {
+  --strip-height: clamp(240px, 30vw, 460px);
+  --strip-gap: clamp(14px, 1.4vw, 24px);
+  overflow: hidden;
+  width: 100%;
+}
+
+.photo-strip-track {
+  display: flex;
+  gap: var(--strip-gap);
+  width: max-content;
+  padding-left: var(--strip-gap);
+  animation: photo-strip-slide var(--strip-duration, 60s) linear infinite;
+}
+
+/* Pause while someone is looking */
+.photo-strip:hover .photo-strip-track {
+  animation-play-state: paused;
+}
+
+.photo-strip-item {
+  margin: 0;
+  flex-shrink: 0;
+}
+
+/* All photos share one height; their width follows the photo's shape */
+.photo-strip-item img,
+.photo-strip-placeholder {
+  display: block;
+  height: var(--strip-height);
+  width: auto;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+}
+
+.photo-strip-placeholder {
+  display: grid;
+  place-items: center;
+  background: var(--soft);
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.photo-strip-item figcaption {
+  margin-top: 12px;
+  font-size: 15px;
+  color: var(--text-2);
+}
+
+@keyframes photo-strip-slide {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-50% - var(--strip-gap) / 2)); }
+}
+
+/* No automatic movement for people who turned animations off: swipe instead */
+@media (prefers-reduced-motion: reduce) {
+  .photo-strip { overflow-x: auto; }
+  .photo-strip-track { animation: none; }
+}
+
+/* Clickable photos */
+.photo-strip-link {
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+
+.photo-strip-link img {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.photo-strip-link:hover img {
+  transform: scale(1.04);
+}

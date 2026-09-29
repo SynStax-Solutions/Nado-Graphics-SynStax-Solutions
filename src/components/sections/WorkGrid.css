@@ -1,0 +1,149 @@
+.work-section {
+  padding-top: clamp(40px, 5vw, 80px);
+}
+
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(40px, 5vw, 64px) clamp(24px, 2.6vw, 50px);
+}
+
+/* The first project runs the full width, like a featured case study */
+.work-card:first-child {
+  grid-column: 1 / -1;
+}
+
+/* If the last project would sit alone on its row, let it run full width too */
+.work-card:last-child:nth-child(even) {
+  grid-column: 1 / -1;
+}
+
+.work-card {
+  display: block;
+  color: inherit;
+}
+
+.work-media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.work-card:first-child .work-media,
+.work-card:last-child:nth-child(even) .work-media {
+  aspect-ratio: 16 / 7;
+}
+
+a.work-card:hover .work-media {
+  transform: scale(0.985);
+}
+
+.work-client {
+  font-size: clamp(28px, 4vw, 64px);
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 0 24px;
+}
+
+/* Tones used until real project images are added */
+.tone-ink {
+  background-color: #000;
+  background-image: radial-gradient(120% 90% at 20% 0%, #2a2a2a 0%, #000 60%);
+  color: #fff;
+}
+
+.tone-stone {
+  background-color: #1f1f1f;
+  background-image: linear-gradient(135deg, #3d3d3d 0%, #141414 100%);
+  color: #fff;
+}
+
+.tone-orange {
+  background-color: var(--orange);
+  background-image: radial-gradient(110% 90% at 80% 10%, #ff8a55 0%, var(--orange) 45%, var(--orange-dark) 100%);
+  color: #fff;
+}
+
+.tone-soft {
+  background-color: #e9e9e9;
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 18% 25%;
+  color: var(--ink);
+}
+
+.work-arrow {
+  position: absolute;
+  left: 22px;
+  bottom: 22px;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--ink);
+  font-size: 22px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+a.work-card:hover .work-arrow {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+.work-meta {
+  padding-top: 26px;
+}
+
+.work-tag {
+  font-size: 18px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.work-card h3 {
+  font-size: clamp(22px, 1.9vw, 30px);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  max-width: 24em;
+}
+
+.work-note {
+  margin-top: 8px;
+  font-size: 16px;
+  color: var(--text-2);
+}
+
+@media (max-width: 760px) {
+  .work-grid { grid-template-columns: 1fr; }
+  .work-card:first-child .work-media,
+  .work-card:last-child:nth-child(even) .work-media { aspect-ratio: 4 / 3; }
+}
+
+/* "See all our work" button under the cards */
+.work-all {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(48px, 6vw, 88px);
+}
+
+/* Small label at the start of the section */
+.work-top {
+  margin-bottom: clamp(24px, 3vw, 40px);
+}
+
+/* Less space at the bottom: the scroll line below leads into the next section */
+.work-section {
+  padding-bottom: clamp(40px, 4vw, 64px);
+}
