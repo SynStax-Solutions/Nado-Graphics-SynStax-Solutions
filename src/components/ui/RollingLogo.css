@@ -1,0 +1,7 @@
+.rolling-logo {
+  display: block;
+  height: 44px;
+  width: auto;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
