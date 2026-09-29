@@ -1,0 +1,6 @@
+.eyebrow {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: clamp(40px, 6vw, 88px);
+}
