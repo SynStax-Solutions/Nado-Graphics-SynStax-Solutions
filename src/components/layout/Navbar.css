@@ -1,0 +1,159 @@
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: saturate(160%) blur(12px);
+  -webkit-backdrop-filter: saturate(160%) blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.25s ease;
+}
+
+/* Faint line once the page is scrolled */
+.site-nav.is-scrolled {
+  border-bottom-color: var(--line);
+}
+
+.navbar-inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 24px;
+  min-height: var(--nav-h);
+}
+
+/* LOGO */
+
+.logo {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+}
+
+.logo .logo-mark {
+  display: block;
+  height: 52px;
+  width: auto;
+}
+
+/* LINKS */
+
+.navlinks {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 2.2vw, 44px);
+}
+
+.navlinks a {
+  position: relative;
+  white-space: nowrap;
+  font-size: clamp(16px, 1.05vw, 19px);
+  font-weight: 500;
+  padding: 6px 0;
+}
+
+.navlinks a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: var(--yellow);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.navlinks a:hover::after,
+.navlinks a.active::after {
+  transform: scaleX(1);
+}
+
+/* CTA PILL */
+
+.nav-cta {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 12px 22px;
+  border-radius: var(--pill);
+  background: var(--ink);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-cta:hover {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+/* MOBILE TOGGLE (hidden on desktop) */
+
+.nav-toggle {
+  display: none;
+  justify-self: end;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--soft);
+  position: relative;
+}
+
+.nav-toggle span {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  height: 2px;
+  background: var(--ink);
+  transition: transform 0.25s ease, top 0.25s ease;
+}
+.nav-toggle span:first-child { top: 19px; }
+.nav-toggle span:last-child { top: 27px; }
+
+.site-nav.is-open .nav-toggle span:first-child { top: 23px; transform: rotate(45deg); }
+.site-nav.is-open .nav-toggle span:last-child { top: 23px; transform: rotate(-45deg); }
+
+/* TABLET */
+
+@media (max-width: 1100px) {
+  .navlinks { gap: 18px; }
+  .navlinks a { font-size: 15px; }
+  .nav-cta { font-size: 16px; padding: 10px 18px; min-height: 46px; }
+}
+
+/* MOBILE */
+
+@media (max-width: 980px) {
+  :root { --nav-h: 76px; }
+
+  .navbar-inner {
+    grid-template-columns: 1fr auto;
+  }
+
+  .logo .logo-mark { height: 40px; }
+
+  .nav-cta { display: none; }
+  .nav-toggle { display: block; }
+
+  .navlinks {
+    display: none;
+    grid-column: 1 / -1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 8px 0 28px;
+  }
+
+  .site-nav.is-open .navlinks { display: flex; }
+
+  .navlinks a {
+    font-size: 32px;
+    letter-spacing: -0.02em;
+  }
+}
