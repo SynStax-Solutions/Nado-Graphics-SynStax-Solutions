@@ -1,0 +1,39 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 14px 30px;
+  border: 0;
+  border-radius: var(--pill);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.btn:active { transform: scale(0.98); }
+
+/* black pill, turns yellow on hover */
+.btn-primary { background: var(--ink); color: #fff; }
+.btn-primary:hover { background: var(--yellow); color: var(--ink); }
+
+/* grey pill */
+.btn-ghost { background: var(--soft); color: var(--ink); }
+.btn-ghost:hover { background: #e4e4e4; }
+
+/* white pill, for black backgrounds */
+.btn-light { background: #fff; color: var(--ink); }
+.btn-light:hover { background: var(--yellow); color: var(--ink); }
+
+.btn-arrow {
+  font-size: 1.1em;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+.btn:hover .btn-arrow { transform: translate(2px, -2px); }
+
+@media (max-width: 575px) {
+  .btn { min-height: 50px; padding: 12px 22px; font-size: 16px; }
+}
