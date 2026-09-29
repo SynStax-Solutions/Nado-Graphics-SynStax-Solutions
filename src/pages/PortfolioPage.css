@@ -1,0 +1,213 @@
+.work-page {
+  padding-bottom: clamp(80px, 10vw, 160px);
+}
+
+/* ---------- main tabs ---------- */
+
+.work-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: clamp(32px, 4vw, 56px);
+}
+
+/* When a main tab has sub-tabs, keep the two rows close together */
+.work-filters:has(+ .work-subfilters) {
+  margin-bottom: 14px;
+}
+
+.work-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 10px 20px;
+  border: 0;
+  border-radius: var(--pill);
+  background: var(--soft);
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.work-filter:hover {
+  background: #e4e4e4;
+}
+
+.work-filter.is-active {
+  background: var(--ink);
+  color: #fff;
+}
+
+.work-filter-count {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.work-filter.is-active .work-filter-count {
+  color: var(--yellow);
+}
+
+/* ---------- sub-tabs (smaller, outlined) ---------- */
+
+.work-subfilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  margin-bottom: clamp(32px, 4vw, 56px);
+  animation: subfilters-in 0.25s ease both;
+}
+
+@keyframes subfilters-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+
+.work-subfilter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 6px 14px;
+  border: 1px solid #d6d6d6;
+  border-radius: var(--pill);
+  background: #fff;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.work-subfilter:hover {
+  border-color: var(--ink);
+}
+
+.work-subfilter.is-active {
+  border-color: var(--yellow);
+  background: var(--yellow);
+}
+
+.work-subfilter.is-active .work-filter-count {
+  color: var(--ink);
+}
+
+/* ---------- project grid (masonry: images keep their own shape) ---------- */
+
+.work-list {
+  list-style: none;
+  columns: 3;
+  column-gap: clamp(16px, 2vw, 32px);
+}
+
+.work-item {
+  break-inside: avoid;
+  margin-bottom: clamp(28px, 3vw, 44px);
+}
+
+.work-item-button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  color: inherit;
+}
+
+.work-item-media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--soft);
+}
+
+.work-item-media img,
+.work-item-media video {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.work-item-button:hover .work-item-media img,
+.work-item-button:hover .work-item-media video {
+  transform: scale(1.04);
+}
+
+/* Play button on video cards */
+.work-item-play {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 24px;
+  padding-left: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.work-item-button:hover .work-item-play {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+/* Round arrow that appears on hover */
+.work-item-open {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--ink);
+  font-size: 20px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.2s ease;
+}
+
+.work-item-button:hover .work-item-open,
+.work-item-button:focus-visible .work-item-open {
+  opacity: 1;
+  transform: none;
+  background: var(--yellow);
+}
+
+.work-item-meta {
+  display: block;
+  padding-top: 14px;
+}
+
+.work-item-cat {
+  display: block;
+  font-size: 15px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.work-item-title {
+  display: block;
+  font-size: clamp(18px, 1.4vw, 22px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 1000px) {
+  .work-list { columns: 2; }
+}
+
+@media (max-width: 575px) {
+  .work-list { columns: 1; }
+}
