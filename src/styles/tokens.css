@@ -1,0 +1,37 @@
+/*
+  Design tokens.
+*/
+:root {
+  --paper: #ffffff;
+  --ink: #000000;
+  --muted: #9a9a9a;        /* grey second line of headlines */
+  --text-2: #5c5c5c;       /* secondary body text */
+  --soft: #f2f2f2;         /* grey pills and panels */
+  --line: #e7e7e7;         /* hairlines */
+  --line-dark: #262626;    /* hairlines on black */
+
+  --orange: #ff5c1a;
+  --orange-dark: #e04a0c;
+  --orange-soft: #fff0e8;
+    --yellow: #fabe3d;       /* Nado logo yellow, used for button hovers */
+
+  /* old names kept so any code still using them picks up the new palette */
+  --card: var(--soft);
+  --mustard-wash: var(--soft);
+  --rust: var(--orange-dark);
+  --mustard: var(--orange);
+  --amber: var(--orange);
+
+  --font-body: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: var(--font-body);
+  --font-voice: var(--font-body);
+
+  --wrap-max: none;
+  --wrap-pad: clamp(20px, 5.2vw, 100px);
+  --radius-lg: 28px;
+  --radius-md: 24px;
+  --radius-sm: 16px;
+  --pill: 999px;
+
+  --nav-h: 104px;
+}

@@ -1,0 +1,126 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--orange);
+  color: #fff;
+}
+
+h1,
+h2,
+h3,
+.display {
+  font-family: var(--font-body);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
+}
+
+.wrap {
+  width: 100%;
+  max-width: var(--wrap-max);
+  margin: 0 auto;
+  padding: 0 var(--wrap-pad);
+}
+
+.snap {
+  scroll-snap-align: none;
+}
+
+.section {
+  padding: clamp(80px, 10vw, 160px) 0;
+}
+
+/* Two-tone headline: black first line, grey continuation */
+.two-tone {
+  font-size: clamp(36px, 4.8vw, 80px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+.two-tone .quiet {
+  display: block;
+  color: var(--muted);
+}
+
+/* Small label that sits above a section, e.g. "Services" */
+.label {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+/* Label | statement | button row (used by About, CTA and the About page) */
+.statement {
+  display: grid;
+  grid-template-columns: minmax(140px, 1fr) minmax(0, 3.2fr) auto;
+  gap: clamp(24px, 4vw, 64px);
+  align-items: start;
+}
+.statement h2 {
+  font-size: clamp(28px, 3vw, 48px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.statement h2 .quiet { color: var(--muted); }
+
+@media (max-width: 900px) {
+  .statement { grid-template-columns: 1fr; }
+}
+
+/* Scroll reveal used by <Reveal>, site-wide */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
