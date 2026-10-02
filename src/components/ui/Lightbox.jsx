@@ -56,13 +56,22 @@ export default function Lightbox({ items, index, onChange, onClose }) {
       )}
 
       <figure className="lightbox-figure">
-                {item.type === 'video' ? (
-          <video key={item.src} src={item.src} controls autoPlay playsInline />
+        {item.type === 'video' ? (
+          // YouTube video: plays right here in the pop-up, the visitor stays on the site.
+          // key= makes the player reload when you move to the next video.
+          <iframe
+            key={item.youtubeId}
+            className="lightbox-video"
+            src={`https://www.youtube-nocookie.com/embed/${item.youtubeId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+            title={item.title}
+            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            allowFullScreen
+          />
         ) : (
           <img src={item.src} alt={item.alt || item.title} />
         )}
         <figcaption>
-                   <span className="lightbox-cat">{item.sub ? `${item.category} · ${item.sub}` : item.category}</span>
+          <span className="lightbox-cat">{item.sub ? `${item.category} · ${item.sub}` : item.category}</span>
           <span className="lightbox-title">{item.title}</span>
           <span className="lightbox-count">{index + 1} / {items.length}</span>
         </figcaption>

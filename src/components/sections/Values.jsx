@@ -45,8 +45,8 @@ export default function Values() {
         const h = card.offsetHeight
         // 0 while the next card is a full card-height away, 1 once it has fully covered this one
         const covered = Math.max(0, Math.min(1, 1 - (nextTop - cardTop) / h))
-        card.style.transform = `scale(${1 - covered * 0.06})`
-        card.style.filter = `brightness(${1 - covered * 0.15})`
+        card.style.transform = `scale(${1 - covered * 0.04})`
+        card.style.opacity = `${1 - covered * 0.35}`
       })
     }
     const onScroll = () => {

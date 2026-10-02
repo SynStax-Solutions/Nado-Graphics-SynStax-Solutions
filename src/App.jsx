@@ -17,6 +17,7 @@ import PortfolioPage from './pages/PortfolioPage'
 import ContactPage from './pages/ContactPage'
 import ServicesPage from './pages/ServicesPage'
 import ClientsPage from './pages/ClientsPage'
+import PrivacyPage from './pages/PrivacyPage'
 
 import './App.css'
 
@@ -51,6 +52,7 @@ export default function App() {
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/portfolio" element={<PortfolioPage />} />
             <Route path="/contact" element={<ContactPage />} /> 
+            <Route path="/privacy" element={<PrivacyPage />} />
           </Routes>
         </main>
 

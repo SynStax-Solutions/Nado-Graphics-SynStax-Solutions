@@ -11,19 +11,17 @@ import './AboutHero.css'
 */
 const PHOTOS = [
   { work: 'Design & Print/Signage & Banners/Signage mockup 1.jpg', alt: 'Signage design shown on a wall', caption: 'Signage' },
-  { work: 'Merchandise/Apparel/Tshirt Mockup 3.jpg', alt: 'Branded hoodies', caption: 'Apparel' },
-  { work: 'Design & Print/Signage & Banners/Horizontal Banner 1.jpg', alt: 'Horizontal printed banner', caption: 'Banners' },
+  { work: 'Merchandise/Apparel/Tshirt Mockup 5.jpg', alt: 'Branded apparel', caption: 'Apparel' },
+  { work: 'Design & Print/Brochures/Brochure mockup 10 (1).jpg', alt: 'Printed brochure', caption: 'Brochures' },
   { work: 'Design & Print/Brochures/Brochure mockup 8.jpg', alt: 'Printed brochure', caption: 'Annual Reports' },
   { work: 'Lapel badges/lapel_2.jpg', alt: 'Custom lapel badges', caption: 'Lapel badges' },
-  { work: 'Design & Print/Signage & Banners/Pull banner mockup 3.jpg', alt: 'Pull-up banner', caption: 'Pull-up banners' },
+  { work: 'Design & Print/Signage & Banners/Pull banner mockup 5.jpg', alt: 'Pull-up banner', caption: 'Pull-up banners' },
   { work: 'Design & Print/Stationary/Stationary Mockup 2.jpg', alt: 'Branded stationery set', caption: 'Corporate Identities' },
-  { work: 'Merchandise/Fisu Rugby/Copy of FISU Water Bottle.jpg', alt: 'Branded water bottle', caption: 'Corporate gifts' },
-  { work: 'Design & Print/Table Cloths/Table cloth mockup 3.jpg', alt: 'Branded table cloth', caption: 'Table cloths' },
+  { work: 'Design & Print/Stationary/mockup 1 (1).jpg', alt: 'Branded mockup', caption: 'Branding' },   { work: 'Design & Print/Table Cloths/Table cloth mockup 3.jpg', alt: 'Branded table cloth', caption: 'Table cloths' },
   { work: 'Design & Print/Signage & Banners/Vertical Banner 1.jpg', alt: 'Vertical printed banner', caption: 'Signage' },
   { work: 'Design & Print/Flyers/41.jpg', alt: 'Tri-fold brochure opened to show the inside panels', caption: 'Tri-fold brochures' },
   { work: 'Merchandise/Apparel/Tshirt Mockup 9.jpg', alt: 'Branded T-shirt', caption: 'Apparel' },
-  { work: 'Design & Print/Stationary/Stationary Mockup 13.jpg', alt: 'Branded stationery', caption: 'Lanyards' },
-  { work: 'Design & Print/Publications/47.jpg', alt: 'Printed institutional operating plan, showing the cover and an open spread', caption: 'Publications' },
+  { work: 'Design & Print/Stationary/Stationary Mockup 10.jpg', alt: 'Branded stationery', caption: 'Stationery' },  { work: 'Design & Print/Posters/1.jpg', alt: 'Printed poster', caption: 'Posters' },
 ]
 
 // Look up each photo; any file that can't be found is left out instead of showing broken

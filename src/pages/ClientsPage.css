@@ -1,7 +1,166 @@
-.clients-page .nd-team {
-  padding-top: 0;
+.clients-page {
+  padding: clamp(32px, 5vw, 72px) 0 clamp(80px, 10vw, 160px);
 }
-
-.clients-page .nd-team-stats {
-  margin-top: 0;
+ 
+/* ---------- yellow banner ---------- */
+ 
+.clients-banner {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(32px, 5vw, 72px);
+  border-radius: var(--radius-lg);
+  background: var(--yellow);
+  color: var(--ink);
+}
+ 
+.clients-banner-text {
+  position: relative;
+  z-index: 1;
+  max-width: 44rem;
+}
+ 
+.clients-banner-label {
+  display: inline-block;
+  padding-left: 10px;
+  border-left: 2px solid var(--ink);
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: clamp(20px, 2.5vw, 32px);
+}
+ 
+.clients-banner-title {
+  font-size: clamp(40px, 4.8vw, 80px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  margin-bottom: clamp(20px, 2.5vw, 32px);
+}
+ 
+.clients-banner-lead {
+  max-width: 38em;
+  font-size: clamp(16px, 1.2vw, 19px);
+  line-height: 1.6;
+}
+ 
+.clients-banner-rings {
+  position: absolute;
+  right: -60px;
+  top: 50%;
+  width: clamp(260px, 32vw, 520px);
+  height: auto;
+  transform: translateY(-50%);
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1;
+  opacity: 0.25;
+}
+ 
+/* Slowly turning rings: the rings stay solid, a dot on each one travels around it */
+.ring {
+  /* turn around the centre of the rings (260, 200 in the SVG) */
+  transform-box: view-box;
+  transform-origin: 260px 200px;
+  animation: rings-spin 60s linear infinite;
+}
+ 
+.ring-1 {
+  animation-duration: 90s;
+}
+ 
+.ring-2 {
+  animation-duration: 60s;
+  animation-direction: reverse;
+}
+ 
+.ring-3 {
+  animation-duration: 45s;
+}
+ 
+.ring-dot {
+  fill: var(--ink);
+  stroke: none;
+}
+ 
+@keyframes rings-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+ 
+@media (prefers-reduced-motion: reduce) {
+  .ring {
+    animation: none;
+  }
+}
+ 
+/* ---------- logo grid ---------- */
+ 
+.clients-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-top: clamp(24px, 3vw, 48px);
+}
+ 
+.clients-cell {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 10;
+  padding: clamp(16px, 2vw, 32px);
+  /* faint lines between the cells */
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+ 
+/* no line on the right edge of each row */
+.clients-cell:nth-child(5n) {
+  border-right: 0;
+}
+ 
+.clients-cell img {
+  max-width: 90%;
+  max-height: 110px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  /* grey so different logos look like a set; full colour on hover */
+  transition: filter 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+}
+ 
+.clients-cell:hover img {
+  filter: none;
+  opacity: 1;
+  transform: scale(1.04);
+}
+ 
+@media (max-width: 1000px) {
+  .clients-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+ 
+  .clients-cell:nth-child(5n) {
+    border-right: 1px solid var(--line);
+  }
+ 
+  .clients-cell:nth-child(3n) {
+    border-right: 0;
+  }
+}
+ 
+@media (max-width: 600px) {
+  .clients-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+ 
+  .clients-cell:nth-child(3n) {
+    border-right: 1px solid var(--line);
+  }
+ 
+  .clients-cell:nth-child(2n) {
+    border-right: 0;
+  }
+ 
+  .clients-banner-rings {
+    opacity: 0.15;
+  }
 }

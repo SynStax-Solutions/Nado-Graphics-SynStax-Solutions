@@ -2,75 +2,85 @@
   margin-bottom: clamp(40px, 5vw, 72px);
 }
 
-/* ---------- stacking cards ---------- */
+/* ---------- stacking cards (light version) ---------- */
 
 .step-stack {
   list-style: none;
   display: grid;
-  gap: clamp(24px, 4vh, 48px);
+  gap: clamp(20px, 3vh, 36px);
   padding-bottom: clamp(24px, 4vh, 48px);
 }
 
 .step-card {
   /* each card sticks a little lower than the one before, so their tops peek out */
   position: sticky;
-  top: calc(var(--nav-h) + 24px + var(--i) * 28px);
+  top: calc(var(--nav-h) + 24px + var(--i) * 22px);
 
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  grid-template-rows: auto 1fr;
-  gap: 24px clamp(32px, 5vw, 96px);
-  min-height: clamp(260px, 40vh, 400px);
-  padding: clamp(24px, 3vw, 48px);
+  grid-template-columns: auto minmax(0, 1fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: clamp(20px, 3vw, 56px);
+  min-height: clamp(180px, 24vh, 240px);
+  padding: clamp(24px, 3vw, 44px);
+  border: 1px solid var(--line);
   border-radius: var(--radius-lg);
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 -12px 30px -18px rgba(0, 0, 0, 0.18);
   transform-origin: center top;
   will-change: transform;
 }
 
-.step-card.tone-ink {
-  background: var(--ink);
-  color: #fff;
-}
-
-.step-card.tone-yellow {
-  background: var(--yellow);
-  color: var(--ink);
-}
-
+/* Colour now only comes from the number badge */
+.step-card.tone-ink,
+.step-card.tone-yellow,
 .step-card.tone-soft {
-  background: #efefef;
+  background: #fff;
   color: var(--ink);
 }
 
 .step-num {
-  grid-column: 1 / -1;
-  font-size: 17px;
-  font-weight: 500;
-  opacity: 0.6;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--yellow);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.step-card.tone-ink .step-num {
+  background: var(--ink);
+  color: var(--yellow);
+}
+
+.step-card.tone-soft .step-num {
+  background: var(--soft);
 }
 
 .step-title {
-  align-self: end;
-  font-size: clamp(40px, 5vw, 88px);
-  overflow-wrap: anywhere;
+  font-size: clamp(32px, 3.4vw, 56px);
   font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 0.95;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  overflow-wrap: anywhere;
 }
 
 .step-desc {
-  align-self: end;
-  max-width: 26em;
-  font-size: clamp(16px, 1.25vw, 20px);
-  line-height: 1.55;
-  opacity: 0.8;
+  max-width: 30em;
+  font-size: clamp(16px, 1.2vw, 19px);
+  line-height: 1.6;
+  color: var(--text-2);
 }
 
 @media (max-width: 860px) {
   .step-card {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr auto;
-    min-height: clamp(260px, 45vh, 380px);
-    top: calc(var(--nav-h) + 16px + var(--i) * 20px);
+    grid-template-columns: auto 1fr;
+    min-height: 0;
+    top: calc(var(--nav-h) + 16px + var(--i) * 16px);
+  }
+  .step-desc {
+    grid-column: 1 / -1;
   }
 }

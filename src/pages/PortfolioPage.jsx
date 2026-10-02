@@ -25,8 +25,6 @@ export default function PortfolioPage() {
   }
 
   const shown = useMemo(() => getProjects(category, sub), [category, sub])
-  const countFor = (c, s = 'All') => getProjects(c, s).length
-
   const close = useCallback(() => setOpenIndex(null), [])
 
   return (
@@ -52,7 +50,6 @@ export default function PortfolioPage() {
                 onClick={() => choose(c)}
               >
                 {c === 'All' ? 'All' : labelFor(c)}
-                <span className="work-filter-count">{countFor(c)}</span>
               </button>
             ))}
           </div>
@@ -69,7 +66,6 @@ export default function PortfolioPage() {
                   onClick={() => choose(category, s)}
                 >
                   {s === 'All' ? `All ${labelFor(category)}` : s}
-                  <span className="work-filter-count">{countFor(category, s)}</span>
                 </button>
               ))}
             </div>
@@ -88,8 +84,17 @@ export default function PortfolioPage() {
                   <span className="work-item-media">
                     {project.type === 'video' ? (
                       <>
-                        {/* Shows the first frame; plays in the big view */}
-                        <video src={`${project.src}#t=0.5`} muted playsInline preload="metadata" />
+                        {/* YouTube picture; the video plays in the big view */}
+                        <img
+                          src={project.thumb}
+                          alt={project.alt}
+                          loading="lazy"
+                          onError={(e) => {
+                            // Some videos have no HD picture: fall back to the standard one
+                            e.currentTarget.onerror = null
+                            e.currentTarget.src = project.thumbFallback
+                          }}
+                        />
                         <span className="work-item-play" aria-hidden="true">&#9654;</span>
                       </>
                     ) : (

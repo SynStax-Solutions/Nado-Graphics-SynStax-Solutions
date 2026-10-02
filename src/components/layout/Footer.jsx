@@ -1,16 +1,22 @@
 import Button from '../ui/Button'
 import './Footer.css'
+import { Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 
 export default function Footer({
   brand = 'Nado Graphics',
   location = 'Cape Town, ZA',
   email = 'enquiries@nadographics.com',
   studio = 'Cape Town, South Africa',
-  phone = '084 770 4321',
-  whatsapp = '084 770 4321',
+  phone = '+27 62 151 7981',
+  whatsapp = '+27 62 151 7981',
 }) {
-  // Turns "084 770 4321" into "27847704321" (South African number in international format)
-  const intl = (num) => '27' + num.replace(/\D/g, '').replace(/^0/, '')
+    // Turns a number like "+27 62 151 7981" or "062 151 7981" into "27621517981" for call and WhatsApp links
+  const intl = (num) => {
+    const digits = num.replace(/\D/g, '')
+    return digits.startsWith('0') ? '27' + digits.slice(1) : digits
+  }
 
   return (
     <footer className="site-footer">
@@ -37,8 +43,16 @@ export default function Footer({
             <div>
               <dt>WhatsApp</dt>
               <dd>
-                <a href={`https://wa.me/${intl(whatsapp)}`} target="_blank" rel="noopener noreferrer">
-                  {whatsapp}
+                {/* WhatsApp icon instead of the number; opens a chat the same way */}
+                <a
+                  href={`https://wa.me/${intl(whatsapp)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="footer-whatsapp"
+                  aria-label={`Chat on WhatsApp (${whatsapp})`}
+                  title="Chat on WhatsApp"
+                >
+                  <FontAwesomeIcon icon={faWhatsapp} />
                 </a>
               </dd>
             </div>
@@ -50,7 +64,8 @@ export default function Footer({
         </div>
 
         <div className="footer-bottom">
-          &copy; {new Date().getFullYear()} {brand} &middot; {location}
+          <span>&copy; {new Date().getFullYear()} {brand} &middot; {location}</span>
+          <Link to="/privacy" className="footer-privacy">Privacy Policy</Link>
         </div>
       </div>
     </footer>

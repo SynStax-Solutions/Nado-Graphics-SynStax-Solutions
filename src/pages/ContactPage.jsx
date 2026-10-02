@@ -1,15 +1,20 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import Button from '../components/ui/Button'
 import './ContactPage.css'
 
 /* ---------- contact details (change them here) ---------- */
 const EMAIL = 'enquiries@nadographics.com'
-const PHONE = '084 770 4321'
-const WHATSAPP = '084 770 4321'
+const PHONE = '+27 62 151 7981'
+const WHATSAPP = '+27 62 151 7981'
 const LOCATION = 'Cape Town, South Africa'
 
 // Turns "084 770 4321" into "27847704321" (South African number in international format)
-const intl = (num) => '27' + num.replace(/\D/g, '').replace(/^0/, '')
+// Turns a number like "+27 62 151 7981" or "062 151 7981" into "27621517981" for call and WhatsApp links
+const intl = (num) => {
+  const digits = num.replace(/\D/g, '')
+  return digits.startsWith('0') ? '27' + digits.slice(1) : digits
+}
 
 const DETAILS = [
   { label: 'Email', value: EMAIL, href: `mailto:${EMAIL}?subject=${encodeURIComponent('Project enquiry')}` },
@@ -40,14 +45,13 @@ const SERVICES = [
 ]
 
 /*
-  NOTE TO JADE: when the BMS has an enquiries endpoint, put its address here,
+  TODO (backend): when the BMS has an enquiries endpoint, put its address here,
   e.g. 'https://your-bms-api.com/api/enquiries'. Until then the form only
   pretends to send, so the page can be designed and tested.
 */
-
 const ENQUIRY_API_URL = null
 
-const EMPTY = { name: '', email: '', phone: '', service: '', message: '', website: '' }
+const EMPTY = { name: '', email: '', phone: '', service: '', message: '', website: '', consent: false }
 
 function validate(values) {
   const errors = {}
@@ -55,6 +59,7 @@ function validate(values) {
   if (!values.email.trim()) errors.email = 'Enter your email address'
   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim())) errors.email = 'Enter a valid email address'
   if (!values.message.trim()) errors.message = 'Tell us a little about your project'
+  if (!values.consent) errors.consent = 'Please tick the box so we can store your details and reply'
   return errors
 }
 
@@ -64,7 +69,8 @@ export default function ContactPage() {
   const [status, setStatus] = useState('idle') // idle | sending | sent | error
 
   const update = (field) => (e) => {
-    setValues((v) => ({ ...v, [field]: e.target.value }))
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+    setValues((v) => ({ ...v, [field]: value }))
     if (errors[field]) setErrors((err) => ({ ...err, [field]: undefined }))
   }
 
@@ -88,6 +94,9 @@ export default function ContactPage() {
         phone: values.phone.trim(),
         service: values.service,
         message: values.message.trim(),
+        // POPIA: record that the person agreed, and when
+        consent: true,
+        consentAt: new Date().toISOString(),
       }
 
       if (ENQUIRY_API_URL) {
@@ -168,6 +177,18 @@ export default function ContactPage() {
                       Website
                       <input type="text" tabIndex={-1} autoComplete="off" value={values.website} onChange={update('website')} />
                     </label>
+                  </div>
+
+                  {/* Consent (POPIA): the form won't send until this is ticked */}
+                  <div className={`consent ${errors.consent ? 'has-error' : ''}`}>
+                    <label className="consent-label">
+                      <input type="checkbox" checked={values.consent} onChange={update('consent')} />
+                      <span>
+                        I agree to Nado Graphics storing my details to respond to my enquiry.
+                        See our <Link to="/privacy">Privacy Policy</Link>.
+                      </span>
+                    </label>
+                    {errors.consent && <span className="field-error">{errors.consent}</span>}
                   </div>
 
                   {status === 'error' && (

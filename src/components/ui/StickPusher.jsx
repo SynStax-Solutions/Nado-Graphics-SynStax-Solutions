@@ -4,9 +4,12 @@ import './StickPusher.css'
 
 /*
   StickPusher
-  A black stick man pushes the Nado logo in from the right, stops halfway
-  to wipe his forehead, pushes it the rest of the way to the end of the
-  headline, then walks off.
+  1. A black stick man walks in alone from the right and stops in the middle.
+  2. The Nado logo drops in from the top right, swings over his head and
+     lands (with a couple of bounces) in front of him.
+  3. He gets a lightbulb moment.
+  4. He pushes the logo to the end of the headline, the slogan lights up,
+     and he walks off.
 
   It draws on an SVG layer laid over the hero section. Everything is
   measured from the page, so it works at any screen size:
@@ -28,7 +31,25 @@ const lerp = (a, b, t) => a + (b - a) * t
 const easeInOut = (t) => 0.5 - 0.5 * Math.cos(Math.PI * clamp(t, 0, 1))
 const easeOut = (t) => 1 - Math.pow(1 - clamp(t, 0, 1), 3)
 const easeOutQuad = (t) => 1 - Math.pow(1 - clamp(t, 0, 1), 2)
+const easeOutBack = (t) => {
+  const c1 = 1.70158
+  const c3 = c1 + 1
+  const x = clamp(t, 0, 1) - 1
+  return 1 + c3 * x * x * x + c1 * x * x
+}
 const mixPoint = (p, q, t) => ({ x: lerp(p.x, q.x, t), y: lerp(p.y, q.y, t) })
+
+// Rays around the top of the lightbulb (degrees, 0 = right, -90 = straight up)
+const RAYS = [-170, -135, -90, -45, -10].map((deg) => {
+  const a = (deg * Math.PI) / 180
+  return {
+    deg,
+    x1: Math.cos(a) * 14,
+    y1: Math.sin(a) * 14,
+    x2: Math.cos(a) * 21,
+    y2: Math.sin(a) * 21,
+  }
+})
 
 // Two-segment arm: works out where the elbow goes so the hand reaches the target.
 // `prefer` picks which of the two possible elbows looks natural.
@@ -60,8 +81,9 @@ export default function StickPusher({ sectionRef, anchorRef, onArrive, onDone, d
   const armNearRef = useRef(null)
   const armFarRef = useRef(null)
   const headRef = useRef(null)
-  const drop1Ref = useRef(null)
-  const drop2Ref = useRef(null)
+  const bulbRef = useRef(null)
+  const glowRef = useRef(null)
+  const raysRef = useRef(null)
 
   useEffect(() => {
     let raf = 0
@@ -112,7 +134,6 @@ export default function StickPusher({ sectionRef, anchorRef, onArrive, onDone, d
       const stroke = Math.max(3, 0.045 * H)
       ;[bodyRef, armNearRef, armFarRef, headRef].forEach((r) => r.current.setAttribute('stroke-width', stroke))
       headRef.current.setAttribute('r', HEAD_R)
-      ;[drop1Ref, drop2Ref].forEach((r) => r.current.setAttribute('r', Math.max(2, 0.022 * H)))
 
       // Logo image (sized so the circle part is D across)
       const img = ballRef.current.querySelector('image')
@@ -129,19 +150,33 @@ export default function StickPusher({ sectionRef, anchorRef, onArrive, onDone, d
       const hipFromBall = (bx) => nearContact(bx, 0).x + 0.34 * H
 
       // Key positions (logo centre x)
-      const by = ground - R
+      const by = ground - R // logo centre y when it is on the ground
       const finalBx = textEnd + 0.12 * D + R
-      const midBx = (textEnd + W) / 2
-      const startBx = W + 1.35 * D // just off-screen, so he appears straight away
+      const midBx = (textEnd + W) / 2 // where the logo lands
+      const hipStand = hipFromBall(midBx) // where the man stops and waits
+      const startHip = W + 0.6 * H // just off-screen on the right
+      const ballStartX = W + D // the logo drops in from off-screen right
+      const ballStartY = Math.max(-D, by - Hs * 0.6)
 
-      // Timing
+      // Timing (ms)
       const speed = clamp(W * 0.2, 180, 340) // px per second
-      const T1 = ((startBx - midBx) / speed) * 1000 * 1.4
-      const TB = 2700 // the break
-      const T2 = ((midBx - finalBx) / speed) * 1000 * 1.2
-      const tBreak = T1
-      const tPush2 = T1 + TB
-      const tArrive = tPush2 + T2
+      const T_WALK = ((startHip - hipStand) / (speed * 1.1)) * 1000 * 2.3
+      const T_PAUSE = 300 // he stops and stands there
+      const T_FALL = 900 // the logo's flight
+      const T_B1 = 380 // first bounce
+      const T_B2 = 220 // second, smaller bounce
+      const T_LOOK = 500 // he looks at the logo
+      const T_BULB = 1500 // the lightbulb moment
+      const T_LEAN = 450 // he leans in to push
+      const T_PUSH = ((midBx - finalBx) / speed) * 1000 * 1.2
+
+      const tFallStart = T_WALK + T_PAUSE
+      const tLand = tFallStart + T_FALL
+      const tB1End = tLand + T_B1
+      const tB2End = tB1End + T_B2
+      const tBulbStart = tB2End + T_LOOK
+      const tBulbEnd = tBulbStart + T_BULB
+      const tArrive = tBulbEnd + T_PUSH
       const tLeave = tArrive + 1500
 
       let arrived = false
@@ -191,21 +226,48 @@ export default function StickPusher({ sectionRef, anchorRef, onArrive, onDone, d
       })
       const onHip = (hip, dir) => ({ x: hip.x - dir * 0.03 * H, y: hip.y - 0.02 * H })
 
-      const drawBall = (bx, scale = 1, opacity = 1) => {
+      // Both arms just hanging by his sides
+      const hangArms = ({ sh, dir }) => ({
+        near: { hand: hangHand(sh, dir, 0), prefer: { x: 0, y: 1 } },
+        far: { hand: hangHand(sh, dir, 0), prefer: { x: 0, y: 1 } },
+      })
+
+      // Standing still, facing left (towards where the logo lands)
+      const standPose = (lean, arms = hangArms) => ({
+        hipX: hipStand,
+        dir: -1,
+        lean,
+        phase: 0,
+        amp: 0,
+        spread: 0.08,
+        legBase: 0,
+        arms,
+      })
+
+      const drawBall = (bx, scale = 1, opacity = 1, y = by) => {
         const rot = ((bx - finalBx) / (Math.PI * D)) * 360
-        ballRef.current.setAttribute('transform', `translate(${bx},${by}) rotate(${rot}) scale(${scale})`)
+        ballRef.current.setAttribute('transform', `translate(${bx},${y}) rotate(${rot}) scale(${scale})`)
         ballRef.current.setAttribute('opacity', opacity)
       }
 
-      const drawDrop = (ref, head, dir, s, t0d) => {
-        const k = (s - t0d) / 700
-        if (k < 0 || k > 1) {
-          ref.current.setAttribute('opacity', 0)
+      const drawBulb = (head, s) => {
+        // s = time since the bulb moment started
+        let sc = 0
+        if (s >= 0 && s < 350) sc = easeOutBack(s / 350)
+        else if (s >= 350 && s < 1150) sc = 1
+        else if (s >= 1150) sc = 1 - easeInOut((s - 1150) / 300)
+        if (sc <= 0.001) {
+          bulbRef.current.setAttribute('opacity', 0)
           return
         }
-        ref.current.setAttribute('opacity', 1 - k)
-        ref.current.setAttribute('cx', head.x - dir * (HEAD_R * 1.1 + k * 0.12 * H))
-        ref.current.setAttribute('cy', head.y - HEAD_R * 0.3 + k * k * 0.35 * H)
+        const k = H / 100
+        const x = head.x
+        const y = head.y - HEAD_R - 0.17 * H
+        bulbRef.current.setAttribute('transform', `translate(${x},${y}) scale(${k * sc})`)
+        bulbRef.current.setAttribute('opacity', 1)
+        // the glow flickers a little, rays pop in just after the bulb
+        glowRef.current.setAttribute('opacity', 0.3 + 0.22 * Math.sin(s / 90))
+        raysRef.current.setAttribute('opacity', clamp((s - 150) / 200, 0, 1))
       }
 
       const pushPose = (bx, walked) => ({
@@ -219,53 +281,98 @@ export default function StickPusher({ sectionRef, anchorRef, onArrive, onDone, d
         arms: pushArms(bx),
       })
 
-           const tick = (now) => {
+      const tick = (now) => {
         // Stop if the page changed and the drawing has already been removed
         if (cancelled || !bodyRef.current || !ballRef.current) return
         if (t0 === null) t0 = now
         const t = now - t0
 
-        if (t < tBreak) {
-          // ---------- first push ----------
-          // Enters already moving, then slows to a stop for the break
-          const bx = lerp(startBx, midBx, easeOutQuad(t / T1))
-          drawBall(bx)
-          drawMan(pushPose(bx, startBx - bx))
-          drop1Ref.current.setAttribute('opacity', 0)
-          drop2Ref.current.setAttribute('opacity', 0)
-        } else if (t < tPush2) {
-          // ---------- the break: stand up, wipe forehead, lean back in ----------
-          const s = t - tBreak
-          const k = s < 2200 ? easeInOut(s / 450) : 1 - easeInOut((s - 2200) / 500)
-          const walked = startBx - midBx
-          const wipe = s > 450 && s < 2200 ? Math.sin(((s - 450) / 1750) * Math.PI * 4) : 0
+        // the bulb is only shown in its own phase
+        bulbRef.current.setAttribute('opacity', 0)
+
+        if (t < T_WALK) {
+          // ---------- 1. walks in alone, slowing to a stop in the middle ----------
+          ballRef.current.setAttribute('opacity', 0)
+          const u = t / T_WALK
+          const hipX = lerp(startHip, hipStand, easeOutQuad(u))
+          const walked = startHip - hipX
+          const f = clamp((1 - u) * 5, 0, 1) // 1 while walking, eases to 0 as he stops
+          const phase = (walked / STRIDE) * Math.PI
+          drawMan({
+            hipX,
+            dir: -1,
+            lean: lerp(0.04, 0.08, f),
+            phase,
+            amp: 0.36 * f,
+            spread: 0.08 * (1 - f),
+            legBase: 0,
+            arms: ({ sh, dir }) => ({
+              near: { hand: hangHand(sh, dir, 0.45 * f * Math.sin(phase)), prefer: { x: 0, y: 1 } },
+              far: { hand: hangHand(sh, dir, -0.45 * f * Math.sin(phase)), prefer: { x: 0, y: 1 } },
+            }),
+          })
+        } else if (t < tFallStart) {
+          // ---------- he stands there for a moment ----------
+          ballRef.current.setAttribute('opacity', 0)
+          drawMan(standPose(0.04))
+        } else if (t < tLand) {
+          // ---------- 2a. the logo drops in from the top right, over his head ----------
+          const u = (t - tFallStart) / T_FALL
+          const bx = lerp(ballStartX, midBx, easeOut(u))
+          const y = lerp(ballStartY, by, u * u)
+          drawBall(bx, 1, 1, y)
+          // he flinches back as it flies past
+          const react = Math.sin(Math.PI * clamp((u - 0.1) / 0.8, 0, 1))
+          drawMan(standPose(0.04 - 0.12 * react))
+        } else if (t < tBulbStart) {
+          // ---------- 2b. it bounces twice and settles in front of him ----------
+          let y = by
+          if (t < tB1End) {
+            const v = (t - tLand) / T_B1
+            y = by - 0.45 * D * 4 * v * (1 - v)
+          } else if (t < tB2End) {
+            const v = (t - tB1End) / T_B2
+            y = by - 0.12 * D * 4 * v * (1 - v)
+          }
+          drawBall(midBx, 1, 1, y)
+          // he leans in to look at it
+          drawMan(standPose(lerp(0.04, 0.14, easeInOut((t - tLand) / 450))))
+        } else if (t < tBulbEnd) {
+          // ---------- 3. lightbulb moment: finger up, bulb pops over his head ----------
+          const s = t - tBulbStart
           drawBall(midBx)
-          const push = pushPose(midBx, walked)
-          const { head } = drawMan({
-            ...push,
-            lean: lerp(0.42, 0.04, k),
-            amp: lerp(0.34, 0, k),
-            spread: lerp(0, 0.08, k),
-            legBase: lerp(-0.12, 0, k),
-            arms: ({ hip, sh, head, dir }) => {
-              const p = push.arms()
-              const forehead = {
-                x: head.x + dir * (HEAD_R * 0.55 + HEAD_R * 0.75 * wipe),
-                y: head.y - HEAD_R * 0.35,
-              }
+          const kArm = s < 350 ? easeOut(s / 350) : s < 1100 ? 1 : 1 - easeInOut((s - 1100) / 350)
+          const { head } = drawMan(
+            standPose(lerp(0.14, 0.02, easeInOut(s / 300)), ({ sh, head, dir }) => {
+              const raised = { x: head.x - dir * 0.1 * H, y: head.y - 0.19 * H }
               return {
-                near: { hand: mixPoint(p.near.hand, forehead, k), prefer: { x: 1, y: 1 } },
-                far: { hand: mixPoint(p.far.hand, onHip(hip, dir), k), prefer: { x: k > 0.5 ? -1 : 0, y: 0.4 } },
+                near: { hand: mixPoint(hangHand(sh, dir, 0), raised, kArm), prefer: { x: -0.5, y: 1 } },
+                far: { hand: hangHand(sh, dir, 0), prefer: { x: 0, y: 1 } },
+              }
+            })
+          )
+          drawBulb(head, s)
+        } else if (t < tArrive) {
+          // ---------- 4. he leans in and pushes the logo to the end of the headline ----------
+          const s = t - tBulbEnd
+          const k = easeInOut(s / T_LEAN)
+          const bx = lerp(midBx, finalBx, easeInOut(s / T_PUSH))
+          drawBall(bx)
+          const push = pushPose(bx, midBx - bx)
+          drawMan({
+            ...push,
+            lean: lerp(0.02, 0.42, k),
+            amp: lerp(0, 0.34, k),
+            spread: lerp(0.08, 0, k),
+            legBase: lerp(0, -0.12, k),
+            arms: ({ sh, dir }) => {
+              const p = push.arms()
+              return {
+                near: { hand: mixPoint(hangHand(sh, dir, 0), p.near.hand, k), prefer: { x: 0, y: 1 } },
+                far: { hand: mixPoint(hangHand(sh, dir, 0), p.far.hand, k), prefer: { x: 0, y: 1 } },
               }
             },
           })
-          drawDrop(drop1Ref, head, -1, s, 700)
-          drawDrop(drop2Ref, head, -1, s, 1500)
-        } else if (t < tArrive) {
-          // ---------- second push ----------
-          const bx = lerp(midBx, finalBx, easeInOut((t - tPush2) / T2))
-          drawBall(bx)
-          drawMan(pushPose(bx, startBx - bx))
         } else if (t < tLeave) {
           // ---------- arrive: logo disappears, text fills, hands on hips ----------
           if (!arrived) {
@@ -276,7 +383,7 @@ export default function StickPusher({ sectionRef, anchorRef, onArrive, onDone, d
           const g = easeOut(s / 450)
           drawBall(finalBx - g * 0.1 * D, 1 - g, 1 - g)
           const k = easeInOut(s / 500)
-          const push = pushPose(finalBx, startBx - finalBx)
+          const push = pushPose(finalBx, midBx - finalBx)
           drawMan({
             ...push,
             lean: lerp(0.42, 0.03, k),
@@ -350,8 +457,17 @@ export default function StickPusher({ sectionRef, anchorRef, onArrive, onDone, d
         <path ref={armNearRef} />
         <circle ref={headRef} fill="#fff" />
       </g>
-      <circle ref={drop1Ref} className="stick-drop" opacity="0" />
-      <circle ref={drop2Ref} className="stick-drop" opacity="0" />
+      {/* Lightbulb: drawn in a 100-unit space and scaled to the man's height */}
+      <g ref={bulbRef} className="stick-bulb" opacity="0">
+        <circle ref={glowRef} className="stick-bulb-glow" r="26" />
+        <g ref={raysRef} className="stick-bulb-rays">
+          {RAYS.map((r) => (
+            <line key={r.deg} x1={r.x1} y1={r.y1} x2={r.x2} y2={r.y2} />
+          ))}
+        </g>
+        <circle className="stick-bulb-glass" r="9" />
+        <rect className="stick-bulb-base" x="-4" y="8" width="8" height="5" rx="1.5" />
+      </g>
     </svg>
   )
 }

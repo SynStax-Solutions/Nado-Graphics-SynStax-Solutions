@@ -7,7 +7,24 @@
   z-index: 2;
   overflow: visible;
 }
-
-.stick-drop {
-  fill: #8ec5ff; /* sweat */
+ 
+/* Lightbulb (drawn in a 100-unit space, scaled in JS) */
+.stick-bulb-glow {
+  fill: var(--yellow, #ffd84a);
+}
+ 
+.stick-bulb-glass {
+  fill: var(--yellow, #ffd84a);
+  stroke: #000;
+  stroke-width: 2.5;
+}
+ 
+.stick-bulb-base {
+  fill: #000;
+}
+ 
+.stick-bulb-rays line {
+  stroke: #000;
+  stroke-width: 2.5;
+  stroke-linecap: round;
 }
