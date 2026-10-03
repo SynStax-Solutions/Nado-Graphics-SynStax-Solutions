@@ -1,6 +1,27 @@
+/* =============================================================================
+   EYEBROW STYLES (Eyebrow.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the small introductory text used above headings or section content.
+
+   What is styled here:
+   - Font size and weight
+   - Text colour
+   - Spacing below the eyebrow text
+
+   Note:
+   The bottom margin uses clamp() so the spacing adjusts smoothly between
+   smaller and larger screen sizes.
+   ============================================================================= */
+
 .eyebrow {
+  /* ---------- Text styling ---------- */
   font-size: 17px;
   font-weight: 500;
   color: var(--ink);
+
+  /* ---------- Spacing ---------- */
   margin-bottom: clamp(40px, 6vw, 88px);
 }
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

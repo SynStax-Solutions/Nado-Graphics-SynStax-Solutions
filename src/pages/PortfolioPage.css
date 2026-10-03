@@ -1,213 +1,614 @@
+/* =============================================================================
+   WORK PAGE (WorkPage.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the Our Work / Portfolio page, including the category filters,
+   sub-filters, project grid, project media, video controls, and project
+   information.
+
+   What is styled here:
+   - Main project category tabs
+   - Smaller sub-category tabs
+   - Active and hover states for filters
+   - Masonry-style project grid
+   - Project images and videos
+   - Video play button
+   - Project open/arrow button
+   - Project category and title text
+   - Responsive layouts for tablets and mobile devices
+
+   Note:
+   The project grid uses CSS columns so each image or video can keep its
+   natural aspect ratio instead of being forced into the same size.
+   ============================================================================= */
+
+
+/* ---------- main work page ---------- */
+
+/*
+  Adds bottom spacing to the Work page so the final project
+  does not sit directly against the next section or footer.
+*/
+
 .work-page {
+
   padding-bottom: clamp(80px, 10vw, 160px);
+
 }
+
 
 /* ---------- main tabs ---------- */
 
+/*
+  Container for the main project category filters.
+
+  The filters can wrap onto multiple lines when there is not
+  enough horizontal space.
+*/
+
 .work-filters {
+
   display: flex;
+
   flex-wrap: wrap;
+
   gap: 10px;
+
   margin-bottom: clamp(32px, 4vw, 56px);
+
 }
 
-/* When a main tab has sub-tabs, keep the two rows close together */
+
+/*
+  When the main filters are immediately followed by sub-filters,
+  reduce the space between the two rows.
+*/
+
 .work-filters:has(+ .work-subfilters) {
+
   margin-bottom: 14px;
+
 }
+
+
+/*
+  Main category filter button.
+
+  These are the larger buttons used to switch between
+  major areas of the portfolio.
+*/
 
 .work-filter {
+
   display: inline-flex;
+
   align-items: center;
+
   gap: 10px;
+
   min-height: 46px;
+
   padding: 10px 20px;
+
   border: 0;
+
   border-radius: var(--pill);
+
   background: var(--soft);
+
   color: var(--ink);
+
   font-size: 16px;
+
   font-weight: 500;
+
   transition: background-color 0.2s ease, color 0.2s ease;
+
 }
+
+
+/*
+  Changes the background when the user hovers over
+  an inactive main filter.
+*/
 
 .work-filter:hover {
+
   background: #e4e4e4;
+
 }
+
+
+/*
+  Active main filter.
+
+  The selected category uses the main ink colour
+  with white text for stronger contrast.
+*/
 
 .work-filter.is-active {
+
   background: var(--ink);
+
   color: #fff;
+
 }
+
+
+/*
+  Small project count displayed inside a filter button.
+*/
 
 .work-filter-count {
+
   font-size: 13px;
+
   color: var(--muted);
+
 }
 
+
+/*
+  Changes the count colour when its parent filter is active.
+*/
+
 .work-filter.is-active .work-filter-count {
+
   color: var(--yellow);
+
 }
+
 
 /* ---------- sub-tabs (smaller, outlined) ---------- */
 
+/*
+  Container for the smaller sub-category filters.
+
+  These appear underneath a main filter when additional
+  categories are available.
+*/
+
 .work-subfilters {
+
   display: flex;
+
   flex-wrap: wrap;
+
   gap: 8px;
+
   padding-top: 14px;
+
   border-top: 1px solid var(--line);
+
   margin-bottom: clamp(32px, 4vw, 56px);
+
   animation: subfilters-in 0.25s ease both;
+
 }
+
+
+/*
+  Entrance animation for the sub-filter row.
+
+  The filters start slightly higher and transparent before
+  moving into their normal position.
+*/
 
 @keyframes subfilters-in {
-  from { opacity: 0; transform: translateY(-4px); }
-  to { opacity: 1; transform: none; }
+
+  from {
+
+    opacity: 0;
+
+    transform: translateY(-4px);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform: none;
+
+  }
+
 }
+
+
+/*
+  Smaller outlined sub-category filter.
+*/
 
 .work-subfilter {
+
   display: inline-flex;
+
   align-items: center;
+
   gap: 8px;
+
   min-height: 38px;
+
   padding: 6px 14px;
+
   border: 1px solid #d6d6d6;
+
   border-radius: var(--pill);
+
   background: #fff;
+
   color: var(--ink);
+
   font-size: 14px;
+
   font-weight: 500;
+
   transition: border-color 0.2s ease, background-color 0.2s ease;
+
 }
+
+
+/*
+  Darkens the border when the user hovers over
+  an inactive sub-filter.
+*/
 
 .work-subfilter:hover {
+
   border-color: var(--ink);
+
 }
+
+
+/*
+  Active sub-filter.
+
+  The yellow background makes the selected sub-category
+  easy to identify.
+*/
 
 .work-subfilter.is-active {
+
   border-color: var(--yellow);
+
   background: var(--yellow);
+
 }
+
+
+/*
+  Changes the project count back to the main ink colour
+  when its sub-filter is active.
+*/
 
 .work-subfilter.is-active .work-filter-count {
+
   color: var(--ink);
+
 }
 
-/* ---------- project grid (masonry: images keep their own shape) ---------- */
+
+/* ---------- project grid ---------- */
+
+/*
+  Creates a three-column masonry-style portfolio grid.
+
+  CSS columns allow each project image or video to keep
+  its own natural height and aspect ratio.
+*/
 
 .work-list {
+
   list-style: none;
+
   columns: 3;
+
   column-gap: clamp(16px, 2vw, 32px);
+
 }
+
+
+/*
+  Prevents an individual project from being split between
+  multiple columns.
+
+  The bottom margin provides vertical spacing between projects.
+*/
 
 .work-item {
+
   break-inside: avoid;
+
   margin-bottom: clamp(28px, 3vw, 44px);
+
 }
+
+
+/*
+  Makes the entire project card behave like a clickable button.
+
+  The button is visually reset so the project media and
+  information determine its appearance.
+*/
 
 .work-item-button {
+
   display: block;
+
   width: 100%;
+
   padding: 0;
+
   border: 0;
+
   background: none;
+
   text-align: left;
+
   color: inherit;
+
 }
 
+
+/* ---------- project media ---------- */
+
+/*
+  Container for project images and videos.
+
+  The relative position allows the play and open buttons
+  to be positioned over the media.
+*/
+
 .work-item-media {
+
   position: relative;
+
   display: block;
+
   overflow: hidden;
+
   border-radius: var(--radius-md);
+
   background: var(--soft);
+
 }
+
+
+/*
+  Project images and videos fill the available column width
+  while keeping their original aspect ratio.
+*/
 
 .work-item-media img,
 .work-item-media video {
+
   display: block;
+
   width: 100%;
+
   height: auto;
+
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+
 }
+
+
+/*
+  Slightly enlarges the project media when the user
+  hovers over or focuses on the project button.
+*/
 
 .work-item-button:hover .work-item-media img,
 .work-item-button:hover .work-item-media video {
+
   transform: scale(1.04);
+
 }
 
-/* Play button on video cards */
+
+/* ---------- video play button ---------- */
+
+/*
+  Circular play button displayed over video projects.
+
+  It is centred using absolute positioning and CSS grid.
+*/
+
 .work-item-play {
+
   position: absolute;
+
   inset: 0;
+
   margin: auto;
+
   display: grid;
+
   place-items: center;
+
   width: 72px;
+
   height: 72px;
+
   border-radius: 50%;
+
   background: rgba(0, 0, 0, 0.6);
+
   color: #fff;
+
   font-size: 24px;
+
   padding-left: 4px;
+
   transition: background-color 0.2s ease, color 0.2s ease;
+
 }
+
+
+/*
+  Changes the play button to the site's yellow accent
+  when the video card is hovered.
+*/
 
 .work-item-button:hover .work-item-play {
+
   background: var(--yellow);
+
   color: var(--ink);
+
 }
 
-/* Round arrow that appears on hover */
+
+/* ---------- project open button ---------- */
+
+/*
+  Round arrow button that appears over the project media
+  when the user hovers over the project.
+*/
+
 .work-item-open {
+
   position: absolute;
+
   left: 16px;
+
   bottom: 16px;
+
   display: grid;
+
   place-items: center;
+
   width: 52px;
+
   height: 52px;
+
   border-radius: 50%;
+
   background: #fff;
+
   color: var(--ink);
+
   font-size: 20px;
+
   opacity: 0;
+
   transform: translateY(8px);
-  transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.2s ease;
+
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    background-color 0.2s ease;
+
 }
+
+
+/*
+  Reveals the open button when the project is hovered
+  or receives keyboard focus.
+*/
 
 .work-item-button:hover .work-item-open,
 .work-item-button:focus-visible .work-item-open {
+
   opacity: 1;
+
   transform: none;
+
   background: var(--yellow);
+
 }
+
+
+/* ---------- project information ---------- */
+
+/*
+  Container for the category and title displayed below
+  each project.
+*/
 
 .work-item-meta {
+
   display: block;
+
   padding-top: 14px;
+
 }
+
+
+/*
+  Project category or type.
+
+  Uses the muted colour to keep the project title
+  visually more prominent.
+*/
 
 .work-item-cat {
+
   display: block;
+
   font-size: 15px;
+
   color: var(--muted);
+
   margin-bottom: 4px;
+
 }
+
+
+/*
+  Main project title.
+
+  The clamp function allows the title to scale smoothly
+  between different screen sizes.
+*/
 
 .work-item-title {
+
   display: block;
+
   font-size: clamp(18px, 1.4vw, 22px);
+
   font-weight: 500;
+
   letter-spacing: -0.01em;
+
 }
+
+
+/* ---------- tablet layout ---------- */
+
+/*
+  At 1000px and below, reduce the project grid
+  from three columns to two columns.
+*/
 
 @media (max-width: 1000px) {
-  .work-list { columns: 2; }
+
+  .work-list {
+
+    columns: 2;
+
+  }
+
 }
 
+
+/* ---------- mobile layout ---------- */
+
+/*
+  At 575px and below, display projects in a single column
+  so the portfolio remains easy to browse on smaller screens.
+*/
+
 @media (max-width: 575px) {
-  .work-list { columns: 1; }
+
+  .work-list {
+
+    columns: 1;
+
+  }
+
 }
+
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

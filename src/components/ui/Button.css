@@ -1,3 +1,26 @@
+/* =============================================================================
+   BUTTON STYLES (Button.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the reusable button components used throughout the Nado Graphics
+   website.
+
+   What is styled here:
+   - .btn         : the base button layout, sizing, typography and transitions.
+   - .btn-primary : the main dark button that changes to yellow on hover.
+   - .btn-ghost   : the soft grey button.
+   - .btn-light   : the white button used on dark backgrounds.
+   - .btn-arrow   : the arrow displayed inside buttons.
+   - @media       : adjusts button sizing for smaller screens.
+
+   Note: this file only contains styles specific to the reusable buttons.
+   --pill, --ink, --yellow and --soft are CSS variables defined globally
+   (the site's theme colours and border-radius).
+   ============================================================================= */
+
+
+/* Base button: centres the content and gives all buttons a consistent size,
+   shape, spacing and transition effect */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -13,27 +36,74 @@
   white-space: nowrap;
   transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
-.btn:active { transform: scale(0.98); }
 
-/* black pill, turns yellow on hover */
-.btn-primary { background: var(--ink); color: #fff; }
-.btn-primary:hover { background: var(--yellow); color: var(--ink); }
+/* Slightly shrinks the button when it is pressed */
+.btn:active {
+  transform: scale(0.98);
+}
 
-/* grey pill */
-.btn-ghost { background: var(--soft); color: var(--ink); }
-.btn-ghost:hover { background: #e4e4e4; }
 
-/* white pill, for black backgrounds */
-.btn-light { background: #fff; color: var(--ink); }
-.btn-light:hover { background: var(--yellow); color: var(--ink); }
+/* Primary button: dark background with white text.
+   Changes to yellow with dark text when the user hovers over it */
+.btn-primary {
+  background: var(--ink);
+  color: #fff;
+}
 
+.btn-primary:hover {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+
+/* Ghost button: soft grey background with dark text.
+   Becomes slightly darker when hovered */
+.btn-ghost {
+  background: var(--soft);
+  color: var(--ink);
+}
+
+.btn-ghost:hover {
+  background: #e4e4e4;
+}
+
+
+/* Light button: white background with dark text.
+   Designed mainly for use on dark backgrounds */
+.btn-light {
+  background: #fff;
+  color: var(--ink);
+}
+
+.btn-light:hover {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+
+/* Arrow inside a button: keeps the arrow aligned and adds a smooth
+   movement effect when the button is hovered */
 .btn-arrow {
   font-size: 1.1em;
   line-height: 1;
   transition: transform 0.2s ease;
 }
-.btn:hover .btn-arrow { transform: translate(2px, -2px); }
 
-@media (max-width: 575px) {
-  .btn { min-height: 50px; padding: 12px 22px; font-size: 16px; }
+/* Moves the arrow slightly up and to the right when the button is hovered */
+.btn:hover .btn-arrow {
+  transform: translate(2px, -2px);
 }
+
+
+/* Responsive button styles: reduces the button height, padding and font size
+   on smaller screens so the buttons fit more comfortably on mobile devices */
+@media (max-width: 575px) {
+  .btn {
+    min-height: 50px;
+    padding: 12px 22px;
+    font-size: 16px;
+  }
+}
+
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

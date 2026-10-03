@@ -1,60 +1,103 @@
+/* =============================================================================
+   SERVICE GRID STYLES (ServiceGrid.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the service grid on the Nado Graphics website: a grid of cards, each
+   describing one service with a round icon, a title, a description, a list of
+   related items and a link.
+
+   What is styled here:
+   - .service-grid-section : the section, which adds space below the grid.
+   - .service-grid         : the grid that lays the cards out in columns.
+   - .service-card         : one service card.
+   - .service-icon-circle  : the round icon at the top of each card. Adding the
+                             .is-dark class gives it a dark version.
+   - .service-card-title   : the card heading.
+   - .service-card-desc    : the description paragraph.
+   - .service-card-items   : a small line of related items under the description.
+   - .service-card-link    : the underlined link at the bottom of the card.
+
+   Responsive behaviour:
+   - Desktop         : three columns.
+   - 1000px or less  : two columns.
+   - 620px or less   : one column.
+
+   Note: --yellow, --ink, --text-2 and --muted are CSS variables defined
+   globally elsewhere in the project (the site's theme colours).
+   ============================================================================= */
+
+
+/* Section wrapper: adds space below the grid.
+   clamp() keeps the spacing fluid, between 80px and 160px depending on screen width */
 .service-grid-section {
   padding-bottom: clamp(80px, 10vw, 160px);
 }
 
+/* The grid of cards. It is a list (<ul>), so the bullet points are removed */
 .service-grid {
   list-style: none;
   display: grid;
+  /* Three equal columns. minmax(0, 1fr) stops long content from stretching a column */
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* First value is the gap between rows, second is the gap between columns */
   gap: clamp(56px, 6vw, 96px) clamp(32px, 4vw, 72px);
 }
 
+/* One card: its contents are stacked in a column */
 .service-card {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-start; /* Keeps everything aligned to the left instead of stretching full width */
 }
 
 /* Round icon with a soft glow, like the reference */
 .service-icon-circle {
   display: grid;
-  place-items: center;
+  place-items: center;      /* Centres the icon inside the circle */
   width: 96px;
   height: 96px;
   margin-bottom: 28px;
-  border-radius: 50%;
+  border-radius: 50%;       /* Turns the square into a circle */
   background: var(--yellow);
   color: var(--ink);
-  font-size: 34px;
+  font-size: 34px;          /* Controls the icon size */
+  /* Soft shadow below the circle, using a transparent version of the yellow, creates the glow.
+     The negative spread value (-10px) shrinks the shadow so it doesn't spread out to the sides */
   box-shadow: 0 18px 36px -10px rgba(250, 190, 61, 0.6);
+  /* Smooth movement on hover. This easing curve starts fast and settles gently */
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Dark version of the icon: dark background with a yellow icon and a darker shadow */
 .service-icon-circle.is-dark {
   background: var(--ink);
   color: var(--yellow);
   box-shadow: 0 18px 36px -12px rgba(0, 0, 0, 0.45);
 }
 
+/* Hovering anywhere on the card lifts the icon up slightly */
 .service-card:hover .service-icon-circle {
   transform: translateY(-6px);
 }
 
+/* Card heading: fluid in size */
 .service-card-title {
   font-size: clamp(24px, 2vw, 32px);
   font-weight: 500;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.02em; /* Slightly tighter letter spacing suits headings */
   line-height: 1.15;
   margin-bottom: 14px;
 }
 
+/* Description paragraph */
 .service-card-desc {
   font-size: 17px;
-  line-height: 1.65;
+  line-height: 1.65; /* Extra line spacing makes paragraphs easier to read */
   color: var(--text-2);
-  max-width: 30em;
+  max-width: 30em;   /* Keeps lines a comfortable reading length */
 }
 
+/* Small line of related items under the description, in a lighter colour */
 .service-card-items {
   margin-top: 18px;
   font-size: 14px;
@@ -62,25 +105,31 @@
   color: var(--muted);
 }
 
+/* Link at the bottom of the card: bold-looking text with a yellow underline */
 .service-card-link {
   margin-top: 22px;
   font-size: 16px;
   font-weight: 500;
   text-decoration: underline;
-  text-decoration-color: var(--yellow);
+  text-decoration-color: var(--yellow);  /* Colours only the underline, not the text */
   text-decoration-thickness: 2px;
-  text-underline-offset: 6px;
+  text-underline-offset: 6px;            /* Gap between the text and its underline */
   transition: color 0.2s ease;
 }
 
+/* Link hover: the text turns a softer grey */
 .service-card-link:hover {
   color: var(--text-2);
 }
 
+/* Tablet and below: two columns */
 @media (max-width: 1000px) {
   .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
+/* Phones: one column */
 @media (max-width: 620px) {
   .service-grid { grid-template-columns: 1fr; }
 }
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

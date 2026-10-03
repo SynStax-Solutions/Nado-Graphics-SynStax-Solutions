@@ -1,18 +1,49 @@
+/* =============================================================================
+   STORY SECTION STYLES (Story.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles part of the "Story" section of the Nado Graphics website: a large
+   statement whose words light up one by one, and a stats area underneath.
+
+   What is styled here:
+   - .story-lit       : the large statement text.
+   - .story-word      : one word of the statement. Each word starts faded out.
+   - .nd-story-stats  : the stats area under the statement (spacing only).
+
+   How the "lighting up" works:
+   Every word starts at 15% opacity (very faded). The CSS only sets that
+   starting point and a short fade, so a change in opacity looks smooth.
+   Raising a word's opacity is not done in this file. It has to come from
+   JavaScript in the Story component, probably as the visitor scrolls.
+
+   Note: --ink is a CSS variable defined globally elsewhere in the project
+   (the site's theme colours).
+   ============================================================================= */
+
+
 /* The statement that lights up word by word */
 .story-lit {
-  max-width: 30em;
-  font-size: clamp(24px, 2.5vw, 42px);
+  max-width: 30em;                       /* Keeps lines a comfortable reading length */
+  font-size: clamp(24px, 2.5vw, 42px);   /* Fluid font size, between 24px and 42px */
   font-weight: 500;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.02em;               /* Slightly tighter letter spacing suits large text */
   line-height: 1.3;
   color: var(--ink);
 }
 
+/* One word of the statement.
+   Starts almost invisible, and any change to its opacity fades smoothly over 0.15s.
+   linear means the fade moves at a constant speed, which suits an effect that
+   follows scrolling */
 .story-word {
   opacity: 0.15;
   transition: opacity 0.15s linear;
 }
 
+/* Stats area under the statement: adds space above it.
+   clamp() keeps the spacing fluid, between 48px and 88px depending on screen width */
 .nd-story-stats {
   margin-top: clamp(48px, 6vw, 88px);
 }
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

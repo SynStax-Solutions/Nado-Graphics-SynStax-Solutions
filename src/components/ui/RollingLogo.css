@@ -1,3 +1,20 @@
+/* =============================================================================
+   ROLLING LOGO STYLES (RollingLogo.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the Nado Graphics rolling logo component.
+
+   What is styled here:
+   - .rolling-logo : controls the logo's display, size and rotation behaviour.
+
+   Note: the transform-origin keeps the logo's rotation centred around its
+   middle. will-change informs the browser that the logo's transform may
+   change, helping the browser prepare for the animation.
+   ============================================================================= */
+
+
+/* Rolling logo: keeps the logo at a consistent height and allows it to
+   rotate around its centre */
 .rolling-logo {
   display: block;
   height: 44px;
@@ -5,3 +22,6 @@
   transform-origin: 50% 50%;
   will-change: transform;
 }
+
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

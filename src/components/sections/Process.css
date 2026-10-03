@@ -1,24 +1,60 @@
+/* =============================================================================
+   PROCESS / SERVICES SECTION STYLES (Process.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the services section on the Nado Graphics home page: a heading area
+   followed by an accordion, a list of services where clicking a row opens it
+   to reveal that service's details.
+
+   What is styled here:
+   - .services-section : the light grey rounded band behind the whole section.
+   - .services-head    : the top row holding the title and the total count.
+   - .services-list    : the accordion list, with a line above and below each row.
+   - .service-row      : one service. It gets the .is-open class when expanded.
+   - .service-trigger  : the clickable header of a row (title, count and icon).
+   - .service-body     : the hidden area that expands to show the details.
+   - .service-chips    : the small pill-shaped tags listed inside an open row.
+
+   How the open/close animation works:
+   The details area is a grid whose single row is 0fr tall when closed and 1fr
+   tall when open. Animating between those two values makes the content slide
+   open smoothly, without JavaScript having to measure the content's height.
+   The .is-open class is added from JavaScript (in the Process component).
+
+   Responsive behaviour:
+   - Below 700px : the heading and the total count stack vertically.
+   - Below 575px : the per-row count is hidden to save space.
+
+   Note: --radius-lg, --muted, --text-2, --ink, --yellow and --pill are CSS
+   variables defined globally elsewhere in the project (the site's theme).
+   ============================================================================= */
+
+
 /* Light grey band so it clearly reads as a new section */
 .services-section {
   background: #f6f6f6;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-lg); /* Rounded corners from the theme */
 }
 
+/* Top row: title on the left, total count on the right */
 .services-head {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  justify-content: space-between; /* Pushes the title and the count to opposite sides */
+  align-items: flex-end;          /* Lines both up along their bottom edge */
   gap: 32px;
-  margin-bottom: clamp(40px, 5vw, 80px);
+  margin-bottom: clamp(40px, 5vw, 80px); /* Space between the heading and the list, fluid with screen width */
 }
 
+/* Main heading: large and fluid in size */
 .services-title {
   font-size: clamp(40px, 5vw, 88px);
   font-weight: 500;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.03em; /* Tighter letter spacing suits large headings */
   line-height: 1.04;
 }
 
+/* Second part of the title: smaller and in a lighter colour.
+   display: block puts it on its own line under the first part */
 .services-title .quiet {
   display: block;
   margin-top: 10px;
@@ -28,34 +64,40 @@
   color: var(--muted);
 }
 
+/* Total count text (for example the number of services) */
 .services-total {
-  flex-shrink: 0;
+  flex-shrink: 0; /* Stops the text being squashed when space is tight */
   font-size: 17px;
   font-weight: 500;
   color: var(--text-2);
 }
 
+/* The accordion list: a line along the top, and each row adds its own line below */
 .services-list {
   border-top: 1px solid #e2e2e2;
 }
 
+/* One accordion row */
 .service-row {
   border-bottom: 1px solid #e2e2e2;
 }
 
+/* The clickable header of a row. It's a <button>, so the default button
+   styling is removed to make it look like plain text in a row */
 .service-trigger {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; /* Title on the left, count and icon on the right */
   gap: 24px;
-  padding: clamp(18px, 1.6vw, 26px) 0;
-  background: none;
-  border: 0;
+  padding: clamp(18px, 1.6vw, 26px) 0; /* Vertical padding only, fluid with screen width */
+  background: none;  /* Removes the default grey button background */
+  border: 0;         /* Removes the default button border */
   text-align: left;
   color: var(--ink);
 }
 
+/* Service name inside the header */
 .service-trigger h3 {
   font-size: clamp(22px, 2.1vw, 34px);
   font-weight: 500;
@@ -63,68 +105,93 @@
   line-height: 1.1;
 }
 
+/* Group on the right of the header: the count and the icon */
 .service-meta {
   display: flex;
   align-items: center;
   gap: 24px;
-  flex-shrink: 0;
+  flex-shrink: 0; /* Stops this group being squashed by a long title */
 }
 
+/* Count text for the row (for example how many items are inside) */
 .service-count {
   font-size: 16px;
   color: var(--muted);
 }
 
+/* The icon on the right of each row (it flips when the row opens) */
 .service-icon {
   font-size: clamp(18px, 1.5vw, 24px);
   line-height: 1;
-  transition: transform 0.3s ease, color 0.2s ease;
+  transition: transform 0.3s ease, color 0.2s ease; /* Smooth flip and colour change */
 }
 
+/* Icon turns yellow when hovering over the header or when the row is open */
 .service-trigger:hover .service-icon,
 .service-row.is-open .service-icon {
   color: var(--yellow);
 }
 
+/* When open, the icon rotates 180 degrees (for example an arrow flips to point up) */
 .service-row.is-open .service-icon {
   transform: rotate(180deg);
 }
 
 /* Smooth open/close without measuring heights */
+/* Closed state: the grid's single row is 0fr tall, so the content takes no space.
+   Animating grid-template-rows from 0fr to 1fr slides the content open. */
 .service-body {
   display: grid;
   grid-template-rows: 0fr;
   transition: grid-template-rows 0.35s ease;
 }
 
+/* Open state: the row grows to its natural height (1fr) */
 .service-row.is-open .service-body {
   grid-template-rows: 1fr;
 }
 
+/* The direct child of the grid. overflow: hidden is required: it lets this
+   element shrink to nothing when the row is 0fr, so the content is clipped
+   instead of spilling out */
 .service-body > div {
   overflow: hidden;
 }
 
+/* List of tags inside an open row */
 .service-chips {
-  list-style: none;
+  list-style: none; /* Removes the bullet points */
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap;  /* Tags move onto a new line when they run out of room */
   gap: 10px;
   padding-bottom: 32px;
 }
 
+/* One pill-shaped tag */
 .service-chip {
   padding: 10px 18px;
-  border-radius: var(--pill);
-  background: #fff;
+  border-radius: var(--pill); /* Very large radius gives the rounded pill shape */
+  background: #fff;           /* White tags stand out against the grey band */
   font-size: 16px;
   font-weight: 500;
 }
 
+/* Small tablets and phones: stack the heading and the total count */
 @media (max-width: 700px) {
   .services-head { flex-direction: column; align-items: flex-start; gap: 16px; }
 }
 
+/* Phones: hide the per-row count to save space */
 @media (max-width: 575px) {
   .service-count { display: none; }
 }
+
+/* =============================================================================
+   REFERENCES
+   -----------------------------------------------------------------------------
+   MDN Web Docs: grid-template-rows (explains the fr unit used to animate the
+   rows from 0fr to 1fr, which creates the smooth open/close effect)
+   https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-rows
+   ============================================================================= */
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

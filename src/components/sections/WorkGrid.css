@@ -1,3 +1,36 @@
+/* =============================================================================
+   WORK GRID STYLES (WorkGrid.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the "Selected work" section on the Nado Graphics home page: a grid of
+   project cards, each showing a photo or video with a title underneath, and a
+   button to the full portfolio.
+
+   What is styled here:
+   - .work-section : the section, with its top and bottom spacing.
+   - .work-grid    : the grid of cards.
+   - .work-card    : one card (a link to that project in the portfolio).
+   - .work-media   : the image or video area at the top of a card.
+   - .tone-*       : fallback background styles used when a card has no image.
+   - .work-arrow   : the round arrow button in the corner of a card.
+   - .work-meta    : the text under the media (tag, category and note).
+   - .work-video   : an embedded YouTube video that fills the media area.
+   - .work-all     : the "See all our work" button area under the grid.
+   - .work-top     : the small label above the section heading.
+
+   Responsive behaviour:
+   - Desktop         : three cards per row.
+   - 1024px or less  : two cards per row.
+   - 760px or less   : one card per row.
+
+   Note: --radius-lg, --orange, --orange-dark, --ink, --yellow, --muted and
+   --text-2 are CSS variables defined globally elsewhere in the project.
+   ============================================================================= */
+
+
+/* Section wrapper: adds space above the section.
+   clamp() keeps the spacing fluid, between 40px and 80px depending on screen width.
+   The bottom spacing is set further down in this file. */
 .work-section {
   padding-top: clamp(40px, 5vw, 80px);
 }
@@ -5,51 +38,65 @@
 /* Three cards per row on desktop */
 .work-grid {
   display: grid;
+  /* Three equal columns. minmax(0, 1fr) stops long content from stretching a column */
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* First value is the gap between rows, second is the gap between columns */
   gap: clamp(32px, 4vw, 56px) clamp(20px, 2vw, 36px);
 }
  
+/* One card. It is a link, so the text colour is inherited from the page
+   instead of using the default blue link colour */
 .work-card {
   display: block;
   color: inherit;
 }
  
+/* The image or video area of a card */
 .work-media {
-  position: relative;
+  position: relative; /* Anchor for the arrow and video, which are positioned inside it */
   display: grid;
-  place-items: center;
-  aspect-ratio: 4 / 3;
+  place-items: center; /* Centres anything placed inside, such as the client name */
+  aspect-ratio: 4 / 3; /* Every card's media area keeps the same 4:3 shape, whatever the screen width */
   border-radius: var(--radius-lg);
-  overflow: hidden;
-  background-size: cover;
+  overflow: hidden; /* Clips the image and video to the rounded corners */
+  background-size: cover;    /* Image fills the area, cropping if needed */
   background-position: center;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); /* Smooth zoom on hover; the curve starts fast and settles gently */
 }
  
+/* On hover, the media shrinks very slightly. The a.work-card selector means this only
+   applies when the card is a real link (an <a>), not a plain <div> */
 a.work-card:hover .work-media {
   transform: scale(0.985);
 }
  
+/* Client name shown on a card that has no image or video */
 .work-client {
   font-size: clamp(28px, 4vw, 64px);
   font-weight: 300;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.18em;    /* Wide letter spacing for a logo-like look */
   text-transform: uppercase;
   text-align: center;
   padding: 0 24px;
 }
  
 /* Tones used until real project images are added */
+/* Each tone class gives the media area a coloured background. They are fallbacks
+   shown when a card has no image. Each one layers a gradient on top of a plain
+   background colour, so there is still a solid colour if the gradient fails. */
+
+/* Black with a soft grey glow in the top left */
 .tone-ink {
   background-color: #000;
   background-image: radial-gradient(
-    120% 90% at 20% 0%,
+    120% 90% at 20% 0%, /* Size of the glow, then its position (20% across, at the top) */
     #2a2a2a 0%,
     #000 60%
   );
   color: #fff;
 }
  
+/* Dark grey diagonal gradient, from lighter at the top left to darker at the bottom right */
 .tone-stone {
   background-color: #1f1f1f;
   background-image: linear-gradient(
@@ -60,6 +107,7 @@ a.work-card:hover .work-media {
   color: #fff;
 }
  
+/* Orange with a lighter glow in the top right */
 .tone-orange {
   background-color: var(--orange);
   background-image: radial-gradient(
@@ -71,6 +119,8 @@ a.work-card:hover .work-media {
   color: #fff;
 }
  
+/* Light grey with a faint grid of lines. Two linear gradients, one with vertical
+   lines and one with horizontal lines, are layered on top of each other. */
 .tone-soft {
   background-color: #e9e9e9;
   background-image:
@@ -84,49 +134,55 @@ a.work-card:hover .work-media {
       rgba(0, 0, 0, 0.06) 1px,
       transparent 1px
     );
-  background-size: 18% 25%;
+  background-size: 18% 25%; /* Size of each grid square */
   color: var(--ink);
 }
  
 /* Slightly smaller arrow, since the cards are narrower now */
+/* Round white arrow button in the bottom left corner of the media area */
 .work-arrow {
   position: absolute;
   left: 16px;
   bottom: 16px;
   display: grid;
-  place-items: center;
+  place-items: center; /* Centres the arrow inside the circle */
   width: 48px;
   height: 48px;
-  border-radius: 50%;
+  border-radius: 50%;  /* Turns the square into a circle */
   background: #fff;
   color: var(--ink);
   font-size: 18px;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
  
+/* On hover over the card, the arrow turns yellow */
 a.work-card:hover .work-arrow {
   background: var(--yellow);
   color: var(--ink);
 }
  
+/* Text area under the media */
 .work-meta {
   padding-top: 22px;
 }
  
+/* Small grey line above the category (the project title) */
 .work-tag {
   font-size: 16px;
   color: var(--muted);
   margin-bottom: 8px;
 }
  
+/* Category heading: fluid in size */
 .work-card h3 {
   font-size: clamp(20px, 1.7vw, 28px);
   font-weight: 500;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.015em; /* Slightly tighter letter spacing suits headings */
   line-height: 1.25;
-  max-width: 24em;
+  max-width: 24em;          /* Keeps long headings from running too wide */
 }
  
+/* Optional smaller line under the category */
 .work-note {
   margin-top: 8px;
   font-size: 15px;
@@ -150,7 +206,7 @@ a.work-card:hover .work-arrow {
 /* "See all our work" button under the cards */
 .work-all {
   display: flex;
-  justify-content: center;
+  justify-content: center; /* Centres the button horizontally */
   margin-top: clamp(48px, 6vw, 88px);
 }
  
@@ -160,6 +216,8 @@ a.work-card:hover .work-arrow {
 }
  
 /* Less space at the bottom: the scroll line below leads into the next section */
+/* This is a second .work-section rule. It doesn't replace the first, because
+   the browser combines them: padding-top comes from above, padding-bottom from here. */
 .work-section {
   padding-bottom: clamp(40px, 4vw, 64px);
 }
@@ -167,9 +225,18 @@ a.work-card:hover .work-arrow {
 /* YouTube video filling a card */
 .work-video {
   position: absolute;
-  inset: 0;
+  inset: 0;          /* Shorthand for top, right, bottom and left all being 0, so it covers the whole media area */
   width: 100%;
   height: 100%;
-  display: block;
-  border: 0;
+  display: block;    /* Removes the small gap browsers add under inline elements */
+  border: 0;         /* Removes the default iframe border */
 }
+
+/* =============================================================================
+   REFERENCES
+   -----------------------------------------------------------------------------
+   MDN Web Docs: aspect-ratio (keeps every card's media area the same 4:3 shape)
+   https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio
+   ============================================================================= */
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

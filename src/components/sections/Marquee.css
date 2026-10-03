@@ -1,30 +1,67 @@
+/* =============================================================================
+   MARQUEE STYLES (Marquee.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the marquee on the Nado Graphics website: a single row of text items
+   that scrolls continuously from right to left, like a news ticker.
+
+   What is styled here:
+   - .marquee       : the visible strip. It hides anything outside its edges.
+   - .marquee-track : the long row that holds all the items and is animated.
+   - .marquee-item  : one piece of text in the row.
+   - .marquee-sep   : the separator between items (for example a dot or slash).
+   - @keyframes     : the animation that slides the track to the left.
+
+   How the endless loop works:
+   The track slides left by exactly 50% of its own width and then restarts.
+   This only looks seamless if the same set of items is placed in the track
+   twice (the content duplicated). When the first copy has scrolled out of view,
+   the second copy is in exactly the same position the first one started in,
+   so the jump back to the start can't be seen. The duplication is done in the
+   Marquee component, not in this file.
+
+   Note: --ink and --yellow are CSS variables defined globally elsewhere in
+   the project (the site's theme colours).
+   ============================================================================= */
+
+
+/* The visible strip: a window that the track scrolls through */
 .marquee {
-  padding: 18px 0;
-  overflow: hidden;
-  white-space: nowrap;
+  padding: 18px 0;        /* Space above and below the text */
+  overflow: hidden;       /* Hides the part of the track that is outside the strip */
+  white-space: nowrap;    /* Keeps all items on one line instead of wrapping */
 }
 
+/* The long row that moves.
+   inline-flex makes it only as wide as its content, so 50% in the animation
+   below refers to half of the full row of items */
 .marquee-track {
   display: inline-flex;
-  animation: marquee-scroll 140s linear infinite;
+  animation: marquee-scroll 140s linear infinite; /* 140s per loop (very slow), constant speed, repeats forever */
 }
 
+/* One item of text in the row */
 .marquee-item {
   display: inline-flex;
-  align-items: center;
-  font-size: clamp(15px, 1.2vw, 19px);
+  align-items: center;    /* Vertically centres the text with any separator or icon beside it */
+  font-size: clamp(15px, 1.2vw, 19px); /* Fluid font size, between 15px and 19px */
   font-weight: 500;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.02em; /* Slight extra spacing makes the small text easier to read */
   color: var(--ink);
 }
 
+/* The separator between items, shown in the brand yellow */
 .marquee-sep {
-  margin: 0 20px;
+  margin: 0 20px;         /* Space on the left and right of the separator */
   color: var(--yellow);
-  font-weight: 300;
+  font-weight: 300;       /* Lighter weight so the separator doesn't compete with the text */
 }
 
+/* The scrolling animation: moves the track left by half its width.
+   -50% matches the duplicated content, so the loop restarts without a visible jump */
 @keyframes marquee-scroll {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

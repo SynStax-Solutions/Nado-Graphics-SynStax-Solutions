@@ -1,9 +1,36 @@
-/* Area the kite flies through */
+/* =============================================================================
+   SCROLL LINE STYLES (ScrollLine.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the decorative kite and string animation used on the Nado Graphics
+   website.
+
+   What is styled here:
+   - .kite-line        : the area through which the kite travels.
+   - .kite-line-svg    : the SVG containing the kite's string/path.
+   - .kite-line-string : the visible string.
+   - .kite-line-kite   : the kite positioned at the end of the string.
+   - .kite-line-sway   : controls the kite's gentle swaying movement.
+   - @keyframes        : defines the kite's swaying animation.
+   - @media            : disables the swaying animation for users who prefer
+                         reduced motion.
+
+   Note: the kite position is controlled by the component's JavaScript.
+   The CSS here controls its size, positioning, visibility and animation.
+   --ink is a CSS variable defined globally as part of the site's theme.
+   ============================================================================= */
+
+
+/* Main kite area: creates a responsive space for the kite and its
+   animated string */
 .kite-line {
   position: relative;
   height: clamp(200px, 20vw, 340px);
 }
 
+
+/* SVG containing the kite's string: fills the entire kite area and
+   allows the path to extend outside the normal SVG boundaries */
 .kite-line-svg {
   position: absolute;
   inset: 0;
@@ -12,7 +39,9 @@
   overflow: visible;
 }
 
-/* the string */
+
+/* Kite string: removes the fill and creates a thin, rounded line using
+   the site's main dark colour */
 .kite-line-string {
   fill: none;
   stroke: var(--ink);
@@ -20,7 +49,9 @@
   stroke-linecap: round;
 }
 
-/* the kite sits on the tip of the string */
+
+/* Kite container: starts hidden at the top-left of the kite area.
+   JavaScript updates its transform to move it along the string */
 .kite-line-kite {
   position: absolute;
   left: 0;
@@ -32,6 +63,9 @@
   will-change: transform;
 }
 
+
+/* Kite sway wrapper: positions the kite graphic around the end of the
+   string and applies a continuous side-to-side movement */
 .kite-line-sway {
   position: absolute;
   left: -48px;
@@ -41,11 +75,27 @@
   transform-origin: 48px 35px;
 }
 
+
+/* Kite sway animation: gently rotates and moves the kite up and down
+   to create a natural floating effect */
 @keyframes kite-sway {
-  0%, 100% { transform: rotate(-7deg) translateY(-1px); }
-  50% { transform: rotate(7deg) translateY(1px); }
+  0%, 100% {
+    transform: rotate(-7deg) translateY(-1px);
+  }
+
+  50% {
+    transform: rotate(7deg) translateY(1px);
+  }
 }
 
+
+/* Accessibility: disables the continuous kite movement for visitors
+   who have enabled reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .kite-line-sway { animation: none; }
+  .kite-line-sway {
+    animation: none;
+  }
 }
+
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

@@ -1,38 +1,71 @@
 /* src/components/sections/Approach.css */
 
+/* =============================================================================
+   APPROACH SECTION STYLES (Approach.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the "Approach" section of the Nado Graphics website, which explains
+   how the agency works. It includes an intro paragraph and a dark highlighted
+   panel about handling large-scale work.
+
+   Layout overview:
+   - .nd-approach-lead  : the intro text at the top of the section.
+   - .nd-approach-scale : a dark, rounded panel below it, containing a small
+                          yellow badge, a large heading and a grey paragraph.
+
+   Responsive behaviour:
+   - There are no media queries. Spacing, padding and font sizes use clamp(),
+     so they scale smoothly with the screen width.
+
+   Note: --radius-lg, --ink and --yellow are CSS variables defined globally
+   elsewhere in the project (the site's theme).
+   ============================================================================= */
+
+
+/* Intro text: adds space above it.
+   clamp() keeps the spacing fluid, between 24px and 40px depending on screen width */
 .nd-approach-lead {
   margin-top: clamp(24px, 3vw, 40px);
 }
 
 /* ---------- large-scale panel ---------- */
 
+/* Dark highlighted panel with white text and rounded corners */
 .nd-approach-scale {
-  margin-top: clamp(56px, 7vw, 104px);
-  padding: clamp(32px, 5vw, 80px);
-  border-radius: var(--radius-lg);
-  background: var(--ink);
-  color: #fff;
+  margin-top: clamp(56px, 7vw, 104px);   /* Space between the intro and the panel */
+  padding: clamp(32px, 5vw, 80px);       /* Inner spacing grows on larger screens */
+  border-radius: var(--radius-lg);       /* Large corner radius from the theme */
+  background: var(--ink);                /* Dark background */
+  color: #fff;                           /* White text so it stays readable on the dark background */
 }
 
+/* Small yellow badge text at the top of the panel */
 .nd-scale-badge {
   font-size: 17px;
   font-weight: 500;
   color: var(--yellow);
-  margin-bottom: clamp(28px, 4vw, 56px);
+  margin-bottom: clamp(28px, 4vw, 56px); /* Space between the badge and the heading */
 }
 
+/* Panel heading (<h3>): large and fluid in size.
+   The selector is scoped to the panel so other <h3> elements aren't affected */
 .nd-approach-scale h3 {
   font-size: clamp(30px, 3.4vw, 56px);
   font-weight: 500;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.025em; /* Tighter letter spacing suits large headings */
   line-height: 1.1;
-  max-width: 16em;
+  max-width: 16em;          /* Forces the heading to wrap onto several lines for a bold look */
   margin-bottom: 24px;
 }
 
+/* Grey paragraph at the bottom of the panel.
+   :last-child targets the <p> that is the final element inside the panel,
+   so the badge paragraph (which comes first) isn't styled by this rule */
 .nd-approach-scale p:last-child {
   font-size: 18px;
-  line-height: 1.6;
-  color: #a8a8a8;
-  max-width: 40em;
+  line-height: 1.6;   /* Extra line spacing makes paragraphs easier to read */
+  color: #a8a8a8;     /* Soft grey keeps this text secondary to the white heading */
+  max-width: 40em;    /* Keeps lines a comfortable reading length */
 }
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

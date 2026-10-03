@@ -1,3 +1,24 @@
+/* =============================================================================
+   STICK PUSHER (StickerPusher.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the decorative stick pusher and its lightbulb graphic.
+
+   What is styled here:
+   - The main stick pusher container.
+   - The lightbulb glow.
+   - The lightbulb glass and outline.
+   - The lightbulb base.
+   - The lightbulb rays.
+
+   Note:
+   The lightbulb is drawn using SVG elements and scaled in JavaScript.
+   The pusher is decorative and does not receive pointer interactions.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   Main stick pusher container
+   ----------------------------------------------------------------------------- */
 .stick-pusher {
   position: absolute;
   inset: 0;
@@ -7,24 +28,44 @@
   z-index: 2;
   overflow: visible;
 }
- 
-/* Lightbulb (drawn in a 100-unit space, scaled in JS) */
+
+/* -----------------------------------------------------------------------------
+   Lightbulb glow
+   -----------------------------------------------------------------------------
+   The glow uses the site's yellow colour, with a fallback value if the
+   --yellow CSS variable is not available.
+   ----------------------------------------------------------------------------- */
 .stick-bulb-glow {
   fill: var(--yellow, #ffd84a);
 }
- 
+
+/* -----------------------------------------------------------------------------
+   Lightbulb glass
+   -----------------------------------------------------------------------------
+   Gives the main bulb shape its yellow fill and black outline.
+   ----------------------------------------------------------------------------- */
 .stick-bulb-glass {
   fill: var(--yellow, #ffd84a);
   stroke: #000;
   stroke-width: 2.5;
 }
- 
+
+/* -----------------------------------------------------------------------------
+   Lightbulb base
+   ----------------------------------------------------------------------------- */
 .stick-bulb-base {
   fill: #000;
 }
- 
+
+/* -----------------------------------------------------------------------------
+   Lightbulb rays
+   -----------------------------------------------------------------------------
+   Styles the lines that surround the bulb to represent light.
+   ----------------------------------------------------------------------------- */
 .stick-bulb-rays line {
   stroke: #000;
   stroke-width: 2.5;
   stroke-linecap: round;
 }
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

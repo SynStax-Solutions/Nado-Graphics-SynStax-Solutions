@@ -1,3 +1,27 @@
+/* =============================================================================
+   ABOUT SECTION STYLES (About.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the "About" section of the Nado Graphics website: a short introduction
+   with a heading and teaser text, next to the company logo.
+
+   Layout overview:
+   - Desktop : two columns. Text (label, title, teaser) on the left, the logo
+               on the right. The left column is slightly wider.
+   - Mobile  : below 860px the columns stack into one, and the logo moves
+               above the text.
+
+   Note: the logo is described as "turning", but no rotation is written in this
+   file. The will-change property on the logo suggests the movement is animated
+   elsewhere (most likely in the component's JavaScript).
+
+   --muted and --text-2 are CSS variables defined globally elsewhere in the
+   project (the site's theme colours).
+   ============================================================================= */
+
+
+/* Section wrapper: adds space above the section.
+   clamp() keeps the padding fluid, between 40px and 64px depending on screen width */
 .about-section {
   padding-top: clamp(40px, 4vw, 64px);
 }
@@ -5,59 +29,80 @@
 /* Text on the left, turning logo on the right */
 .about-layout {
   display: grid;
+  /* Left column (1.4fr) is wider than the right (1fr).
+     minmax(0, ...) stops long content from stretching the columns */
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-  gap: clamp(40px, 6vw, 120px);
-  align-items: center;
+  gap: clamp(40px, 6vw, 120px); /* Space between the columns grows with screen width */
+  align-items: center;          /* Vertically centres the text and the logo against each other */
 }
 
+/* Small label above the title (the section name) */
 .about-label {
   font-size: 17px;
   font-weight: 500;
   margin-bottom: clamp(20px, 2.4vw, 32px);
 }
 
+/* Main heading: large and fluid in size */
 .about-title {
   font-size: clamp(36px, 4.4vw, 76px);
   font-weight: 500;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.03em; /* Tighter letter spacing suits large headings */
   line-height: 1.08;
 }
 
+/* Second part of the title in a lighter colour.
+   display: block forces it onto its own line below the first part */
 .about-title .quiet {
   display: block;
   color: var(--muted);
 }
 
+/* Short paragraph under the title */
 .about-teaser {
-  max-width: 32em;
+  max-width: 32em; /* Keeps lines a comfortable reading length */
+  /* Margins: top, left/right, bottom. Left/right is 0 so the text stays aligned left */
   margin: clamp(24px, 3vw, 36px) 0 clamp(28px, 3vw, 40px);
   font-size: clamp(18px, 1.4vw, 21px);
-  line-height: 1.6;
+  line-height: 1.6; /* Extra line spacing makes paragraphs easier to read */
   color: var(--text-2);
 }
 
 /* The logo */
+
+/* Container for the logo: centres it horizontally inside the right column */
 .about-mark {
   display: flex;
   justify-content: center;
 }
 
+/* Logo image */
 .about-mark img {
   /* Logo.svg is wider than the circle, so this height sets the circle size */
   height: clamp(200px, 20vw, 340px);
-  width: auto;
-  will-change: transform;
+  width: auto;           /* Width follows the height so the logo isn't stretched */
+  will-change: transform; /* Tells the browser this element will be transformed (rotated), so it can prepare for smoother animation */
 }
 
+/* Tablet and below: stack the layout into one column */
 @media (max-width: 860px) {
   .about-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* Single column */
   }
   .about-mark {
-    order: -1;
-    justify-content: flex-start;
+    order: -1; /* Moves the logo above the text. Items default to order 0, so -1 comes first */
+    justify-content: flex-start; /* Aligns the logo to the left instead of centring it */
   }
   .about-mark img {
-    height: 160px;
+    height: 160px; /* Smaller logo on small screens */
   }
 }
+
+/* =============================================================================
+   REFERENCES
+   -----------------------------------------------------------------------------
+   MDN Web Docs: will-change (hints to the browser that the logo will animate)
+   https://developer.mozilla.org/en-US/docs/Web/CSS/will-change
+   ============================================================================= */
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

@@ -1,13 +1,43 @@
+/* =============================================================================
+   GLOBAL STYLES (Global.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Defines the website-wide styles and default behaviour used across the
+   application.
+
+   What is styled here:
+   - Global margin, padding, and box-sizing rules
+   - Page scrolling and body styling
+   - Text selection colours
+   - Headings and display text
+   - Links, images, and buttons
+   - Keyboard focus states
+   - Shared layout wrappers
+   - Section spacing
+   - Two-tone headlines
+   - Small section labels
+   - Statement layouts
+   - Scroll reveal animations
+   - Reduced-motion accessibility settings
+
+   Note:
+   These styles apply globally across the website. Component-specific styles
+   should remain in their own CSS files where possible.
+   ============================================================================= */
+
+/* ---------- Reset default browser spacing and sizing ---------- */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* ---------- Page scrolling ---------- */
 html {
   scroll-behavior: auto;
 }
 
+/* ---------- Global body styling ---------- */
 body {
   background: var(--paper);
   color: var(--ink);
@@ -16,11 +46,13 @@ body {
   overflow-x: hidden;
 }
 
+/* ---------- Text selection styling ---------- */
 ::selection {
   background: var(--orange);
   color: #fff;
 }
 
+/* ---------- Global heading and display text styling ---------- */
 h1,
 h2,
 h3,
@@ -31,26 +63,35 @@ h3,
   letter-spacing: -0.025em;
 }
 
+/* ---------- Link styling ---------- */
 a {
   color: inherit;
   text-decoration: none;
 }
 
+/* ---------- Image behaviour ---------- */
 img {
   max-width: 100%;
   display: block;
 }
 
+/* ---------- Button behaviour ---------- */
 button {
   font-family: inherit;
   cursor: pointer;
 }
 
+/* ---------- Keyboard focus styling ---------- */
 :focus-visible {
   outline: 2px solid var(--orange);
   outline-offset: 3px;
 }
 
+/* =============================================================================
+   SHARED LAYOUT
+   ============================================================================= */
+
+/* ---------- Main content wrapper ---------- */
 .wrap {
   width: 100%;
   max-width: var(--wrap-max);
@@ -58,13 +99,19 @@ button {
   padding: 0 var(--wrap-pad);
 }
 
+/* ---------- Scroll snap alignment ---------- */
 .snap {
   scroll-snap-align: none;
 }
 
+/* ---------- Shared section spacing ---------- */
 .section {
   padding: clamp(80px, 10vw, 160px) 0;
 }
+
+/* =============================================================================
+   TWO-TONE HEADLINE
+   ============================================================================= */
 
 /* Two-tone headline: black first line, grey continuation */
 .two-tone {
@@ -73,36 +120,60 @@ button {
   letter-spacing: -0.03em;
   line-height: 1.08;
 }
+
+/* ---------- Grey continuation of a two-tone headline ---------- */
 .two-tone .quiet {
   display: block;
   color: var(--muted);
 }
 
-/* Small label that sits above a section, e.g. "Services" */
+/* =============================================================================
+   SECTION LABEL
+   ============================================================================= */
+
+/* Small label that sits above a section, for example "Services" */
 .label {
   font-size: 17px;
   font-weight: 500;
   color: var(--ink);
 }
 
-/* Label | statement | button row (used by About, CTA and the About page) */
+/* =============================================================================
+   STATEMENT LAYOUT
+   ============================================================================= */
+
+/* Label | statement | button row
+   Used by About, CTA and the About page */
 .statement {
   display: grid;
   grid-template-columns: minmax(140px, 1fr) minmax(0, 3.2fr) auto;
   gap: clamp(24px, 4vw, 64px);
   align-items: start;
 }
+
+/* ---------- Statement heading ---------- */
 .statement h2 {
   font-size: clamp(28px, 3vw, 48px);
   font-weight: 500;
   letter-spacing: -0.02em;
   line-height: 1.2;
 }
-.statement h2 .quiet { color: var(--muted); }
 
-@media (max-width: 900px) {
-  .statement { grid-template-columns: 1fr; }
+/* ---------- Grey continuation within the statement heading ---------- */
+.statement h2 .quiet {
+  color: var(--muted);
 }
+
+/* ---------- Stack the statement layout on smaller screens ---------- */
+@media (max-width: 900px) {
+  .statement {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =============================================================================
+   SCROLL REVEAL
+   ============================================================================= */
 
 /* Scroll reveal used by <Reveal>, site-wide */
 .reveal {
@@ -112,15 +183,31 @@ button {
     opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+/* ---------- Visible state applied when the element enters the viewport ---------- */
 .reveal.is-visible {
   opacity: 1;
   transform: none;
 }
 
+/* =============================================================================
+   REDUCED MOTION
+   ============================================================================= */
+
+/* Disable animations and transitions for users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation: none !important;
     transition: none !important;
   }
-  .reveal { opacity: 1; transform: none; }
+
+  /* Show reveal elements immediately when reduced motion is enabled */
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }
+
+/* ---------------------------------- END OF FILE ---------------------------------- */
