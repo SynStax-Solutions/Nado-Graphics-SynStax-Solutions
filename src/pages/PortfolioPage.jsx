@@ -236,10 +236,10 @@ export default function PortfolioPage() {
 
           {/* ---------- sub-category tabs ---------- */}
 
-          /*
+          {/*
             Sub-tabs are only displayed when the selected
             main category contains additional categories.
-          */
+          */}
 
           {subs.length > 0 && (
 
@@ -301,10 +301,10 @@ export default function PortfolioPage() {
 
                       <>
 
-                        /*
+                        {/*
                           YouTube thumbnail is displayed in the portfolio grid.
                           The actual video is played inside the larger Lightbox view.
-                        */
+                        */}
 
                         <img
                           src={project.thumb}
@@ -393,13 +393,13 @@ export default function PortfolioPage() {
 
       {/* ---------- project lightbox ---------- */}
 
-      /*
+      {/*
         The Lightbox receives the currently filtered projects.
 
         openIndex determines which project is open.
         onChange allows the Lightbox to move between projects.
         onClose closes the Lightbox.
-      */
+      */}
 
       <Lightbox
         items={shown}

@@ -478,10 +478,10 @@ export default function ContactPage() {
 
             <div className="contact-form-wrap">
 
-              /*
+              {/*
                 Once the enquiry has been successfully submitted,
                 the form is replaced with the thank-you message.
-              */
+              */}
 
               {status === 'sent' ? (
 
@@ -622,12 +622,12 @@ export default function ContactPage() {
 
                   {/* ---------- hidden spam trap ---------- */}
 
-                  /*
+                  {/*
                     This field is hidden from normal visitors.
 
                     Spam bots may automatically fill it in, allowing
                     the form to identify likely spam submissions.
-                  */
+                  */}
 
                   <div
                     className="contact-trap"
@@ -653,10 +653,10 @@ export default function ContactPage() {
 
                   {/* ---------- POPIA consent ---------- */}
 
-                  /*
+                  {/*
                     The user must agree to the storage of their details
                     before the enquiry can be submitted.
-                  */
+                  */}
 
                   <div
                     className={`consent ${errors.consent ? 'has-error' : ''}`}
