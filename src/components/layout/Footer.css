@@ -128,4 +128,5 @@
 .footer-privacy {
   color: #8a8a8a;
   text-decoration: underline;
-  text-underline-offset: 4px; /* Gap between the text and its
+  text-underline-offset: 4px; /* Gap between the text and its underline */
+}

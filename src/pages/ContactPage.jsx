@@ -11,15 +11,15 @@
    - Validates required form fields
    - Provides service options
    - Includes a hidden spam-trap field
-   - Records POPIA consent and the consent timestamp
-   - Sends enquiries to the backend when an API URL is configured
-   - Simulates a successful submission while the backend is not available
+   - Records POPIA consent (the backend stores the consent timestamp)
+   - Sends enquiries to the BMS backend (POST /api/Enquiries)
+   - Simulates a successful submission on a laptop if no API URL is set
    - Displays success and error messages
    - Provides direct email, phone, WhatsApp, and location links
 
    Note:
-   The enquiry API is currently disabled because ENQUIRY_API_URL is null.
-   Once the BMS enquiry endpoint is available, its URL can be added there.
+   The API address comes from VITE_API_URL in .env.development (laptop)
+   and .env.production (live site), so no addresses are hardcoded here.
    ============================================================================= */
 
 import { useState } from 'react'
@@ -134,17 +134,36 @@ const SERVICES = [
 /* ---------- enquiry API ---------- */
 
 /*
-  TODO (backend):
-  When the BMS has an enquiries endpoint, put its address here.
+  The BMS backend address comes from the environment files:
+  - .env.development  -> VITE_API_URL=http://localhost:5295
+  - .env.production   -> VITE_API_URL=https://nadographicsapi.runasp.net
 
-  Example:
-  const ENQUIRY_API_URL = 'https://your-bms-api.com/api/enquiries'
-
-  Until the backend is available, the form only simulates a successful
-  submission so the page can be designed and tested.
+  The enquiry endpoint is POST /api/Enquiries (EnquiriesController).
 */
 
-const ENQUIRY_API_URL = null
+const API_BASE = import.meta.env.VITE_API_URL
+
+const ENQUIRY_API_URL = API_BASE ? `${API_BASE}/api/Enquiries` : null
+
+
+/* ---------- field limits ---------- */
+
+/*
+  These match the backend's EnquiryRequest rules, so visitors can't type
+  more than the backend accepts (which would otherwise reject the enquiry).
+*/
+
+const LIMITS = {
+
+  name: 100,
+
+  email: 100,
+
+  phone: 20,
+
+  message: 2000,
+
+}
 
 
 /* ---------- empty form values ---------- */
@@ -349,8 +368,8 @@ export default function ContactPage() {
       /*
         Prepare the enquiry data that will be sent to the backend.
 
-        The user's consent and the exact time it was given are
-        recorded for POPIA purposes.
+        The field names match the backend's EnquiryRequest model.
+        The backend records the consent time itself (ConsentGivenAt).
       */
 
       const enquiry = {
@@ -359,17 +378,19 @@ export default function ContactPage() {
 
         email: values.email.trim(),
 
-        phone: values.phone.trim(),
+        phone: values.phone.trim() || null,
 
-        service: values.service,
+        service: values.service || null,
 
         message: values.message.trim(),
 
-        // POPIA: record that the person agreed, and when
+        // POPIA: consent is required; the backend records when it was given
 
-        consent: true,
+        consentGiven: true,
 
-        consentAt: new Date().toISOString(),
+        // Spam trap: always empty for real visitors, also checked by the backend
+
+        website: values.website,
 
       }
 
@@ -404,13 +425,23 @@ export default function ContactPage() {
       } else {
 
         /*
-          No backend is connected yet.
-
-          The enquiry is logged to the browser console and a short
-          delay is used to simulate a real submission.
+          On the live site, never pretend the enquiry was sent.
+          Show the error message instead, which tells the visitor to email us.
         */
 
-        console.info('Enquiry (not sent, no backend yet):', enquiry)
+        if (import.meta.env.PROD) {
+
+          throw new Error('Enquiry API URL is not configured')
+
+        }
+
+
+        /*
+          On a laptop with no backend configured, the enquiry is logged
+          to the browser console and a short delay simulates a submission.
+        */
+
+        console.info('Enquiry (not sent, no backend configured):', enquiry)
 
         await new Promise((r) => setTimeout(r, 700))
 
@@ -529,6 +560,7 @@ export default function ContactPage() {
                       <input
                         type="text"
                         autoComplete="name"
+                        maxLength={LIMITS.name}
                         value={values.name}
                         onChange={update('name')}
                       />
@@ -544,6 +576,7 @@ export default function ContactPage() {
                       <input
                         type="email"
                         autoComplete="email"
+                        maxLength={LIMITS.email}
                         value={values.email}
                         onChange={update('email')}
                       />
@@ -565,6 +598,7 @@ export default function ContactPage() {
                       <input
                         type="tel"
                         autoComplete="tel"
+                        maxLength={LIMITS.phone}
                         value={values.phone}
                         onChange={update('phone')}
                       />
@@ -613,6 +647,7 @@ export default function ContactPage() {
 
                     <textarea
                       rows={5}
+                      maxLength={LIMITS.message}
                       value={values.message}
                       onChange={update('message')}
                     />
