@@ -2,7 +2,17 @@
 
 **Part of the Nado System Suite by SynStax Solutions**
 
-Live site: https://nadographics.com
+- Team Member's Meeting Attendance : 100% - All present for every meeting
+- Repository to the second repo containing the Nado Graphics Management System: https://github.com/SynStax-Solutions/SynStax-Solutions-Nado-System-Suite.git
+
+- Live site: https://nadographics.com
+
+
+Youtube URLs:
+// Unverified account: maximum 15 minutes per video
+1. Portfolio Website YouTube Demo: https://youtu.be/3p0sxSJpWpI
+2. Management System YouTube Demo: https://youtu.be/SgdxLigqML0
+
 
 The public-facing website for **Nado Graphics**, a Cape Town design and print agency established in 2000. The site showcases the agency's work, services and clients, and gives potential customers a quick, familiar way to get in touch.
 
