@@ -9,10 +9,11 @@
 
 
 Youtube URLs:
-// Unverified account: maximum 15 minutes per video
+// An unverified YouTube account: has maximum 15 minutes per video therefore we had to split the video up.
 1. Portfolio Website YouTube Demo: https://youtu.be/3p0sxSJpWpI
 2. Management System YouTube Demo: https://youtu.be/SgdxLigqML0
-
+3. PowerPoint code presentation Part 1: https://youtu.be/aQgATDpqNwM
+   PowerPoint code presentation Part 2: https://youtu.be/0Vt9G6KCFe0
 
 The public-facing website for **Nado Graphics**, a Cape Town design and print agency established in 2000. The site showcases the agency's work, services and clients, and gives potential customers a quick, familiar way to get in touch.
 
