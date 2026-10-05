@@ -1,0 +1,103 @@
+/* =============================================================================
+   PRIVACY PAGE (PrivacyPage.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   - Styles the privacy policy page and its content.
+
+   What is styled here:
+   - Overall privacy page spacing
+   - Reading width of the privacy policy
+   - Section spacing and separators
+   - Section headings
+   - Paragraphs and list items
+   - Links within the privacy policy
+   - Contact information list
+
+   Note:
+   - Uses the site's existing design tokens for colours and spacing.
+   ============================================================================= */
+
+.privacy-page {
+  /* Adds extra space below the privacy policy content. */
+  padding-bottom: clamp(80px, 10vw, 160px);
+}
+
+/* ---------------------------------------------------------------------------
+   Privacy Policy Content
+   --------------------------------------------------------------------------- */
+
+/* Keeps the policy text at a comfortable width for reading. */
+.privacy-body {
+  max-width: 46rem;
+  border-top: 1px solid var(--line);
+}
+
+/* Gives each privacy policy section breathing room and a divider line. */
+.privacy-body section {
+  padding: clamp(28px, 3vw, 40px) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+/* ---------------------------------------------------------------------------
+   Section Headings
+   --------------------------------------------------------------------------- */
+
+.privacy-body h2 {
+  font-size: clamp(22px, 1.8vw, 28px);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  margin-bottom: 16px;
+}
+
+/* ---------------------------------------------------------------------------
+   Paragraphs and Lists
+   --------------------------------------------------------------------------- */
+
+/* Sets the main reading style for paragraphs and list items. */
+.privacy-body p,
+.privacy-body li {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text-2);
+}
+
+/* Adds spacing between consecutive paragraphs and between a list and paragraph. */
+.privacy-body p + p,
+.privacy-body ul + p {
+  margin-top: 14px;
+}
+
+/* Indents unordered lists while keeping the spacing controlled. */
+.privacy-body ul {
+  margin: 12px 0 0 1.2em;
+}
+
+/* Adds a small amount of space between individual list items. */
+.privacy-body li + li {
+  margin-top: 4px;
+}
+
+/* ---------------------------------------------------------------------------
+   Links
+   --------------------------------------------------------------------------- */
+
+/* Gives privacy policy links a simple underlined treatment. */
+.privacy-body a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--yellow);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+/* ---------------------------------------------------------------------------
+   Contact Information
+   --------------------------------------------------------------------------- */
+
+/* Removes the default list styling and indentation for contact details. */
+.privacy-contact {
+  list-style: none;
+  margin-left: 0 !important;
+}
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

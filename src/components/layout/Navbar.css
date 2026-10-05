@@ -1,12 +1,40 @@
+/* =============================================================================
+   NAVBAR STYLES (Navbar.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the site-wide navigation bar for the Nado Graphics website. The bar
+   sticks to the top of the screen while scrolling and adapts to different
+   screen sizes.
+
+   Layout overview:
+   - Desktop : three columns. Logo on the left, page links in the centre and
+               the "Start a project" button on the right.
+   - Tablet  : same layout with smaller text and spacing (max-width 1100px).
+   - Mobile  : links and the CTA are hidden. A hamburger button toggles a
+               full-width vertical menu (max-width 980px).
+
+   State classes (added by Navbar.jsx):
+   - .is-scrolled : adds a faint bottom border once the page has been scrolled.
+   - .is-open     : shows the mobile menu and turns the hamburger into an "X".
+   - .active      : marks the link for the page the visitor is currently on.
+
+   Note: --nav-h, --line, --yellow, --ink, --soft and --pill are CSS variables
+   defined globally elsewhere in the project (the site's theme).
+   ============================================================================= */
+
+
+/* Navbar wrapper: stays pinned to the top of the screen as the user scrolls */
 .site-nav {
   position: sticky;
   top: 0;
-  z-index: 100;
-  background: rgba(255, 255, 255, 0.92);
+  z-index: 100; /* Keeps the navbar above all other page content */
+  background: rgba(255, 255, 255, 0.92); /* Slightly see-through white */
+  /* Blurs whatever is behind the navbar for a frosted-glass effect.
+     The -webkit- version is needed for Safari */
   backdrop-filter: saturate(160%) blur(12px);
   -webkit-backdrop-filter: saturate(160%) blur(12px);
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.25s ease;
+  border-bottom: 1px solid transparent; /* Invisible until scrolled (see .is-scrolled) */
+  transition: border-color 0.25s ease;  /* Fades the border in smoothly */
 }
 
 /* Faint line once the page is scrolled */
@@ -14,44 +42,53 @@
   border-bottom-color: var(--line);
 }
 
+/* Inner container: a 3-column grid.
+   1fr | auto | 1fr keeps the links truly centred, because the two outer
+   columns share the leftover space equally */
 .navbar-inner {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  align-items: center;
+  align-items: center; /* Vertically centres everything in the bar */
   gap: 24px;
-  min-height: var(--nav-h);
+  min-height: var(--nav-h); /* Navbar height comes from the global variable */
 }
 
 /* LOGO */
 
+/* Logo link: pinned to the left column */
 .logo {
   justify-self: start;
   display: inline-flex;
   align-items: center;
 }
 
+/* Logo image: fixed height, width scales automatically to keep proportions */
 .logo .logo-mark {
-  display: block;
+  display: block; /* Removes the small gap browsers add under inline images */
   height: 52px;
   width: auto;
 }
 
 /* LINKS */
 
+/* Container for the page links in the middle column */
 .navlinks {
   display: flex;
   align-items: center;
-  gap: clamp(20px, 2.2vw, 44px);
+  gap: clamp(20px, 2.2vw, 44px); /* Spacing grows with the screen width, between 20px and 44px */
 }
 
+/* Individual page link */
 .navlinks a {
-  position: relative;
-  white-space: nowrap;
-  font-size: clamp(16px, 1.05vw, 19px);
+  position: relative; /* Lets the underline (::after) be positioned against the link */
+  white-space: nowrap; /* Stops multi-word labels like "About Us" wrapping onto two lines */
+  font-size: clamp(16px, 1.05vw, 19px); /* Fluid font size */
   font-weight: 500;
   padding: 6px 0;
 }
 
+/* Yellow underline, drawn as a pseudo-element.
+   It is always present but squashed to zero width (scaleX(0)) until hovered */
 .navlinks a::after {
   content: "";
   position: absolute;
@@ -60,25 +97,27 @@
   bottom: -2px;
   height: 2px;
   background: var(--yellow);
-  transform: scaleX(0);
-  transform-origin: left;
+  transform: scaleX(0);       /* Hidden: zero width */
+  transform-origin: left;     /* Grows from the left edge towards the right */
   transition: transform 0.25s ease;
 }
 
+/* Show the underline on hover and permanently for the current page */
 .navlinks a:hover::after,
 .navlinks a.active::after {
-  transform: scaleX(1);
+  transform: scaleX(1); /* Full width */
 }
 
 /* CTA PILL */
 
+/* "Start a project" button: dark pill shape in the right column */
 .nav-cta {
   justify-self: end;
   display: inline-flex;
   align-items: center;
   min-height: 52px;
   padding: 12px 22px;
-  border-radius: var(--pill);
+  border-radius: var(--pill); /* Very large radius gives the rounded pill shape */
   background: var(--ink);
   color: #fff;
   font-size: 18px;
@@ -87,6 +126,7 @@
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+/* Hover: swaps to the brand yellow with dark text */
 .nav-cta:hover {
   background: var(--yellow);
   color: var(--ink);
@@ -94,33 +134,40 @@
 
 /* MOBILE TOGGLE (hidden on desktop) */
 
+/* Hamburger button: hidden by default and only shown in the mobile media query */
 .nav-toggle {
   display: none;
   justify-self: end;
   width: 48px;
   height: 48px;
   border: 0;
-  border-radius: 50%;
+  border-radius: 50%; /* Circular button */
   background: var(--soft);
-  position: relative;
+  position: relative; /* Anchor for the two absolutely positioned lines inside */
 }
 
+/* The two horizontal lines that make up the hamburger icon */
 .nav-toggle span {
   position: absolute;
   left: 14px;
   right: 14px;
   height: 2px;
   background: var(--ink);
-  transition: transform 0.25s ease, top 0.25s ease;
+  transition: transform 0.25s ease, top 0.25s ease; /* Animates the change into an "X" */
 }
+/* Closed state: one line sits above the other */
 .nav-toggle span:first-child { top: 19px; }
 .nav-toggle span:last-child { top: 27px; }
 
+/* Open state: both lines move to the same height and rotate in opposite
+   directions (45deg and -45deg), crossing over to form an "X" */
 .site-nav.is-open .nav-toggle span:first-child { top: 23px; transform: rotate(45deg); }
 .site-nav.is-open .nav-toggle span:last-child { top: 23px; transform: rotate(-45deg); }
 
 /* TABLET */
 
+/* Screens 1100px wide or smaller: tighten spacing and shrink text so the
+   links and the button still fit on one row */
 @media (max-width: 1100px) {
   .navlinks { gap: 18px; }
   .navlinks a { font-size: 15px; }
@@ -129,31 +176,79 @@
 
 /* MOBILE */
 
+/* Screens 980px wide or smaller: switch to the hamburger menu layout */
 @media (max-width: 980px) {
-  :root { --nav-h: 76px; }
+  :root { --nav-h: 76px; } /* Overrides the global navbar height variable on small screens */
 
+  /* Two columns now: logo on the left, hamburger on the right */
   .navbar-inner {
     grid-template-columns: 1fr auto;
   }
 
-  .logo .logo-mark { height: 40px; }
+  .logo .logo-mark { height: 40px; } /* Smaller logo */
 
-  .nav-cta { display: none; }
-  .nav-toggle { display: block; }
+  .nav-cta { display: none; }     /* Hide the CTA button */
+  .nav-toggle { display: block; } /* Show the hamburger button */
 
+  /* Links become a vertical list that sits below the logo row.
+     Hidden until the menu is opened */
   .navlinks {
     display: none;
-    grid-column: 1 / -1;
+    grid-column: 1 / -1; /* Spans every column so the menu is full width */
     flex-direction: column;
     align-items: flex-start;
     gap: 6px;
     padding: 8px 0 28px;
   }
 
+  /* When the .is-open class is on the navbar, reveal the menu */
   .site-nav.is-open .navlinks { display: flex; }
 
+  /* Large, bold-looking links for easy tapping on a phone */
   .navlinks a {
     font-size: 32px;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.02em; /* Tighter letter spacing suits larger text */
   }
 }
+
+/* =============================================================================
+   REFERENCES
+   -----------------------------------------------------------------------------
+   MDN Web Docs: position (covers sticky positioning)
+   https://developer.mozilla.org/en-US/docs/Web/CSS/position
+
+   MDN Web Docs: backdrop-filter (the frosted-glass blur effect)
+   https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter
+
+   MDN Web Docs: CSS grid layout (the 3-column navbar layout)
+   https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout
+
+   MDN Web Docs: CSS flexible box layout (the links row and the CTA pill)
+   https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout
+
+   MDN Web Docs: grid-column (makes the mobile menu span the full width)
+   https://developer.mozilla.org/en-US/docs/Web/CSS/grid-column
+
+   MDN Web Docs: clamp() (fluid font sizes and gaps)
+   https://developer.mozilla.org/en-US/docs/Web/CSS/clamp
+
+   MDN Web Docs: var() (using the global theme variables)
+   https://developer.mozilla.org/en-US/docs/Web/CSS/var
+
+   MDN Web Docs: ::after pseudo-element (the animated yellow underline)
+   https://developer.mozilla.org/en-US/docs/Web/CSS/::after
+
+   MDN Web Docs: scaleX() (grows the underline from 0 to full width)
+   https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/scaleX
+
+   MDN Web Docs: transform-origin (makes the underline grow from the left)
+   https://developer.mozilla.org/en-US/docs/Web/CSS/transform-origin
+
+   MDN Web Docs: transition (smooth hover and menu animations)
+   https://developer.mozilla.org/en-US/docs/Web/CSS/transition
+
+   MDN Web Docs: Using media queries (the tablet and mobile breakpoints)
+   https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Using_media_queries
+   ============================================================================= */
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

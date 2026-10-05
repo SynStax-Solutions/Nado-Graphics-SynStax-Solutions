@@ -1,22 +1,51 @@
+/* =============================================================================
+   CTA SECTION STYLES (CTA.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the call-to-action (CTA) section of the Nado Graphics website, the
+   block that invites visitors to get in touch about a project.
+
+   What is styled here:
+   - .contact-section : the section itself, separated from the content above
+                        by a thin line.
+   - .contact-title   : the large heading.
+   - .contact-email   : the "Write to ..." line with the underlined email link.
+
+   Note: this file only holds the styles specific to this section. The layout
+   of the .statement block, the .label text and the .quiet text are defined
+   elsewhere in the project and shared with other sections.
+   --line, --text-2, --ink and --orange are CSS variables defined globally
+   (the site's theme colours).
+   ============================================================================= */
+
+
+/* Section wrapper: a thin top border separates it from the section above */
 .contact-section {
   border-top: 1px solid var(--line);
 }
 
+/* Main heading. The selector is scoped to .statement, so it only applies
+   when the title sits inside a .statement block.
+   clamp() makes the font size fluid between 32px and 60px */
 .statement .contact-title {
   font-size: clamp(32px, 3.6vw, 60px);
-  letter-spacing: -0.03em;
+  letter-spacing: -0.03em; /* Tighter letter spacing suits large headings */
   line-height: 1.1;
 }
 
+/* "Write to ..." line under the heading */
 .contact-email {
   margin-top: 32px;
   font-size: 17px;
-  color: var(--text-2);
+  color: var(--text-2); /* Softer colour than the main text, so the email link stands out */
 }
 
+/* The email link: dark text with an orange underline */
 .contact-email a {
   color: var(--ink);
   text-decoration: underline;
-  text-decoration-color: var(--orange);
-  text-underline-offset: 4px;
+  text-decoration-color: var(--orange); /* Colours only the underline, not the text */
+  text-underline-offset: 4px;           /* Gap between the text and its underline */
 }
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

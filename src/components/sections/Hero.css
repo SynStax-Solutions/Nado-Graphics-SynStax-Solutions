@@ -1,12 +1,43 @@
+/* =============================================================================
+   HERO SECTION STYLES (Hero.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the hero section at the top of the Nado Graphics home page: a large
+   headline whose second line fills with colour, plus a row of buttons.
+
+   What is styled here:
+   - .hero         : the section itself, which hides anything that moves
+                     outside its edges.
+   - .hero-title   : the large headline.
+   - .hero-line    : puts the second line of the headline on its own line.
+   - .hero-fill    : the second line, painted with a grey-to-yellow colour
+                     fill that animates when the .is-filled class is added.
+   - .hero-anchor  : an invisible marker placed in the text.
+   - .hero-ctas    : the row of call-to-action buttons.
+
+   How the colour fill works:
+   The text is made transparent and a two-colour background (grey on the left
+   half, yellow on the right half) is clipped to the shape of the letters.
+   The background is twice as wide as the text, so only one half shows at a
+   time. Sliding it across makes the yellow appear to sweep in. The class
+   .is-filled is added from JavaScript (in the Hero component) to start it.
+
+   Note: --muted and --yellow are CSS variables defined globally elsewhere in
+   the project (the site's theme colours).
+   ============================================================================= */
+
+
+/* Hero wrapper */
 .hero {
-  position: relative;
+  position: relative; /* Anchor for any absolutely positioned elements inside, such as the moving logo */
   overflow: hidden; /* hides the stick man and logo while they are off-screen */
-    padding: clamp(56px, 9vw, 150px) 0 clamp(56px, 7vw, 110px);
+    padding: clamp(56px, 9vw, 150px) 0 clamp(56px, 7vw, 110px); /* Top and bottom spacing only (left/right is 0), fluid with screen width */
 }
 
+/* Main headline: very large and fluid in size */
 .hero-title {
   font-size: clamp(44px, 5.6vw, 96px);
-  max-width: 17em;
+  max-width: 17em; /* Controls where the headline wraps onto a new line */
 }
 
 /*
@@ -14,35 +45,52 @@
   left half grey, right half yellow. Sliding the background across makes the
   yellow sweep in from the right (where the logo arrives).
 */
+
+/* Makes the second line of the headline sit on its own line */
 .hero-line {
   display: block;
 }
 
+/* The text that receives the colour fill */
 .hero-fill {
+  /* Hard-edged gradient: grey up to 50%, then yellow from 50%. Because both
+     colour stops sit at 50%, there is no blend, just a sharp split */
   background-image: linear-gradient(to right, var(--muted) 50%, var(--yellow) 50%);
-  background-size: 200% 100%;
-  background-position: 0% 0;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  transition: background-position 1.1s cubic-bezier(0.65, 0, 0.35, 1);
+  background-size: 200% 100%;  /* Background is twice as wide as the text, so only one half is visible at a time */
+  background-position: 0% 0;   /* Starts aligned left, showing the grey half */
+  -webkit-background-clip: text; /* Safari/older browser version of the line below */
+  background-clip: text;         /* Clips the background to the shape of the letters, so it only shows through the text */
+  color: transparent;            /* Hides the normal text colour so the background shows through */
+  -webkit-text-fill-color: transparent; /* Same as above, needed for Safari and older Chrome */
+  transition: background-position 1.1s cubic-bezier(0.65, 0, 0.35, 1); /* Smooth 1.1s slide with an ease-in-out curve */
 }
 
+/* Added from JavaScript. Moves the background to the right so the yellow half shows */
 .hero-fill.is-filled {
   background-position: 100% 0;
 }
 
 /* Zero-size marker that sits on the text baseline right after "Create." */
 .hero-anchor {
-  display: inline-block;
+  display: inline-block; /* Needs to be inline-block so width and height take effect */
   width: 0;
-  height: 0;
+  height: 0; /* With no size, it's invisible but still has a position that JavaScript can measure */
 }
 
+/* Row of call-to-action buttons */
 .hero-ctas {
   display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  margin-top: clamp(48px, 7vw, 110px);
+  flex-wrap: wrap; /* Buttons drop onto a second line if there isn't enough room */
+  gap: 14px;       /* Space between the buttons */
+  margin-top: clamp(48px, 7vw, 110px); /* Space between the headline and the buttons */
 }
+
+/* =============================================================================
+   REFERENCES
+   -----------------------------------------------------------------------------
+   MDN Web Docs: background-clip (the "text" value clips the gradient to the
+   letters, which creates the colour-fill effect)
+   https://developer.mozilla.org/en-US/docs/Web/CSS/background-clip
+   ============================================================================= */
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

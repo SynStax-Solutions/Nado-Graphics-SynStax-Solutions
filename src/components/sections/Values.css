@@ -1,76 +1,156 @@
+/* =============================================================================
+   VALUES SECTION STYLES (Values.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the "How we work" section of the Nado Graphics website: three
+   numbered cards (Communicate, Collaborate, Create) that stack on top of each
+   other as the visitor scrolls down.
+
+   What is styled here:
+   - .nd-values-title : the space under the section heading.
+   - .step-stack      : the list that holds the cards.
+   - .step-card       : one card. Each card is sticky, so it stays near the top
+                        of the screen while the next card scrolls up over it.
+   - .step-num        : the round number badge (01, 02, 03).
+   - .step-title      : the large card title.
+   - .step-desc       : the card description.
+
+   How the stacking works:
+   - Every card uses position: sticky, so it scrolls normally until it reaches
+     its "stick" position, then stays there while the following cards scroll
+     over it.
+   - Each card sticks slightly lower than the one before it, so a strip of every
+     earlier card stays visible. This offset comes from a CSS variable (--i)
+     that holds the card's position in the list (0, 1, 2). The value is set
+     from JavaScript in the Values component.
+   - The shrinking and fading of the covered card is done in JavaScript, not in
+     this file. The CSS only prepares the card for it (transform-origin and
+     will-change).
+
+   Colour:
+   - The cards are all white. The only colour difference is the number badge,
+     which uses the tone class on the card (tone-ink, tone-yellow, tone-soft).
+
+   Responsive behaviour:
+   - Below 860px : the description moves under the number and title, and the
+                   stacking offsets get smaller.
+
+   Note: --nav-h, --line, --radius-lg, --ink, --yellow, --soft and --text-2 are
+   CSS variables defined globally elsewhere in the project (the site's theme).
+   ============================================================================= */
+
+
+/* Space between the section heading and the first card.
+   clamp() keeps the spacing fluid, between 40px and 72px depending on screen width */
 .nd-values-title {
   margin-bottom: clamp(40px, 5vw, 72px);
 }
 
-/* ---------- stacking cards ---------- */
+/* ---------- stacking cards (light version) ---------- */
 
+/* The list of cards. It is an ordered list (<ol>), so the numbering is removed because
+   the cards show their own number */
 .step-stack {
   list-style: none;
   display: grid;
-  gap: clamp(24px, 4vh, 48px);
+  gap: clamp(20px, 3vh, 36px);             /* Space between cards (vh = a percentage of the screen height) */
   padding-bottom: clamp(24px, 4vh, 48px);
 }
 
+/* One card */
 .step-card {
   /* each card sticks a little lower than the one before, so their tops peek out */
   position: sticky;
-  top: calc(var(--nav-h) + 24px + var(--i) * 28px);
+  /* Where the card sticks: below the navbar, plus a 24px gap, plus 22px for every card
+     before it. --i is 0 for the first card, 1 for the second and 2 for the third, so each one
+     sticks 22px lower than the last */
+  top: calc(var(--nav-h) + 24px + var(--i) * 22px);
 
+  /* Inside the card: three columns (number | title | description) */
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  grid-template-rows: auto 1fr;
-  gap: 24px clamp(32px, 5vw, 96px);
-  min-height: clamp(260px, 40vh, 400px);
-  padding: clamp(24px, 3vw, 48px);
+  grid-template-columns: auto minmax(0, 1fr) minmax(0, 1.1fr); /* The number is as wide as its content, then title and description share the rest */
+  align-items: center;                                         /* Vertically centres the three items */
+  gap: clamp(20px, 3vw, 56px);
+  min-height: clamp(180px, 24vh, 240px);                       /* Keeps cards a consistent height */
+  padding: clamp(24px, 3vw, 44px);
+  border: 1px solid var(--line);
   border-radius: var(--radius-lg);
-  transform-origin: center top;
-  will-change: transform;
-}
-
-.step-card.tone-ink {
-  background: var(--ink);
-  color: #fff;
-}
-
-.step-card.tone-yellow {
-  background: var(--yellow);
+  background: #fff;
   color: var(--ink);
+  /* Soft shadow above the card (negative vertical offset), so the edge of a card
+     covering another one is easy to see */
+  box-shadow: 0 -12px 30px -18px rgba(0, 0, 0, 0.18);
+  transform-origin: center top; /* JavaScript scales the card, and this makes it shrink towards its top edge instead of its middle */
+  will-change: transform;       /* Tells the browser the transform will change, so it can prepare for smoother animation */
 }
 
+/* Colour now only comes from the number badge */
+/* Forces all three tone classes to be the same white card, so the tone only affects the badge below */
+.step-card.tone-ink,
+.step-card.tone-yellow,
 .step-card.tone-soft {
-  background: #efefef;
+  background: #fff;
   color: var(--ink);
 }
 
+/* The round number badge. The default is yellow (used by the tone-yellow card) */
 .step-num {
-  grid-column: 1 / -1;
-  font-size: 17px;
-  font-weight: 500;
-  opacity: 0.6;
+  display: grid;
+  place-items: center;   /* Centres the number inside the circle */
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;    /* Turns the square into a circle */
+  background: var(--yellow);
+  font-size: 18px;
+  font-weight: 600;
 }
 
+/* Dark badge with a yellow number, for the tone-ink card */
+.step-card.tone-ink .step-num {
+  background: var(--ink);
+  color: var(--yellow);
+}
+
+/* Light grey badge, for the tone-soft card */
+.step-card.tone-soft .step-num {
+  background: var(--soft);
+}
+
+/* Card title: large and fluid in size */
 .step-title {
-  align-self: end;
-  font-size: clamp(40px, 5vw, 88px);
-  overflow-wrap: anywhere;
+  font-size: clamp(32px, 3.4vw, 56px);
   font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 0.95;
+  letter-spacing: -0.03em; /* Tighter letter spacing suits large headings */
+  line-height: 1;
+  overflow-wrap: anywhere; /* Lets a long word break onto the next line instead of overflowing the card */
 }
 
+/* Card description */
 .step-desc {
-  align-self: end;
-  max-width: 26em;
-  font-size: clamp(16px, 1.25vw, 20px);
-  line-height: 1.55;
-  opacity: 0.8;
+  max-width: 30em;   /* Keeps lines a comfortable reading length */
+  font-size: clamp(16px, 1.2vw, 19px);
+  line-height: 1.6;  /* Extra line spacing makes paragraphs easier to read */
+  color: var(--text-2);
 }
 
+/* Tablet and below: two columns, with the description underneath */
 @media (max-width: 860px) {
   .step-card {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr auto;
-    min-height: clamp(260px, 45vh, 380px);
-    top: calc(var(--nav-h) + 16px + var(--i) * 20px);
+    grid-template-columns: auto 1fr; /* Number and title only */
+    min-height: 0;                   /* Cards can shrink to fit their content */
+    top: calc(var(--nav-h) + 16px + var(--i) * 16px); /* Smaller offsets, to save space on small screens */
+  }
+  .step-desc {
+    grid-column: 1 / -1; /* Spans every column, so the description sits on its own row under the number and title */
   }
 }
+
+/* =============================================================================
+   REFERENCES
+   -----------------------------------------------------------------------------
+   MDN Web Docs: position (the "sticky" value keeps each card pinned while the
+   next ones scroll over it)
+   https://developer.mozilla.org/en-US/docs/Web/CSS/position
+   ============================================================================= */
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

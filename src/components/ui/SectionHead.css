@@ -1,3 +1,23 @@
+/* =============================================================================
+   SECTION HEAD (SectionHead.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the heading area used at the top of website sections.
+
+   What is styled here:
+   - The layout of the section heading and supporting text.
+   - The main section heading size and typography.
+   - The supporting paragraph styling.
+   - Responsive behaviour for smaller screens.
+
+   Note:
+   The layout uses two columns on larger screens and changes to a single
+   column on screens smaller than 900px.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   Section heading layout
+   ----------------------------------------------------------------------------- */
 .section-head {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
@@ -6,6 +26,9 @@
   margin-bottom: clamp(40px, 5vw, 72px);
 }
 
+/* -----------------------------------------------------------------------------
+   Main section heading
+   ----------------------------------------------------------------------------- */
 .section-head h2 {
   font-size: clamp(34px, 4.2vw, 64px);
   font-weight: 500;
@@ -14,6 +37,9 @@
   max-width: 14em;
 }
 
+/* -----------------------------------------------------------------------------
+   Supporting section paragraph
+   ----------------------------------------------------------------------------- */
 .section-head p {
   font-size: 18px;
   line-height: 1.5;
@@ -21,6 +47,15 @@
   max-width: 26em;
 }
 
+/* -----------------------------------------------------------------------------
+   Responsive layout
+   -----------------------------------------------------------------------------
+   Stack the heading and paragraph into one column on smaller screens.
+   ----------------------------------------------------------------------------- */
 @media (max-width: 900px) {
-  .section-head { grid-template-columns: 1fr; }
+  .section-head {
+    grid-template-columns: 1fr;
+  }
 }
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

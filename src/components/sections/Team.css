@@ -1,37 +1,75 @@
+/* =============================================================================
+   TEAM SECTION STYLES (Team.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles a "Team" section of the Nado Graphics website: an intro paragraph, a
+   row of figures, and a list of entries where each row shows a name on the
+   left and a short piece of text on the right.
+
+   What is styled here:
+   - .nd-team-lead   : the intro paragraph at the top of the section.
+   - .nd-team-stats  : the row of figures, with space above and below.
+   - .nd-client-list : the list of entries, with a line along the top.
+   - .nd-client      : one entry in the list, with a line along the bottom.
+
+   Responsive behaviour:
+   - Below 600px : each entry stacks, with the text moving under the name
+                   instead of sitting on the right.
+
+   Note: the list classes are named "client" (nd-client-list, nd-client) even
+   though this file is called Team.css. This suggests the list was copied from
+   a Clients section. If a Clients stylesheet also defines these classes, the
+   two files may be duplicating or overriding each other.
+   --line and --muted are CSS variables defined globally elsewhere in the
+   project (the site's theme colours).
+   ============================================================================= */
+
+
+/* Intro paragraph: adds space above it.
+   clamp() keeps the spacing fluid, between 24px and 40px depending on screen width */
 .nd-team-lead {
   margin-top: clamp(24px, 3vw, 40px);
 }
 
+/* Row of figures: space above and below (the 0 means no space left or right) */
 .nd-team-stats {
   margin: clamp(56px, 7vw, 104px) 0;
 }
 
+/* The list of entries. It is a list (<ul>), so the bullet points are removed.
+   The top border starts the line pattern, and each entry adds its own bottom border */
 .nd-client-list {
   list-style: none;
   border-top: 1px solid var(--line);
 }
 
+/* One entry: name on the left, text on the right */
 .nd-client {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+  align-items: baseline;          /* Lines the two pieces of text up along their text baseline, so they look level even at different sizes */
+  justify-content: space-between; /* Pushes the name and the text to opposite sides */
   gap: 24px;
-  padding: clamp(20px, 2.2vw, 30px) 0;
+  padding: clamp(20px, 2.2vw, 30px) 0; /* Vertical padding only, fluid with screen width */
   border-bottom: 1px solid var(--line);
 }
 
+/* The name: large and fluid in size */
 .nd-client h3 {
   font-size: clamp(24px, 2.6vw, 40px);
   font-weight: 500;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.02em; /* Slightly tighter letter spacing suits larger text */
 }
 
+/* The smaller text on the right (for example a role or category), in a lighter colour */
 .nd-client span {
-  flex-shrink: 0;
+  flex-shrink: 0;       /* Stops this text being squashed when space is tight */
   font-size: 16px;
   color: var(--muted);
 }
 
+/* Phones: stack the name and the text vertically */
 @media (max-width: 600px) {
   .nd-client { flex-direction: column; gap: 6px; }
 }
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

@@ -1,7 +1,241 @@
-.clients-page .nd-team {
-  padding-top: 0;
+/* =============================================================================
+   CLIENTS PAGE STYLES (ClientsPage.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Provides the styling for the Clients page, including the yellow banner,
+   animated rings, client logo grid, and responsive layouts.
+
+   What is styled here:
+   - Clients page spacing
+   - Yellow introductory banner
+   - Banner text, label, title, and supporting text
+   - Decorative animated rings
+   - Ring rotation animations
+   - Reduced-motion accessibility behaviour
+   - Client logo grid
+   - Individual logo cells
+   - Logo hover effects
+   - Responsive layouts for tablets and mobile devices
+
+   Note:
+   Colours, border radiuses, and other shared values come from the design
+   tokens defined in styles/tokens.css.
+   ============================================================================= */
+
+/* =============================================================================
+   CLIENTS PAGE
+   ============================================================================= */
+
+/* ---------- Overall Clients page spacing ---------- */
+.clients-page {
+  padding: clamp(32px, 5vw, 72px) 0 clamp(80px, 10vw, 160px);
 }
 
-.clients-page .nd-team-stats {
-  margin-top: 0;
+/* =============================================================================
+   YELLOW BANNER
+   ============================================================================= */
+
+/* ---------- Main yellow banner container ---------- */
+.clients-banner {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(32px, 5vw, 72px);
+  border-radius: var(--radius-lg);
+  background: var(--yellow);
+  color: var(--ink);
 }
+
+/* ---------- Keeps banner text above the decorative rings ---------- */
+.clients-banner-text {
+  position: relative;
+  z-index: 1;
+  max-width: 44rem;
+}
+
+/* ---------- Small label displayed above the banner title ---------- */
+.clients-banner-label {
+  display: inline-block;
+  padding-left: 10px;
+  border-left: 2px solid var(--ink);
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: clamp(20px, 2.5vw, 32px);
+}
+
+/* ---------- Main banner heading ---------- */
+.clients-banner-title {
+  font-size: clamp(40px, 4.8vw, 80px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  margin-bottom: clamp(20px, 2.5vw, 32px);
+}
+
+/* ---------- Supporting text within the banner ---------- */
+.clients-banner-lead {
+  max-width: 38em;
+  font-size: clamp(16px, 1.2vw, 19px);
+  line-height: 1.6;
+}
+
+/* =============================================================================
+   DECORATIVE RINGS
+   ============================================================================= */
+
+/* ---------- Decorative rings positioned behind the banner text ---------- */
+.clients-banner-rings {
+  position: absolute;
+  right: -60px;
+  top: 50%;
+  width: clamp(260px, 32vw, 520px);
+  height: auto;
+  transform: translateY(-50%);
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1;
+  opacity: 0.25;
+}
+
+/* Slowly turning rings: the rings stay solid, while a dot on each one travels
+   around it. */
+
+/* ---------- Set the rotation centre and default animation ---------- */
+.ring {
+  /* Turn around the centre of the rings (260, 200 in the SVG) */
+  transform-box: view-box;
+  transform-origin: 260px 200px;
+  animation: rings-spin 60s linear infinite;
+}
+
+/* ---------- Rotation speed for the first ring ---------- */
+.ring-1 {
+  animation-duration: 90s;
+}
+
+/* ---------- Rotation speed and direction for the second ring ---------- */
+.ring-2 {
+  animation-duration: 60s;
+  animation-direction: reverse;
+}
+
+/* ---------- Rotation speed for the third ring ---------- */
+.ring-3 {
+  animation-duration: 45s;
+}
+
+/* ---------- Solid dot that travels around each ring ---------- */
+.ring-dot {
+  fill: var(--ink);
+  stroke: none;
+}
+
+/* ---------- Ring rotation animation ---------- */
+@keyframes rings-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- Disable ring animation for users who prefer reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .ring {
+    animation: none;
+  }
+}
+
+/* =============================================================================
+   CLIENT LOGO GRID
+   ============================================================================= */
+
+/* ---------- Grid containing the client logos ---------- */
+.clients-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-top: clamp(24px, 3vw, 48px);
+}
+
+/* ---------- Individual client logo cell ---------- */
+.clients-cell {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 10;
+  padding: clamp(16px, 2vw, 32px);
+
+  /* Faint lines separating the cells */
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+/* ---------- Remove the right border from the last cell in each row ---------- */
+.clients-cell:nth-child(5n) {
+  border-right: 0;
+}
+
+/* ---------- Client logo image styling ---------- */
+.clients-cell img {
+  max-width: 90%;
+  max-height: 110px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+
+  /* Grey logos create a consistent set; colour is restored on hover */
+  transition: filter 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* ---------- Restore the logo appearance and slightly enlarge it on hover ---------- */
+.clients-cell:hover img {
+  filter: none;
+  opacity: 1;
+  transform: scale(1.04);
+}
+
+/* =============================================================================
+   TABLET RESPONSIVE STYLES
+   ============================================================================= */
+
+/* ---------- Change the logo grid to three columns on smaller screens ---------- */
+@media (max-width: 1000px) {
+  .clients-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Restore the right border where the five-column layout no longer applies */
+  .clients-cell:nth-child(5n) {
+    border-right: 1px solid var(--line);
+  }
+
+  /* Remove the right border from every third cell */
+  .clients-cell:nth-child(3n) {
+    border-right: 0;
+  }
+}
+
+/* =============================================================================
+   MOBILE RESPONSIVE STYLES
+   ============================================================================= */
+
+/* ---------- Change the logo grid to two columns on mobile ---------- */
+@media (max-width: 600px) {
+  .clients-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Restore the border where the three-column layout no longer applies */
+  .clients-cell:nth-child(3n) {
+    border-right: 1px solid var(--line);
+  }
+
+  /* Remove the right border from every second cell */
+  .clients-cell:nth-child(2n) {
+    border-right: 0;
+  }
+
+  /* Make the decorative rings more subtle on smaller screens */
+  .clients-banner-rings {
+    opacity: 0.15;
+  }
+}
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

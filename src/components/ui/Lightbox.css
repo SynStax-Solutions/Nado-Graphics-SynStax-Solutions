@@ -1,3 +1,29 @@
+/* =============================================================================
+   LIGHTBOX STYLES (Lightbox.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the full-screen lightbox used to display Nado Graphics portfolio
+   images and YouTube videos in an enlarged pop-up view.
+
+   What is styled here:
+   - .lightbox           : the full-screen overlay.
+   - .lightbox-figure    : the container for the selected image/video and caption.
+   - .lightbox-cat       : the project category information.
+   - .lightbox-title     : the project title.
+   - .lightbox-count     : the current project number and total.
+   - .lightbox-close     : the close button.
+   - .lightbox-arrow     : the previous and next navigation buttons.
+   - @keyframes          : controls the lightbox fade-in animation.
+   - @media              : changes the layout for smaller screens.
+
+   Note: this file only contains styles specific to the lightbox component.
+   --yellow, --ink and --radius-md are CSS variables defined globally
+   (the site's theme colours and border-radius).
+   ============================================================================= */
+
+
+/* Full-screen lightbox overlay: covers the entire page and centres the
+   selected portfolio item */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -11,11 +37,21 @@
   animation: lightbox-in 0.25s ease both;
 }
 
+
+/* Fade-in animation used when the lightbox opens */
 @keyframes lightbox-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
+
+/* Figure wrapper: keeps the selected media and its caption together,
+   while limiting the maximum width of the displayed content */
 .lightbox-figure {
   margin: 0;
   display: flex;
@@ -24,6 +60,9 @@
   max-width: min(1400px, 100%);
 }
 
+
+/* Selected image and video: scales the media to fit within the lightbox
+   without stretching or cropping the original content */
 .lightbox-figure img,
 .lightbox-figure video {
   display: block;
@@ -34,6 +73,10 @@
   border-radius: var(--radius-md);
   object-fit: contain;
 }
+
+
+/* Project caption: places the category, title and item count below
+   the selected media */
 .lightbox-figure figcaption {
   display: flex;
   align-items: baseline;
@@ -42,21 +85,31 @@
   color: #fff;
 }
 
+
+/* Project category: uses a softer grey colour so the main project title
+   remains visually prominent */
 .lightbox-cat {
   font-size: 15px;
   color: #8a8a8a;
 }
 
+
+/* Project title: displays the name of the selected portfolio item */
 .lightbox-title {
   font-size: 18px;
   font-weight: 500;
 }
 
+
+/* Project count: displays the current item number and total number of items */
 .lightbox-count {
   font-size: 15px;
   color: #8a8a8a;
 }
 
+
+/* Close and navigation buttons: circular buttons with a semi-transparent
+   background that remain visible against the dark overlay */
 .lightbox-close,
 .lightbox-arrow {
   flex-shrink: 0;
@@ -73,12 +126,18 @@
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+
+/* Changes the button background and text colour when the user hovers
+   over a close or navigation button */
 .lightbox-close:hover,
 .lightbox-arrow:hover {
   background: var(--yellow);
   color: var(--ink);
 }
 
+
+/* Close button: positioned in the top-right corner of the lightbox
+   and given a larger font size for the X icon */
 .lightbox-close {
   position: absolute;
   top: clamp(16px, 2.5vw, 32px);
@@ -86,14 +145,38 @@
   font-size: 30px;
 }
 
+
+/* Responsive lightbox layout: stacks the media and controls vertically
+   on smaller screens */
 @media (max-width: 700px) {
-  .lightbox { flex-direction: column; }
+  .lightbox {
+    flex-direction: column;
+  }
+
+  /* Places the previous and next buttons near the bottom of the screen
+     on smaller devices */
   .lightbox-prev,
   .lightbox-next {
     position: absolute;
     bottom: 24px;
   }
-  .lightbox-prev { left: 24px; }
-  .lightbox-next { right: 24px; }
-  .lightbox-figure figcaption { flex-wrap: wrap; justify-content: center; text-align: center; }
+
+  .lightbox-prev {
+    left: 24px;
+  }
+
+  .lightbox-next {
+    right: 24px;
+  }
+
+  /* Allows the caption content to wrap on smaller screens and keeps it
+     centred below the selected media */
+  .lightbox-figure figcaption {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
 }
+
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

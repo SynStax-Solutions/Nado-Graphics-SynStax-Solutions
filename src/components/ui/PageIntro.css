@@ -1,14 +1,41 @@
+/* =============================================================================
+   PAGE INTRO STYLES (PageIntro.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the reusable page introduction component used at the top of pages
+   throughout the Nado Graphics website.
+
+   What is styled here:
+   - .page-intro       : the main page introduction container.
+   - .page-intro-label : the small label above the page heading.
+   - .page-intro-title : the main page heading.
+   - .quiet            : the optional secondary part of the heading.
+   - .page-intro-lead  : the supporting paragraph below the heading.
+
+   Note: this file only contains styles specific to the PageIntro component.
+   --muted and --text-2 are CSS variables defined globally
+   (the site's secondary text colours).
+   ============================================================================= */
+
+
+/* Main page introduction: adds responsive spacing above and below
+   the introduction content */
 .page-intro {
   padding-top: clamp(56px, 8vw, 130px);
   margin-bottom: clamp(40px, 5vw, 80px);
 }
 
+
+/* Page label: small, medium-weight text displayed above the main heading */
 .page-intro-label {
   font-size: 17px;
   font-weight: 500;
   margin-bottom: clamp(24px, 3vw, 40px);
 }
 
+
+/* Main page heading: large responsive heading with a maximum width
+   to control how the text wraps across the page */
 .page-intro-title {
   max-width: 17em;
   font-size: clamp(44px, 5.6vw, 96px);
@@ -17,11 +44,17 @@
   line-height: 1.04;
 }
 
+
+/* Quiet heading text: places the optional secondary heading text
+   on a new line and gives it a softer colour */
 .page-intro-title .quiet {
   display: block;
   color: var(--muted);
 }
 
+
+/* Supporting text: responsive paragraph displayed below the main heading.
+   The maximum width keeps longer text easy to read */
 .page-intro-lead {
   margin-top: clamp(24px, 3vw, 36px);
   max-width: 34em;
@@ -29,3 +62,6 @@
   line-height: 1.6;
   color: var(--text-2);
 }
+
+
+/* ---------------------------------- END OF FILE ---------------------------------- */

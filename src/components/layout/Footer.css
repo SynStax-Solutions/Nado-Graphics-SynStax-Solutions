@@ -1,3 +1,27 @@
+/* =============================================================================
+   FOOTER STYLES (Footer.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the site-wide footer used on every page of the Nado Graphics website.
+
+   Layout overview:
+   - .footer-top    : two-column grid. Headline + "Let's talk" button on the
+                      left, contact details (email, phone, WhatsApp, location)
+                      on the right.
+   - .footer-bottom : thin bar underneath with the copyright line and a link
+                      to the Privacy Policy.
+
+   Responsive behaviour:
+   - Below 860px  : the two columns stack into one.
+   - Below 480px  : the contact details also stack into a single column.
+
+   Note: --ink, --yellow and --line-dark are CSS variables defined globally
+   elsewhere in the project (the site's theme colours).
+   ============================================================================= */
+
+
+/* Footer wrapper: dark background with white text.
+   The top padding scales with screen width (min 64px, max 120px) using clamp() */
 .site-footer {
   background: var(--ink);
   color: #fff;
@@ -7,56 +31,92 @@
 /* Headline and button on the left, contact details on the right */
 .footer-top {
   display: grid;
+  /* Left column is slightly wider (1.4fr) than the right (1fr).
+     minmax(0, ...) stops long content from stretching the columns */
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
   gap: 48px;
-  align-items: end;
+  align-items: end; /* Aligns both columns to the bottom edge */
   padding-bottom: clamp(64px, 8vw, 120px);
 }
 
+/* Small "Contact" label above the headline */
 .footer-label {
   font-size: 17px;
   font-weight: 500;
   margin-bottom: 28px;
 }
 
+/* Large headline text. clamp() makes the font size fluid between 44px and 84px.
+   max-width: 8em forces the text to wrap onto multiple lines for a bold look */
 .footer-headline {
   font-size: clamp(44px, 5vw, 84px);
   font-weight: 500;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.03em; /* Tighter letter spacing suits large headings */
   line-height: 1.04;
   max-width: 8em;
   margin-bottom: 44px;
 }
 
+/* Contact details list (<dl>): arranged in a 2 x 2 grid */
 .footer-details {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, auto));
+  grid-template-columns: repeat(2, minmax(0, auto)); /* Columns only as wide as their content */
   justify-content: start;
-  gap: 24px 56px;
-  margin: 0;
+  gap: 24px 56px; /* 24px between rows, 56px between columns */
+  margin: 0;      /* Removes the browser's default <dl> margin */
 }
 
+/* Small grey label for each detail (Email, Cellphone, WhatsApp, Based) */
 .footer-details dt {
   font-size: 14px;
   color: #8a8a8a;
   margin-bottom: 6px;
 }
 
+/* The value for each detail (the actual email, number, etc.) */
 .footer-details dd {
-  margin: 0;
+  margin: 0; /* Removes the browser's default indent on <dd> */
   font-size: 18px;
   font-weight: 500;
 }
 
+/* Smooth colour change when hovering over contact links */
 .footer-details a {
   transition: color 0.2s ease;
 }
 
+/* Hover state: links turn the brand yellow */
 .footer-details a:hover {
   color: var(--yellow);
 }
 
+/* Round WhatsApp button in the contact details (official WhatsApp green) */
+.footer-details a.footer-whatsapp {
+  display: inline-grid;
+  place-items: center; /* Centres the icon inside the circle */
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;  /* Turns the square into a circle */
+  background: #25D366;
+  color: #fff;
+  font-size: 24px;     /* Controls the icon size */
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* WhatsApp hover: slightly darker green and a small zoom.
+   color is reset to white so it doesn't pick up the yellow link hover above */
+.footer-details a.footer-whatsapp:hover {
+  background: #1ebe5d;
+  color: #fff;
+  transform: scale(1.06);
+}
+
+/* Bottom bar: copyright text and privacy link, separated by a thin top border */
 .footer-bottom {
+  display: flex;
+  flex-wrap: wrap; /* Lets the items drop onto two lines on small screens */
+  justify-content: center;
+  gap: 8px 24px;
   border-top: 1px solid var(--line-dark);
   padding: 30px 0 40px;
   text-align: center;
@@ -64,13 +124,9 @@
   color: #8a8a8a;
 }
 
-@media (max-width: 860px) {
-  .footer-top {
-    grid-template-columns: 1fr;
-    align-items: start;
-  }
-}
-
-@media (max-width: 480px) {
-  .footer-details { grid-template-columns: 1fr; }
+/* Privacy Policy link: grey and underlined */
+.footer-privacy {
+  color: #8a8a8a;
+  text-decoration: underline;
+  text-underline-offset: 4px; /* Gap between the text and its underline */
 }

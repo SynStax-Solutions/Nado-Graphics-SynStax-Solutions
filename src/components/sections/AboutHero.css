@@ -1,42 +1,76 @@
+/* =============================================================================
+   ABOUT PAGE INTRO STYLES (AboutHero.css)
+   -----------------------------------------------------------------------------
+   Purpose:
+   Styles the opening (hero) section at the top of the About page for the
+   Nado Graphics website: a label, a large two-part title, a short lead
+   paragraph and a row of call-to-action buttons.
+
+   Layout overview:
+   - Everything sits in one left-aligned block (.about-intro) with a maximum
+     width so the text stays comfortable to read.
+   - From top to bottom: label, title, lead paragraph, buttons.
+
+   Responsive behaviour:
+   - There are no media queries. Spacing and font sizes use clamp(), so they
+     scale smoothly with the screen width instead of jumping at breakpoints.
+
+   Note: --muted and --text-2 are CSS variables defined globally elsewhere in
+   the project (the site's theme colours).
+   ============================================================================= */
+
+
+/* Hero wrapper: adds space above the intro.
+   The selector only applies to .nd-about-hero when it sits inside .about-page,
+   so these styles stay specific to the About page.
+   clamp() keeps the padding fluid, between 56px and 130px */
 .about-page .nd-about-hero {
   padding-top: clamp(56px, 8vw, 130px);
 }
 
 /* One neat block, everything on the same left edge */
 .about-intro {
-  max-width: 52rem;
-  margin-bottom: clamp(56px, 7vw, 104px);
+  max-width: 52rem; /* Stops the block stretching too wide on large screens */
+  margin-bottom: clamp(56px, 7vw, 104px); /* Space between the intro and the content below it */
 }
 
+/* Small label above the title (the section name) */
 .about-intro-label {
   font-size: 17px;
   font-weight: 500;
   margin-bottom: clamp(24px, 3vw, 40px);
 }
 
+/* Main heading: very large and fluid in size */
 .about-intro-title {
   font-size: clamp(44px, 5.6vw, 96px);
   font-weight: 500;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.03em; /* Tighter letter spacing suits large headings */
   line-height: 1.04;
   margin-bottom: clamp(24px, 3vw, 36px);
 }
 
+/* Second part of the title in a lighter colour.
+   display: block forces it onto its own line below the first part */
 .about-intro-title .quiet {
   display: block;
   color: var(--muted);
 }
 
+/* Lead paragraph under the title */
 .about-intro-lead {
   font-size: clamp(18px, 1.4vw, 21px);
-  line-height: 1.6;
+  line-height: 1.6; /* Extra line spacing makes paragraphs easier to read */
   color: var(--text-2);
-  max-width: 34em;
+  max-width: 34em;  /* Keeps lines a comfortable reading length */
   margin-bottom: clamp(28px, 3vw, 40px);
 }
 
+/* Row of call-to-action buttons */
 .about-intro-ctas {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  flex-wrap: wrap; /* Buttons drop onto a second line if there isn't enough room */
+  gap: 12px;       /* Space between the buttons */
 }
+
+/* ---------------------------------- END OF FILE ---------------------------------- */
