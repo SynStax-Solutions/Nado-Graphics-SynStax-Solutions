@@ -487,12 +487,18 @@ export default function ContactPage() {
               Contact us
             </p>
 
+            {/*
+              The non-breaking space (&nbsp;) between "from" and "you."
+              keeps the last two words together, so "you." can never
+              wrap onto a line on its own.
+            */}
+
             <h1 className="contact-intro-title">
 
-              Let&rsquo;s work together.
+              We&rsquo;d love to hear from&nbsp;you.
 
               <span className="quiet">
-                We&rsquo;d love to hear from you.
+                Let&rsquo;s work together.
               </span>
 
             </h1>

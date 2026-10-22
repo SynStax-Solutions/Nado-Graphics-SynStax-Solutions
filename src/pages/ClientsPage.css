@@ -104,23 +104,23 @@
   /* Turn around the centre of the rings (260, 200 in the SVG) */
   transform-box: view-box;
   transform-origin: 260px 200px;
-  animation: rings-spin 60s linear infinite;
+  animation: rings-spin 30s linear infinite;
 }
 
-/* ---------- Rotation speed for the first ring ---------- */
+/* ---------- Faster rotation for the first ring ---------- */
 .ring-1 {
-  animation-duration: 90s;
+  animation-duration: 20s;
 }
 
-/* ---------- Rotation speed and direction for the second ring ---------- */
+/* ---------- Faster rotation and reverse direction for the second ring ---------- */
 .ring-2 {
-  animation-duration: 60s;
+  animation-duration: 15s;
   animation-direction: reverse;
 }
 
-/* ---------- Rotation speed for the third ring ---------- */
+/* ---------- Faster rotation for the third ring ---------- */
 .ring-3 {
-  animation-duration: 45s;
+  animation-duration: 10s;
 }
 
 /* ---------- Solid dot that travels around each ring ---------- */

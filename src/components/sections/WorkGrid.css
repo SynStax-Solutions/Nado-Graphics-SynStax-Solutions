@@ -3,31 +3,31 @@
    -----------------------------------------------------------------------------
    Purpose:
    Styles the "Selected work" section on the Nado Graphics home page: a grid of
-   project cards, each showing a photo or video with a title underneath, and a
+   project cards, each showing the category and note above a photo or video, and a
    button to the full portfolio.
-
+ 
    What is styled here:
    - .work-section : the section, with its top and bottom spacing.
    - .work-grid    : the grid of cards.
    - .work-card    : one card (a link to that project in the portfolio).
-   - .work-media   : the image or video area at the top of a card.
+   - .work-media   : the image or video area at the bottom of a card.
    - .tone-*       : fallback background styles used when a card has no image.
    - .work-arrow   : the round arrow button in the corner of a card.
-   - .work-meta    : the text under the media (tag, category and note).
+   - .work-meta    : the text above the media (category and note).
    - .work-video   : an embedded YouTube video that fills the media area.
    - .work-all     : the "See all our work" button area under the grid.
    - .work-top     : the small label above the section heading.
-
+ 
    Responsive behaviour:
    - Desktop         : three cards per row.
    - 1024px or less  : two cards per row.
    - 760px or less   : one card per row.
-
+ 
    Note: --radius-lg, --orange, --orange-dark, --ink, --yellow, --muted and
    --text-2 are CSS variables defined globally elsewhere in the project.
    ============================================================================= */
-
-
+ 
+ 
 /* Section wrapper: adds space above the section.
    clamp() keeps the spacing fluid, between 40px and 80px depending on screen width.
    The bottom spacing is set further down in this file. */
@@ -45,9 +45,15 @@
 }
  
 /* One card. It is a link, so the text colour is inherited from the page
-   instead of using the default blue link colour */
+   instead of using the default blue link colour.
+ 
+   The card is a flex column (text on top, media underneath). Cards in the same
+   grid row are stretched to the same height, so when one note wraps onto two
+   lines and another fits on one, the extra space goes into the text area
+   (see .work-meta below) and every picture in the row starts at the same height. */
 .work-card {
-  display: block;
+  display: flex;
+  flex-direction: column;
   color: inherit;
 }
  
@@ -84,7 +90,7 @@ a.work-card:hover .work-media {
 /* Each tone class gives the media area a coloured background. They are fallbacks
    shown when a card has no image. Each one layers a gradient on top of a plain
    background colour, so there is still a solid colour if the gradient fails. */
-
+ 
 /* Black with a soft grey glow in the top left */
 .tone-ink {
   background-color: #000;
@@ -161,16 +167,13 @@ a.work-card:hover .work-arrow {
   color: var(--ink);
 }
  
-/* Text area under the media */
+/* Text area above the media.
+   flex: 1 lets it grow to fill any spare height in the card, which pushes the
+   media to the bottom so all pictures in a row line up.
+   padding-bottom is the gap between the text and the picture. */
 .work-meta {
-  padding-top: 22px;
-}
- 
-/* Small grey line above the category (the project title) */
-.work-tag {
-  font-size: 16px;
-  color: var(--muted);
-  margin-bottom: 8px;
+  flex: 1;
+  padding-bottom: 18px;
 }
  
 /* Category heading: fluid in size */
@@ -231,12 +234,12 @@ a.work-card:hover .work-arrow {
   display: block;    /* Removes the small gap browsers add under inline elements */
   border: 0;         /* Removes the default iframe border */
 }
-
+ 
 /* =============================================================================
    REFERENCES
    -----------------------------------------------------------------------------
    MDN Web Docs: aspect-ratio (keeps every card's media area the same 4:3 shape)
    https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio
    ============================================================================= */
-
+ 
 /* ---------------------------------- END OF FILE ---------------------------------- */

@@ -3,23 +3,23 @@
    -----------------------------------------------------------------------------
    Purpose:
    Styles the site-wide footer used on every page of the Nado Graphics website.
-
+ 
    Layout overview:
    - .footer-top    : two-column grid. Headline + "Let's talk" button on the
                       left, contact details (email, phone, WhatsApp, location)
                       on the right.
    - .footer-bottom : thin bar underneath with the copyright line and a link
                       to the Privacy Policy.
-
+ 
    Responsive behaviour:
    - Below 860px  : the two columns stack into one.
    - Below 480px  : the contact details also stack into a single column.
-
+ 
    Note: --ink, --yellow and --line-dark are CSS variables defined globally
    elsewhere in the project (the site's theme colours).
    ============================================================================= */
-
-
+ 
+ 
 /* Footer wrapper: dark background with white text.
    The top padding scales with screen width (min 64px, max 120px) using clamp() */
 .site-footer {
@@ -27,7 +27,7 @@
   color: #fff;
   padding-top: clamp(64px, 8vw, 120px);
 }
-
+ 
 /* Headline and button on the left, contact details on the right */
 .footer-top {
   display: grid;
@@ -38,14 +38,14 @@
   align-items: end; /* Aligns both columns to the bottom edge */
   padding-bottom: clamp(64px, 8vw, 120px);
 }
-
+ 
 /* Small "Contact" label above the headline */
 .footer-label {
   font-size: 17px;
   font-weight: 500;
   margin-bottom: 28px;
 }
-
+ 
 /* Large headline text. clamp() makes the font size fluid between 44px and 84px.
    max-width: 8em forces the text to wrap onto multiple lines for a bold look */
 .footer-headline {
@@ -56,7 +56,7 @@
   max-width: 8em;
   margin-bottom: 44px;
 }
-
+ 
 /* Contact details list (<dl>): arranged in a 2 x 2 grid */
 .footer-details {
   display: grid;
@@ -65,31 +65,34 @@
   gap: 24px 56px; /* 24px between rows, 56px between columns */
   margin: 0;      /* Removes the browser's default <dl> margin */
 }
-
+ 
 /* Small grey label for each detail (Email, Cellphone, WhatsApp, Based) */
 .footer-details dt {
   font-size: 14px;
   color: #8a8a8a;
   margin-bottom: 6px;
 }
-
-/* The value for each detail (the actual email, number, etc.) */
+ 
+/* The value for each detail (the actual email, number, etc.)
+   overflow-wrap: anywhere lets a long word with no spaces (the email address)
+   break onto a new line instead of spilling out of its column */
 .footer-details dd {
   margin: 0; /* Removes the browser's default indent on <dd> */
   font-size: 18px;
   font-weight: 500;
+  overflow-wrap: anywhere;
 }
-
+ 
 /* Smooth colour change when hovering over contact links */
 .footer-details a {
   transition: color 0.2s ease;
 }
-
+ 
 /* Hover state: links turn the brand yellow */
 .footer-details a:hover {
   color: var(--yellow);
 }
-
+ 
 /* Round WhatsApp button in the contact details (official WhatsApp green) */
 .footer-details a.footer-whatsapp {
   display: inline-grid;
@@ -102,7 +105,7 @@
   font-size: 24px;     /* Controls the icon size */
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
-
+ 
 /* WhatsApp hover: slightly darker green and a small zoom.
    color is reset to white so it doesn't pick up the yellow link hover above */
 .footer-details a.footer-whatsapp:hover {
@@ -110,7 +113,7 @@
   color: #fff;
   transform: scale(1.06);
 }
-
+ 
 /* Bottom bar: copyright text and privacy link, separated by a thin top border */
 .footer-bottom {
   display: flex;
@@ -123,10 +126,58 @@
   font-size: 15px;
   color: #8a8a8a;
 }
-
+ 
 /* Privacy Policy link: grey and underlined */
 .footer-privacy {
   color: #8a8a8a;
   text-decoration: underline;
   text-underline-offset: 4px; /* Gap between the text and its underline */
 }
+ 
+ 
+/* ---------- Tablet and smaller (860px or less) ----------
+   The two columns stack: headline and button on top, contact details underneath.
+   align-items is reset to start because there is no longer a second column to line up with. */
+@media (max-width: 860px) {
+ 
+  .footer-top {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 40px;
+  }
+ 
+  /* The details become two equal columns that share the full width */
+  .footer-details {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 32px;
+  }
+ 
+  /* Email is the longest value, so it gets a whole row to itself */
+  .footer-details > div:first-child {
+    grid-column: 1 / -1;
+  }
+ 
+  /* Less space under the headline on smaller screens */
+  .footer-headline {
+    margin-bottom: 32px;
+  }
+ 
+}
+ 
+ 
+/* ---------- Phone (480px or less) ----------
+   The contact details stack into a single column */
+@media (max-width: 480px) {
+ 
+  .footer-details {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+ 
+  .footer-details dd {
+    font-size: 17px;
+  }
+ 
+}
+ 
+/* ---------------------------------- END OF FILE ---------------------------------- */

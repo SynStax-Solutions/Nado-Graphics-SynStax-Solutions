@@ -1,0 +1,65 @@
+# =============================================================================
+#   AUTO-DEPLOY TO AFRIHOST (.github/workflows/deploy.yml)
+#   -----------------------------------------------------------------------------
+#   Purpose:
+#   Every time code is merged or pushed to the main branch, GitHub builds the
+#   website and uploads the new build to Afrihost over FTP, so nadographics.com
+#   updates automatically. No zip file, no manual upload.
+#
+#   How it works:
+#   1. GitHub starts a fresh Linux machine and downloads the repo.
+#   2. It installs the packages and runs `npm run build`, which creates dist/.
+#   3. It uploads dist/ to nadographics.com/wwwroot on Afrihost. Only changed files
+#      are uploaded, and files that no longer exist in the build (like old
+#      hashed images in assets/) are deleted from the server.
+#
+#   The FTP login details are NOT written here. They are stored as encrypted
+#   GitHub "secrets" (FTP_SERVER, FTP_USERNAME, FTP_PASSWORD), so they never
+#   appear in the code.
+# =============================================================================
+
+name: Deploy website to Afrihost
+
+on:
+  push:
+    branches: [main]      # Runs on every push or merged pull request into main
+  workflow_dispatch:      # Also adds a "Run workflow" button in the Actions tab
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Download the repo onto the build machine
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      # 2. Install Node.js (the same tool you use on your laptop)
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # 3. Install the exact package versions from package-lock.json
+      - name: Install packages
+        run: npm ci
+
+      # 4. Build the site into dist/
+      #    VITE_API_URL is set here so the contact form points at the live
+      #    BMS API, even if .env.production isn't committed to GitHub.
+      - name: Build the site
+        run: npm run build
+        env:
+          VITE_API_URL: https://nadographicsapi.runasp.net
+
+      # 5. Upload dist/ to Afrihost's wwwroot folder
+      - name: Upload to Afrihost
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps          # Encrypted FTP. If the upload fails to connect, change this to ftp
+          local-dir: ./dist/      # What to upload (the trailing / matters)
+          server-dir: ./nadographics.com/wwwroot/  # Where it goes on Afrihost: the site's wwwroot folder (the trailing / matters)

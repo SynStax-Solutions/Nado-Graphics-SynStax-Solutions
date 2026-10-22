@@ -301,12 +301,13 @@
 
   list-style: none;
 
-  columns: 3;
+  display: grid;
 
-  column-gap: clamp(16px, 2vw, 32px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: clamp(16px, 2vw, 32px);
 
 }
-
 
 /*
   Prevents an individual project from being split between
@@ -610,5 +611,48 @@
 
 }
 
+/* =============================================================================
+   EQUAL-SIZED PORTFOLIO CARDS
+   -----------------------------------------------------------------------------
+   Every card's media area has the same 4:3 shape, so all cards in a row are
+   the same height and the titles line up. object-fit: cover makes each image
+   fill that box, cropping the edges if its shape is different. The full,
+   uncropped image is still shown when the card is opened in the Lightbox.
+   ============================================================================= */
 
+.work-item-media {
+  position: relative;                 /* Keeps the play icon and arrow inside the box */
+  display: block;
+  aspect-ratio: 4 / 3;                /* Same shape for every card */
+  overflow: hidden;                   /* Hides the cropped edges */
+  border-radius: var(--radius-lg);
+  background: #f4f4f4;                /* Soft grey, so white-background images still show a card edge */
+}
+
+.work-item-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;                  /* Fill the box, cropping if needed */
+  object-position: center;
+  display: block;
+}
+/* Phone: the category and title move above each image.
+   The card is turned into a column, and order: -1 moves the text
+   to the front of that column, so it shows before the image.
+   The HTML stays the same; only the visual order changes. */
+@media (max-width: 600px) {
+
+  .work-item-button {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .work-item-meta {
+    order: -1;           /* Show the text first */
+    margin-top: 0;       /* Remove the old gap above the text */
+    padding-top: 0;
+    margin-bottom: 14px; /* Gap between the text and the image */
+  }
+
+}
 /* ---------------------------------- END OF FILE ---------------------------------- */
