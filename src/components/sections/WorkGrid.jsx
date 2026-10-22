@@ -9,7 +9,7 @@
    What it displays:
    - A small "Selected work" label, a heading and a short description.
    - A grid of project cards. Each card shows either a photo or an autoplaying
-     YouTube video, with a title, category and optional note underneath. Each
+     YouTube video, with the category and an optional note above it. Each
      card links to that project's page in the portfolio.
    - A "See all our work" button (optional).
 
@@ -42,8 +42,8 @@ import './WorkGrid.css'                       // Work grid styles
 
   Fields
   - work:     the file's path inside src/assets/work
-  - category: the big line under the card
-  - title:    the small grey line above it
+  - category: the big line above the picture
+  - title:    a short name for the project (not shown on the card; used for the key)
   - note:     optional smaller line under the category
   - alt:      short description of the photo or video, for screen readers
 
@@ -59,6 +59,14 @@ import './WorkGrid.css'                       // Work grid styles
 // or video details are added from the data file in DEFAULT_PROJECTS below.
 const CARDS = [
 
+    {
+    work: 'Design & Print/Publications/47.jpg',
+    category: 'Publications',
+    title: 'Institutional operating plan 2026–2030',
+    note: 'Cover design, layout and print for a multi-year strategy document.',
+    alt: 'Printed operating plan, showing the cover and an open spread',
+  },
+  
   {
     work: 'Lapel badges/lapel_6.jpg',
     category: 'Lapel badges',
@@ -75,13 +83,7 @@ const CARDS = [
     alt: 'Animated explainer video for the Medical Bioscience degree',
   },
 
-  {
-    work: 'Design & Print/Publications/47.jpg',
-    category: 'Publications',
-    title: 'Institutional operating plan 2026–2030',
-    note: 'Cover design, layout and print for a multi-year strategy document.',
-    alt: 'Printed operating plan, showing the cover and an open spread',
-  },
+
 
   {
     work: 'Merchandise/Apparel/Tshirt Mockup 3.jpg',
@@ -100,7 +102,7 @@ const CARDS = [
   },
 
   {
-    work: 'Design & Print/Stationary/Stationary Mockup 13.jpg',
+    work: 'Design & Print/Stationary/3 Stationary Mockup 13.jpg',
     category: 'Lanyards',
     title: 'Branded lanyards & stationery',
     note: 'Lanyards and stationery that carry your brand everywhere they go.',
@@ -174,6 +176,22 @@ function ProjectCard({ project }) {
       {...(project.to ? { to: project.to } : {})}
     >
 
+      {/* Category and note, shown above the picture or video */}
+      <div className="work-meta">
+
+        <h3>
+          {project.category}
+        </h3>
+
+        {/* Optional note, shown only if the project has one */}
+        {project.note && (
+          <p className="work-note">
+            {project.note}
+          </p>
+        )}
+
+      </div>
+
       {/* tone-ink is the default fallback background if the project has no tone.
           If the project has a local image (and isn't a video), it is shown as a CSS
           background that fills the area. Otherwise no inline style is added. */}
@@ -231,27 +249,6 @@ function ProjectCard({ project }) {
 
       </div>
 
-      <div className="work-meta">
-
-        {/* Small grey line on top, the category big underneath */}
-
-        <p className="work-tag">
-          {project.title}
-        </p>
-
-        <h3>
-          {project.category}
-        </h3>
-
-        {/* Optional note, shown only if the project has one */}
-        {project.note && (
-          <p className="work-note">
-            {project.note}
-          </p>
-        )}
-
-      </div>
-
     </Tag>
 
   )
@@ -286,13 +283,6 @@ export default function WorkGrid({
 
         {/* Small label so it's clear a new section starts here */}
 
-        <div className="work-top">
-
-          <p className="label work-label">
-            Selected work
-          </p>
-
-        </div>
 
         {/* Shared component that renders the heading and description */}
         <SectionHead

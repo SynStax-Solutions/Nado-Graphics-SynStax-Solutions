@@ -4,35 +4,36 @@
    Purpose:
    Styles the horizontal scrolling photo strip used to showcase Nado Graphics
    portfolio images.
-
+ 
    What is styled here:
    - .photo-strip             : the main photo strip container.
    - .photo-strip-track       : the row containing the repeated photos.
    - .photo-strip-item        : individual photo items.
    - .photo-strip-placeholder : placeholder displayed when a photo has no image.
-   - figcaption               : optional photo captions.
    - @keyframes               : controls the automatic scrolling animation.
    - prefers-reduced-motion   : disables automatic movement for accessibility.
    - .photo-strip-link        : makes photos clickable.
-   - .photo-strip-link img    : adds a hover zoom effect to clickable photos.
-
+ 
    Note: this component repeats the supplied photos so the animation can loop
    continuously without a visible gap. The strip height, gap and colours use
    CSS variables defined by the component or globally in the site's theme.
    ============================================================================= */
-
-
+ 
+ 
 /* Main photo strip: controls the overall height, spacing and horizontal
-   overflow of the scrolling photo gallery */
+   overflow of the scrolling photo gallery.
+   --strip-height: smallest height (phones), height that scales with the
+   screen width, and largest height (big screens). Lower these numbers to
+   make the strip shorter; the photos keep their shape. */
 .photo-strip {
-  --strip-height: clamp(240px, 30vw, 460px);
+  --strip-height: clamp(180px, 20vw, 320px);
   --strip-gap: clamp(14px, 1.4vw, 24px);
-
+ 
   overflow: hidden;
   width: 100%;
 }
-
-
+ 
+ 
 /* Photo track: places all photos in one horizontal row and continuously
    moves the track from left to right */
 .photo-strip-track {
@@ -42,23 +43,17 @@
   padding-left: var(--strip-gap);
   animation: photo-strip-slide var(--strip-duration, 60s) linear infinite;
 }
-
-
-/* Pauses the automatic photo movement when the visitor hovers over
-   the photo strip */
-.photo-strip:hover .photo-strip-track {
-  animation-play-state: paused;
-}
-
-
+ 
+ 
+ 
 /* Individual photo item: prevents photos from shrinking when displayed
    next to other photos in the strip */
 .photo-strip-item {
   margin: 0;
   flex-shrink: 0;
 }
-
-
+ 
+ 
 /* Images and placeholders share the same responsive height.
    The image width remains automatic so each photo keeps its original shape */
 .photo-strip-item img,
@@ -69,8 +64,8 @@
   border-radius: var(--radius-md);
   object-fit: cover;
 }
-
-
+ 
+ 
 /* Placeholder: provides a styled replacement when a photo does not
    contain an image source */
 .photo-strip-placeholder {
@@ -81,42 +76,34 @@
   font-size: 16px;
   font-weight: 500;
 }
-
-
-/* Photo caption: displays optional text underneath each photo */
-.photo-strip-item figcaption {
-  margin-top: 12px;
-  font-size: 15px;
-  color: var(--text-2);
-}
-
-
+ 
+ 
 /* Automatic scrolling animation: moves the track by half its total width.
    Because the photo list is duplicated, this creates a continuous loop */
 @keyframes photo-strip-slide {
   from {
     transform: translateX(0);
   }
-
+ 
   to {
     transform: translateX(calc(-50% - var(--strip-gap) / 2));
   }
 }
-
-
+ 
+ 
 /* Accessibility: disables automatic movement for visitors who have
    requested reduced motion and allows the strip to be swiped instead */
 @media (prefers-reduced-motion: reduce) {
   .photo-strip {
     overflow-x: auto;
   }
-
+ 
   .photo-strip-track {
     animation: none;
   }
 }
-
-
+ 
+ 
 /* Clickable photo: makes the entire image area act as a navigation link
    and prevents the image from extending outside its rounded corners */
 .photo-strip-link {
@@ -124,18 +111,6 @@
   overflow: hidden;
   border-radius: var(--radius-md);
 }
-
-
-/* Clickable image: smoothly enlarges when the visitor hovers over it */
-.photo-strip-link img {
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-
-/* Hover effect: slightly enlarges the photo to provide visual feedback */
-.photo-strip-link:hover img {
-  transform: scale(1.04);
-}
-
-
+ 
+ 
 /* ---------------------------------- END OF FILE ---------------------------------- */

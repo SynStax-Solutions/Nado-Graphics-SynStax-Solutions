@@ -67,5 +67,8 @@
   color: #a8a8a8;     /* Soft grey keeps this text secondary to the white heading */
   max-width: 40em;    /* Keeps lines a comfortable reading length */
 }
-
+/* ---------- Keep specific words together on one line ---------- */
+.no-wrap {
+  white-space: nowrap;
+}
 /* ---------------------------------- END OF FILE ---------------------------------- */

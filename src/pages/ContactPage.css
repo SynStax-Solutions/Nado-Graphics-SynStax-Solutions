@@ -4,7 +4,7 @@
    Purpose:
    Styles the Contact page, including the introduction, contact form,
    validation states, consent checkbox, success message, and contact details.
-
+ 
    What is styled here:
    - Contact page spacing and layout
    - Introductory heading and supporting text
@@ -15,690 +15,712 @@
    - Form submission success message
    - Contact details and interactive links
    - Responsive layouts for smaller screens
-
+ 
    Note:
    This file works with the ContactPage component and the global design
    variables defined in the website's global CSS.
    ============================================================================= */
-
-
+ 
+ 
 /* ---------- main contact page ---------- */
-
+ 
 .contact-main {
-
+ 
   padding: clamp(56px, 8vw, 130px) 0 clamp(80px, 10vw, 160px);
-
+ 
 }
-
-
+ 
+ 
 /* ---------- intro ---------- */
-
+ 
 /*
   Controls the width and spacing of the introductory section.
+ 
+  The max-width was widened from 52rem to 80rem so the large heading
+  has enough room to fit "We'd love to hear from you." on one line
+  on desktop screens.
 */
-
+ 
 .contact-intro {
-
-  max-width: 52rem;
-
+ 
+  max-width: 80rem;
+ 
   margin-bottom: clamp(48px, 6vw, 96px);
-
+ 
 }
-
-
+ 
+ 
 /*
   Small label displayed above the main contact heading.
 */
-
+ 
 .contact-intro-label {
-
+ 
   font-size: 17px;
-
+ 
   font-weight: 500;
-
+ 
   margin-bottom: clamp(24px, 3vw, 40px);
-
+ 
 }
-
-
+ 
+ 
 /*
   Main heading for the Contact page.
 */
-
+ 
 .contact-intro-title {
-
+ 
   font-size: clamp(44px, 5.6vw, 96px);
-
+ 
   font-weight: 500;
-
+ 
   letter-spacing: -0.03em;
-
+ 
   line-height: 1.04;
-
+ 
 }
-
-
+ 
+ 
 /*
   The quiet part of the heading is displayed on its own line
   and uses the muted text colour.
 */
-
+ 
 .contact-intro-title .quiet {
-
+ 
   display: block;
-
+ 
   color: var(--muted);
-
+ 
 }
-
-
+ 
+ 
+/*
+  On larger screens, keep each line of the heading on a single line.
+ 
+  Smaller screens are left alone so the text can wrap normally
+  instead of overflowing.
+*/
+ 
+@media (min-width: 900px) {
+ 
+  .contact-intro-title {
+ 
+    white-space: nowrap;
+ 
+  }
+ 
+}
+ 
+ 
 /* ---------- layout: form left, details right ---------- */
-
+ 
 /*
   Creates the main two-column Contact page layout.
-
+ 
   The form takes up approximately two thirds of the available space,
   while the contact details take up approximately one third.
 */
-
+ 
 .contact-layout {
-
+ 
   display: grid;
-
+ 
   grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-
+ 
   gap: clamp(48px, 7vw, 140px);
-
+ 
   align-items: start;
-
+ 
 }
-
-
+ 
+ 
 /* ---------- form ---------- */
-
+ 
 /*
   Main contact form layout.
 */
-
+ 
 .contact-form {
-
+ 
   display: grid;
-
+ 
   gap: 36px;
-
+ 
 }
-
-
+ 
+ 
 /*
   Places two form fields next to each other on larger screens.
 */
-
+ 
 .field-row {
-
+ 
   display: grid;
-
+ 
   grid-template-columns: repeat(2, minmax(0, 1fr));
-
+ 
   gap: 36px 32px;
-
+ 
 }
-
-
+ 
+ 
 /*
   Individual form field layout.
 */
-
+ 
 .field {
-
+ 
   display: grid;
-
+ 
   gap: 10px;
-
+ 
 }
-
-
+ 
+ 
 /*
   Label displayed above each form field.
 */
-
+ 
 .field-label {
-
+ 
   font-size: 15px;
-
+ 
   font-weight: 500;
-
+ 
 }
-
-
+ 
+ 
 /*
   Styling for the optional field indicator.
 */
-
+ 
 .field-optional {
-
+ 
   font-weight: 400;
-
+ 
   color: var(--muted);
-
+ 
 }
-
-
+ 
+ 
 /* ---------- simple underline fields ---------- */
-
+ 
 /*
   Shared styling for text inputs, dropdowns, and text areas.
-
+ 
   These fields use a simple underline instead of a surrounding border.
 */
-
+ 
 .field input,
 .field select,
 .field textarea {
-
+ 
   width: 100%;
-
+ 
   padding: 10px 0 12px;
-
+ 
   border: 0;
-
+ 
   border-bottom: 1px solid #cfcfcf;
-
+ 
   border-radius: 0;
-
+ 
   background: transparent;
-
+ 
   font-family: inherit;
-
+ 
   font-size: 19px;
-
+ 
   color: var(--ink);
-
+ 
   transition: border-color 0.2s ease;
-
+ 
 }
-
-
+ 
+ 
 /*
   Allows the message field to be resized vertically.
 */
-
+ 
 .field textarea {
-
+ 
   resize: vertical;
-
+ 
   min-height: 120px;
-
+ 
   line-height: 1.5;
-
+ 
 }
-
-
+ 
+ 
 /*
   Customises the appearance of the service/category dropdown.
-
+ 
   The background gradients create a simple CSS arrow.
 */
-
+ 
 .field select {
-
+ 
   appearance: none;
-
+ 
   cursor: pointer;
-
+ 
   background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%),
-
+ 
     linear-gradient(135deg, var(--ink) 50%, transparent 50%);
-
+ 
   background-position: calc(100% - 12px) 55%, calc(100% - 6px) 55%;
-
+ 
   background-size: 6px 6px;
-
+ 
   background-repeat: no-repeat;
-
+ 
 }
-
-
+ 
+ 
 /*
   Focus state for all form fields.
-
+ 
   The darker and thicker underline makes it clear which field
   the user is currently working in.
 */
-
+ 
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
-
+ 
   outline: none;
-
+ 
   border-bottom: 2px solid var(--ink);
-
+ 
   padding-bottom: 11px;
-
+ 
 }
-
-
+ 
+ 
 /* ---------- validation ---------- */
-
+ 
 /*
   Changes the field underline when the field contains an error.
 */
-
+ 
 .field.has-error input,
 .field.has-error textarea {
-
+ 
   border-bottom-color: #c2361b;
-
+ 
 }
-
-
+ 
+ 
 /*
   Error message displayed below an invalid field.
 */
-
+ 
 .field-error {
-
+ 
   font-size: 14px;
-
+ 
   color: #c2361b;
-
+ 
 }
-
-
+ 
+ 
 /*
   Keeps the submit button aligned to the left of the form.
 */
-
+ 
 .contact-form .btn {
-
+ 
   justify-self: start;
-
+ 
   margin-top: 4px;
-
+ 
 }
-
-
+ 
+ 
 /*
   Changes the submit button appearance while the form is being submitted.
 */
-
+ 
 .contact-form .btn:disabled {
-
+ 
   opacity: 0.6;
-
+ 
   cursor: wait;
-
+ 
 }
-
-
+ 
+ 
 /*
   General form-level error message.
 */
-
+ 
 .contact-error {
-
+ 
   font-size: 15px;
-
+ 
   color: #c2361b;
-
+ 
 }
-
-
+ 
+ 
 /* ---------- consent tick box ---------- */
-
+ 
 /*
   Groups the consent checkbox and any related validation message.
 */
-
+ 
 .consent {
-
+ 
   display: grid;
-
+ 
   gap: 8px;
-
+ 
 }
-
-
+ 
+ 
 /*
   Layout for the privacy/consent checkbox and its text.
 */
-
+ 
 .consent-label {
-
+ 
   display: flex;
-
+ 
   align-items: flex-start;
-
+ 
   gap: 12px;
-
+ 
   font-size: 15px;
-
+ 
   line-height: 1.55;
-
+ 
   color: var(--text-2);
-
+ 
   cursor: pointer;
-
+ 
 }
-
-
+ 
+ 
 /*
   Styles the checkbox itself.
 */
-
+ 
 .consent-label input {
-
+ 
   flex-shrink: 0;
-
+ 
   width: 20px;
-
+ 
   height: 20px;
-
+ 
   margin-top: 2px;
-
+ 
   accent-color: var(--ink);
-
+ 
   cursor: pointer;
-
+ 
 }
-
-
+ 
+ 
 /*
   Styles links within the consent text.
-
+ 
   The yellow underline matches the site's visual identity.
 */
-
+ 
 .consent-label a {
-
+ 
   color: var(--ink);
-
+ 
   text-decoration: underline;
-
+ 
   text-decoration-color: var(--yellow);
-
+ 
   text-decoration-thickness: 2px;
-
+ 
   text-underline-offset: 3px;
-
+ 
 }
-
-
+ 
+ 
 /*
   Adds an outline around the checkbox when consent is required
   but has not been selected.
 */
-
+ 
 .consent.has-error .consent-label input {
-
+ 
   outline: 2px solid #c2361b;
-
+ 
   outline-offset: 2px;
-
+ 
 }
-
-
+ 
+ 
 /* ---------- hidden spam trap ---------- */
-
+ 
 /*
   Hidden field used as a simple spam trap.
-
+ 
   It remains in the page for bots to interact with but is positioned
   far outside the visible area for normal visitors.
 */
-
+ 
 .contact-trap {
-
+ 
   position: absolute;
-
+ 
   left: -9999px;
-
+ 
   width: 1px;
-
+ 
   height: 1px;
-
+ 
   overflow: hidden;
-
+ 
 }
-
-
+ 
+ 
 /* ---------- thank-you message ---------- */
-
+ 
 /*
   Container displayed after the contact form has been successfully sent.
 */
-
+ 
 .contact-sent {
-
+ 
   padding: clamp(28px, 4vw, 56px);
-
+ 
   border-radius: var(--radius-lg);
-
+ 
   background: var(--soft);
-
+ 
 }
-
-
+ 
+ 
 /*
   Thank-you heading displayed after successful submission.
 */
-
+ 
 .contact-sent h2 {
-
+ 
   font-size: clamp(26px, 2.6vw, 40px);
-
+ 
   font-weight: 500;
-
+ 
   letter-spacing: -0.02em;
-
+ 
   margin-bottom: 14px;
-
+ 
 }
-
-
+ 
+ 
 /*
   Supporting text displayed below the thank-you heading.
 */
-
+ 
 .contact-sent p {
-
+ 
   font-size: 18px;
-
+ 
   line-height: 1.6;
-
+ 
   color: var(--text-2);
-
+ 
   margin-bottom: 24px;
-
+ 
 }
-
-
+ 
+ 
 /*
   Button allowing the user to return to the contact form
   after the successful submission message.
 */
-
+ 
 .contact-again {
-
+ 
   padding: 0;
-
+ 
   border: 0;
-
+ 
   background: none;
-
+ 
   font-size: 16px;
-
+ 
   font-weight: 500;
-
+ 
   text-decoration: underline;
-
+ 
   text-underline-offset: 4px;
-
+ 
   text-decoration-color: var(--yellow);
-
+ 
 }
-
-
+ 
+ 
 /* ---------- contact details ---------- */
-
+ 
 /*
   Small heading displayed above the contact details list.
 */
-
+ 
 .contact-details-heading {
-
+ 
   font-size: 15px;
-
+ 
   font-weight: 500;
-
+ 
   color: var(--muted);
-
+ 
   margin-bottom: 8px;
-
+ 
 }
-
-
+ 
+ 
 /*
   Removes the default list styling from the contact details list.
 */
-
+ 
 .contact-details ul {
-
+ 
   list-style: none;
-
+ 
 }
-
-
+ 
+ 
 /*
   Separates each contact detail with a subtle bottom border.
 */
-
+ 
 .contact-details li {
-
+ 
   border-bottom: 1px solid var(--line);
-
+ 
 }
-
-
+ 
+ 
 /*
   Makes each contact detail a clickable area with vertical spacing.
 */
-
+ 
 .contact-details a {
-
+ 
   display: grid;
-
+ 
   gap: 4px;
-
+ 
   padding: 18px 0;
-
+ 
 }
-
-
+ 
+ 
 /*
   Small label identifying the type of contact detail.
-
+ 
   Examples include Email, Phone, WhatsApp, and Location.
 */
-
+ 
 .contact-detail-label {
-
+ 
   font-size: 14px;
-
+ 
   color: var(--muted);
-
+ 
 }
-
-
+ 
+ 
 /*
   Main value of each contact detail.
-
+ 
   The flex layout allows the arrow to sit on the right-hand side.
 */
-
+ 
 .contact-detail-value {
-
+ 
   display: flex;
-
+ 
   justify-content: space-between;
-
+ 
   align-items: baseline;
-
+ 
   gap: 12px;
-
+ 
   font-size: 18px;
-
+ 
   font-weight: 500;
-
+ 
   overflow-wrap: anywhere;
-
+ 
 }
-
-
+ 
+ 
 /*
   Arrow displayed next to clickable contact details.
-
+ 
   The transition allows it to move slightly when the link is hovered.
 */
-
+ 
 .contact-detail-arrow {
-
+ 
   flex-shrink: 0;
-
+ 
   color: var(--muted);
-
+ 
   transition: color 0.2s ease, transform 0.2s ease;
-
+ 
 }
-
-
+ 
+ 
 /*
   Hover effect for the contact detail arrow.
-
+ 
   The arrow becomes darker and moves slightly up and to the right.
 */
-
+ 
 .contact-details a:hover .contact-detail-arrow {
-
+ 
   color: var(--ink);
-
+ 
   transform: translate(2px, -2px);
-
+ 
 }
-
-
+ 
+ 
 /* ---------- responsive layout ---------- */
-
+ 
 /*
   At 900px and below, the form and contact details
   are placed into a single column.
 */
-
+ 
 @media (max-width: 900px) {
-
+ 
   .contact-layout {
-
+ 
     grid-template-columns: 1fr;
-
+ 
   }
-
+ 
 }
-
-
+ 
+ 
 /*
   At 600px and below, paired form fields become
   full-width fields stacked vertically.
 */
-
+ 
 @media (max-width: 600px) {
-
+ 
   .field-row {
-
+ 
     grid-template-columns: 1fr;
-
+ 
   }
-
+ 
 }
-
-
+ 
+ 
 /* ---------------------------------- END OF FILE ---------------------------------- */

@@ -14,7 +14,6 @@ import './PhotoStrip.css'
    - Customisable animation speed.
    - Optional links that navigate visitors to a project page.
    - Image placeholders when no image source is available.
-   - Optional photo captions.
    - Accessibility support for repeated images and reduced-motion users.
 
    Props:
@@ -27,7 +26,8 @@ import './PhotoStrip.css'
    Each photo can contain:
    - src     : Image source.
    - alt     : Alternative text for accessibility.
-   - caption : Optional caption displayed below the image.
+   - caption : Optional label used to describe the photo to screen readers
+               (not shown on screen).
    - ratio   : Optional aspect ratio used for placeholder elements.
    ============================================================================= */
 
@@ -121,14 +121,6 @@ export default function PhotoStrip({
 
                 /* Displays the media without a link when linkTo is not provided */
                 media
-              )}
-
-
-              {/* Displays the caption only when the photo contains caption text */}
-              {photo.caption && (
-                <figcaption>
-                  {photo.caption}
-                </figcaption>
               )}
 
             </figure>

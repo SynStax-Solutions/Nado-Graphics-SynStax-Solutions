@@ -92,7 +92,7 @@ export const labelFor = (name) => LABELS[name] || name
 // The result is an object where each key is the file's path and each value is the image's address.
 // Upper and lower case extensions are both listed because file matching here is case-sensitive.
 const files = import.meta.glob(
-  '../assets/work/**/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}',
+  '../assets/Work/**/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}',
   { eager: true, import: 'default' }
 )
 
@@ -147,7 +147,7 @@ const YOUTUBE_VIDEOS = [
 const imageProjects = Object.entries(files).map(([path, src]) => {
   // The path looks like "../assets/work/Design & Print/Brochures/mockup 1.jpg".
   // Everything before "/assets/work/" is cut off, leaving "Design & Print/Brochures/mockup 1.jpg".
-  const relative = path.split('/assets/work/')[1]
+  const relative = path.split('/assets/Work/')[1]
   // Split into folder and file names: ["Design & Print", "Brochures", "mockup 1.jpg"]
   const parts = relative.split('/')
   const file = parts[parts.length - 1]                // The last piece is the file name
@@ -295,7 +295,7 @@ export function getWork(path) {
   // If no item matches (for example a typo or a deleted file), warn in the browser console
   // and return null. The code that calls this checks for null so it can skip the missing item.
   if (!item) {
-    console.warn(`Work item not found in src/assets/work: ${path}`)
+    console.warn(`Work item not found in src/assets/Work: ${path}`)
     return null
   }
 

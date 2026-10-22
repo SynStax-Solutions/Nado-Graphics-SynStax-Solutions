@@ -33,9 +33,6 @@ export default function Approach() {
     // id="approach" lets other links jump straight to this section
     <section className="nd-approach" id="approach">
       <div className="wrap">
-        {/* Small label above the heading. With no "as" prop, Reveal falls back to its default element */}
-        <Reveal className="nd-eyebrow">What we actually do</Reveal>
-
         {/* "as" sets which HTML tag Reveal renders (here an <h2>), and "delay" staggers the
             timing so this appears after the label. The delay unit is set inside Reveal,
             so check that component to confirm it (it is probably milliseconds).
@@ -62,7 +59,7 @@ export default function Approach() {
           {/* &rsquo; is the HTML code for a curly apostrophe */}
           <p>
             We&rsquo;ve delivered branding, print and signage across higher education,
-            from multi-campus rollouts and faculty-wide print runs to the demands of orientation week.
+            from <span className="no-wrap">multi-campus</span> rollouts and faculty-wide print runs to the demands of orientation week.
             We&rsquo;ve also worked with large corporate clients over many years.
             When something needs to reach thousands of people at once, we know how to make it happen.
           </p>

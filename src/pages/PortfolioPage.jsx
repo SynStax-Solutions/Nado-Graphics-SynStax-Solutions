@@ -67,28 +67,27 @@ export default function PortfolioPage() {
     The selected tab and sub-tab live in the web address.
 
     If the category in the URL is not a valid category,
-    the page falls back to "All".
+    the page falls back to the first category in the list.
   */
 
   const fromUrl = searchParams.get('category')
 
   const category = CATEGORIES.includes(fromUrl)
     ? fromUrl
-    : 'All'
+    : CATEGORIES[0]
 
 
   /* ---------- determine available sub-categories ---------- */
 
   /*
-    "All" does not have sub-categories.
+    Look up the available sub-categories for the selected
+    category from the project data.
 
-    For other categories, look up the available sub-categories
-    from the project data.
+    ?? [] gives an empty list if the category has none,
+    so the code below never breaks.
   */
 
-  const subs = category === 'All'
-    ? []
-    : SUBCATEGORIES[category]
+  const subs = SUBCATEGORIES[category] ?? []
 
 
   /* ---------- read selected sub-category from URL ---------- */
@@ -97,14 +96,18 @@ export default function PortfolioPage() {
     If a sub-category exists in the URL and belongs to the
     selected main category, use it.
 
-    Otherwise, fall back to "All".
+    Otherwise, fall back to the first sub-category.
+
+    If the category has no sub-categories at all (e.g. a folder
+    with no subfolders), 'All' is used behind the scenes so every
+    item in that category is still shown. No "All" button is drawn.
   */
 
   const subFromUrl = searchParams.get('sub')
 
   const sub = subs.includes(subFromUrl)
     ? subFromUrl
-    : 'All'
+    : (subs[0] ?? 'All')
 
 
   /* ---------- change portfolio filters ---------- */
@@ -126,18 +129,15 @@ export default function PortfolioPage() {
     /*
       Build a new set of URL parameters.
 
-      "All" is not added to the URL because it represents
-      the default filter state.
+      The category is always added to the URL. The sub-category is
+      only added when one was clicked; otherwise the page opens on
+      the category's first sub-category.
     */
 
     const params = {}
 
 
-    if (c !== 'All') {
-
-      params.category = c
-
-    }
+    params.category = c
 
 
     if (s && s !== 'All') {
@@ -198,8 +198,7 @@ export default function PortfolioPage() {
           {/* ---------- portfolio introduction ---------- */}
 
           <PageIntro
-            label="Our work"
-            title="Made by Nado."
+            title="Our work."
             quiet="Design, print, merchandise and motion."
             lead="Pick a category, then narrow it down. Click any piece to see it up close."
           />
@@ -213,7 +212,7 @@ export default function PortfolioPage() {
             aria-label="Filter projects by category"
           >
 
-            {['All', ...CATEGORIES].map((c) => (
+            {CATEGORIES.map((c) => (
 
               <button
                 key={c}
@@ -223,9 +222,7 @@ export default function PortfolioPage() {
                 onClick={() => choose(c)}
               >
 
-                {c === 'All'
-                  ? 'All'
-                  : labelFor(c)}
+                {labelFor(c)}
 
               </button>
 
@@ -249,7 +246,7 @@ export default function PortfolioPage() {
               aria-label={`Filter ${labelFor(category)}`}
             >
 
-              {['All', ...subs].map((s) => (
+              {subs.map((s) => (
 
                 <button
                   key={s}
@@ -259,9 +256,7 @@ export default function PortfolioPage() {
                   onClick={() => choose(category, s)}
                 >
 
-                  {s === 'All'
-                    ? `All ${labelFor(category)}`
-                    : s}
+                  {s}
 
                 </button>
 
@@ -368,9 +363,12 @@ export default function PortfolioPage() {
 
                   <span className="work-item-meta">
 
-                    <span className="work-item-cat">
-                      {labelFor(project.category)}
-                    </span>
+                    {/* Category line, hidden only on Design & Print → Print */}
+                    {!(category === 'Design & Print' && sub === 'Print') && (
+                      <span className="work-item-cat">
+                        {labelFor(project.category)}
+                      </span>
+                    )}
 
                     <span className="work-item-title">
                       {project.title}
