@@ -3,23 +3,23 @@
    -----------------------------------------------------------------------------
    Purpose:
    Styles the Our Work / Portfolio page, including the category filters,
-   sub-filters, project grid, project media, video controls, and project
-   information.
+   sub-filters, project grid, project media, and video controls.
 
    What is styled here:
    - Main project category tabs
    - Smaller sub-category tabs
    - Active and hover states for filters
-   - Masonry-style project grid
+   - Responsive project grid (3 columns on laptop/desktop, 2 on phone)
    - Project images and videos
    - Video play button
    - Project open/arrow button
-   - Project category and title text
    - Responsive layouts for tablets and mobile devices
 
    Note:
-   The project grid uses CSS columns so each image or video can keep its
-   natural aspect ratio instead of being forced into the same size.
+   Each project card shows only its image (or video thumbnail) — there is
+   no text, title, or category label under any card. The grid uses CSS
+   Grid with a fixed column count per breakpoint, so every card in a row
+   is the same width.
    ============================================================================= */
 
 
@@ -291,10 +291,13 @@
 /* ---------- project grid ---------- */
 
 /*
-  Creates a three-column masonry-style portfolio grid.
+  Creates a three-column project grid by default (laptop/desktop).
 
-  CSS columns allow each project image or video to keep
-  its own natural height and aspect ratio.
+  Every card is the same width — grid-template-columns, not the
+  CSS multi-column "columns" property, is what actually controls
+  the column count, so the same property is used again in the
+  phone breakpoint below rather than switching to a different
+  layout system at smaller sizes.
 */
 
 .work-list {
@@ -310,15 +313,11 @@
 }
 
 /*
-  Prevents an individual project from being split between
-  multiple columns.
-
-  The bottom margin provides vertical spacing between projects.
+  The bottom margin provides vertical spacing between projects
+  when the grid wraps onto a new row.
 */
 
 .work-item {
-
-  break-inside: avoid;
 
   margin-bottom: clamp(28px, 3vw, 44px);
 
@@ -328,8 +327,8 @@
 /*
   Makes the entire project card behave like a clickable button.
 
-  The button is visually reset so the project media and
-  information determine its appearance.
+  The button is visually reset so the project media
+  determines its appearance.
 */
 
 .work-item-button {
@@ -520,92 +519,18 @@
 }
 
 
-/* ---------- project information ---------- */
+/* ---------- phone layout ---------- */
 
 /*
-  Container for the category and title displayed below
-  each project.
+  At 680px and below (phones, including most in landscape),
+  switch the grid down to two columns instead of three.
 */
 
-.work-item-meta {
-
-  display: block;
-
-  padding-top: 14px;
-
-}
-
-
-/*
-  Project category or type.
-
-  Uses the muted colour to keep the project title
-  visually more prominent.
-*/
-
-.work-item-cat {
-
-  display: block;
-
-  font-size: 15px;
-
-  color: var(--muted);
-
-  margin-bottom: 4px;
-
-}
-
-
-/*
-  Main project title.
-
-  The clamp function allows the title to scale smoothly
-  between different screen sizes.
-*/
-
-.work-item-title {
-
-  display: block;
-
-  font-size: clamp(18px, 1.4vw, 22px);
-
-  font-weight: 500;
-
-  letter-spacing: -0.01em;
-
-}
-
-
-/* ---------- tablet layout ---------- */
-
-/*
-  At 1000px and below, reduce the project grid
-  from three columns to two columns.
-*/
-
-@media (max-width: 1000px) {
+@media (max-width: 680px) {
 
   .work-list {
 
-    columns: 2;
-
-  }
-
-}
-
-
-/* ---------- mobile layout ---------- */
-
-/*
-  At 575px and below, display projects in a single column
-  so the portfolio remains easy to browse on smaller screens.
-*/
-
-@media (max-width: 575px) {
-
-  .work-list {
-
-    columns: 1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 
   }
 
@@ -615,9 +540,9 @@
    EQUAL-SIZED PORTFOLIO CARDS
    -----------------------------------------------------------------------------
    Every card's media area has the same 4:3 shape, so all cards in a row are
-   the same height and the titles line up. object-fit: cover makes each image
-   fill that box, cropping the edges if its shape is different. The full,
-   uncropped image is still shown when the card is opened in the Lightbox.
+   the same height. object-fit: cover makes each image fill that box,
+   cropping the edges if its shape is different. The full, uncropped image
+   is still shown when the card is opened in the Lightbox.
    ============================================================================= */
 
 .work-item-media {
@@ -636,23 +561,5 @@
   object-position: center;
   display: block;
 }
-/* Phone: the category and title move above each image.
-   The card is turned into a column, and order: -1 moves the text
-   to the front of that column, so it shows before the image.
-   The HTML stays the same; only the visual order changes. */
-@media (max-width: 600px) {
 
-  .work-item-button {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .work-item-meta {
-    order: -1;           /* Show the text first */
-    margin-top: 0;       /* Remove the old gap above the text */
-    padding-top: 0;
-    margin-bottom: 14px; /* Gap between the text and the image */
-  }
-
-}
 /* ---------------------------------- END OF FILE ---------------------------------- */
