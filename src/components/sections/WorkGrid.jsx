@@ -30,7 +30,6 @@
    wrap, label) that are defined elsewhere in the project.
    ============================================================================= */
 
-import { useEffect, useRef } from 'react'     // Note: neither of these is used in this file, so the import could be removed
 import { Link } from 'react-router-dom'       // Page navigation without a full reload
 import SectionHead from '../ui/SectionHead'   // Shared heading and description block used across the site
 import Button from '../ui/Button'             // Shared button component used across the site

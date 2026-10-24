@@ -10,15 +10,18 @@
    - Provides the main project category filters
    - Provides sub-category filters where available
    - Keeps the selected filters in the web address
-   - Displays the matching portfolio projects
+   - Displays the matching portfolio projects as images only — no title or
+     category text is shown under any card
    - Opens projects in the Lightbox for a larger view
    - Supports both image and video projects
    - Provides a fallback thumbnail when a video thumbnail cannot be loaded
 
    Note:
    The project information and category structure are stored in the
-   projects data file. The selected category and sub-category are also
-   reflected in the URL so filtered portfolio views can be shared.
+   projects data file. project.title is still used for the image's alt
+   text and the button's accessible label, even though it is never shown
+   on screen. The selected category and sub-category are also reflected
+   in the URL so filtered portfolio views can be shared.
    ============================================================================= */
 
 import { useCallback, useMemo, useState } from 'react'
@@ -280,6 +283,13 @@ export default function PortfolioPage() {
 
                 {/* ---------- clickable project card ---------- */}
 
+                {/*
+                  project.title is kept here only as the accessible name
+                  for screen readers (aria-label) and as the image's alt
+                  text below — nothing from project is rendered visibly
+                  on the card itself.
+                */}
+
                 <button
                   type="button"
                   className="work-item-button"
@@ -354,24 +364,6 @@ export default function PortfolioPage() {
                       aria-hidden="true"
                     >
                       &#8599;
-                    </span>
-
-                  </span>
-
-
-                  {/* ---------- project information ---------- */}
-
-                  <span className="work-item-meta">
-
-                    {/* Category line, hidden only on Design & Print → Print */}
-                    {!(category === 'Design & Print' && sub === 'Print') && (
-                      <span className="work-item-cat">
-                        {labelFor(project.category)}
-                      </span>
-                    )}
-
-                    <span className="work-item-title">
-                      {project.title}
                     </span>
 
                   </span>

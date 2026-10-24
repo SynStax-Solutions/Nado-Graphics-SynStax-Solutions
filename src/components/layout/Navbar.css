@@ -28,13 +28,26 @@
   position: sticky;
   top: 0;
   z-index: 100; /* Keeps the navbar above all other page content */
-  background: rgba(255, 255, 255, 0.92); /* Slightly see-through white */
-  /* Blurs whatever is behind the navbar for a frosted-glass effect.
-     The -webkit- version is needed for Safari */
-  backdrop-filter: saturate(160%) blur(12px);
-  -webkit-backdrop-filter: saturate(160%) blur(12px);
+  background: #fff; /* Solid fallback so content never shows through behind the bar */
   border-bottom: 1px solid transparent; /* Invisible until scrolled (see .is-scrolled) */
   transition: border-color 0.25s ease;  /* Fades the border in smoothly */
+}
+
+/*
+  Frosted-glass look: only applied on browsers that actually support
+  backdrop-filter. Without this guard, browsers that don't support it are
+  left with the bare 92%-opacity background below with no blur to hide the
+  remaining 8% transparency — letting scrolled content show through behind
+  the navbar. @supports keeps the solid #fff fallback above everywhere else.
+*/
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .site-nav {
+    background: rgba(255, 255, 255, 0.92); /* Slightly see-through white */
+    /* Blurs whatever is behind the navbar for a frosted-glass effect.
+       The -webkit- version is needed for Safari */
+    backdrop-filter: saturate(160%) blur(12px);
+    -webkit-backdrop-filter: saturate(160%) blur(12px);
+  }
 }
 
 /* Faint line once the page is scrolled */
@@ -219,6 +232,9 @@
 
    MDN Web Docs: backdrop-filter (the frosted-glass blur effect)
    https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter
+
+   MDN Web Docs: @supports (feature detection for backdrop-filter)
+   https://developer.mozilla.org/en-US/docs/Web/CSS/@supports
 
    MDN Web Docs: CSS grid layout (the 3-column navbar layout)
    https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout
